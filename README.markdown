@@ -18,6 +18,11 @@ will fail building), you'll need to install it. On OS X:
 
     brew install qt
 
+If you don't have libxml2 installed (nokogiri gem will let you know, as it
+will fail building), you'll need to install it. On OS X:
+
+    brew install libxml2
+
 On **OS X**: install http://postgresapp.com/ After installation, click the
 elephant icon in the task bar and select **open psql**.
 
