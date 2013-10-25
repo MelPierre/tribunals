@@ -13,7 +13,7 @@ class AacDecision < ActiveRecord::Base
   end
 
   def self.filtered(filter_hash)
-    search(filter_hash[:query])
+    search(filter_hash[:query]).by_judge(filter_hash[:judge]).by_subcategory(filter_hash[:subcategory])
   end
 
   def self.search(query)
@@ -36,6 +36,22 @@ class AacDecision < ActiveRecord::Base
             coalesce(text::text, '')"
       where("to_tsvector('english', #{all_combined_fields}) @@ plainto_tsquery('english', :q::text)", q:query)
       .order("#{all_combined_fields} ~* #{quoted_query} DESC")
+    else
+      where("")
+    end
+  end
+
+  def self.by_judge(judge_name)
+    if judge_name.present?
+      joins(:judges).where("? = judges.name", judge_name)
+    else
+      where("")
+    end
+  end
+
+  def self.by_subcategory(subcategory_name)
+    if subcategory_name.present?
+      joins(:aac_decision_subcategory).where("? = aac_decision_subcategories.name", subcategory_name)
     else
       where("")
     end
