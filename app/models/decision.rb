@@ -54,7 +54,7 @@ class Decision < ActiveRecord::Base
       where("")
     end
   end
-
+ 
   [:country_guideline, :country].each do |field|
     class_eval <<-FILTERS
       def self.by_#{field}(field)
