@@ -28,6 +28,16 @@ namespace :maintenance do
         j.save(validate: false)
       end
     end
+
+    task :assign_file_numbers => :environment do
+      AacDecision.find_each do |d|
+        if d.file_no_1.present? && d.file_no_2.present? && d.file_no_3.present?
+          puts "Assigning file_number for AacDecision id #{d.id}"
+          d.file_number = [d.file_no_1, d.file_no_2, d.file_no_3].join('/')
+          d.save
+        end
+      end
+    end
   end
 
   namespace :ftt do
