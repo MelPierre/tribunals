@@ -19,7 +19,23 @@ class AacDecision < ActiveRecord::Base
   def self.search(query)
     if query.present?
       quoted_query = self.connection.quote(query)
-      where("to_tsvector('english', text::text) @@ plainto_tsquery('english', ?::text)", query).order("text ~* #{quoted_query} DESC")
+      all_combined_fields = "coalesce(ncn::text, '') || ' ' || 
+            coalesce(ncn_year::text, '') || ' ' ||
+            coalesce(ncn_code1::text, '') || ' ' ||
+            coalesce(ncn_citation::text, '') || ' ' ||
+            coalesce(ncn_code2::text, '') || ' ' ||
+            coalesce(file_number::text, '') || ' ' || 
+            coalesce(file_no_1::text, '') || ' ' || 
+            coalesce(file_no_2::text, '') || ' ' || 
+            coalesce(file_no_3::text, '') || ' ' || 
+            coalesce(reported_number::text, '') || ' ' || 
+            coalesce(claimant::text, '') || ' ' || 
+            coalesce(respondent::text, '') || ' ' || 
+            coalesce(keywords::text, '') || ' ' || 
+            coalesce(notes::text, '') || ' ' || 
+            coalesce(text::text, '')"
+      where("to_tsvector('english', #{all_combined_fields}) @@ plainto_tsquery('english', :q::text)", q:query)
+      .order("#{all_combined_fields} ~* #{quoted_query} DESC")
     else
       where("")
     end
