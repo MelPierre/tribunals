@@ -12,9 +12,8 @@ class EatDecision < ActiveRecord::Base
   end
 
   def add_doc
-    if doc = Dir.glob(File.join("#{Rails.root}/data/eat/downloads/#{id}", "*.doc")).first
-      DocProcessor.add_doc_file(self, File.open(doc))
-    end
+    path = File.join("#{Rails.root}/data/eat/downloads/#{id}.doc")
+    DocProcessor.add_doc_file(self, File.open(path)) if File.exists? path
   end
 
   def process_doc
