@@ -2,7 +2,7 @@
   %header.page-header.group
     %h1= @decision.link_label
     = link_to('Edit this decision', edit_admin_decision_path(@decision), :class => 'button')
-    = link_to('Delete this decision', admin_decision_path(@decision), method: :delete, confirm: "Are you sure you'd like to remove this decision from the system?", class: 'button button-warning')
+    = link_to('Delete this decision', admin_decision_path(@decision), method: :delete, data: { confirm: "Are you sure you'd like to remove this decision from the system?" } , class: 'button button-warning')
     %ul.decision-details
       %li
         %span.label Case title:
@@ -56,12 +56,12 @@
           %span.label Keywords
           %span.value{:property => "keywords"}= @decision.keywords.join(', ')
 
-  
+
   .download-links
     %ul
       %li= link_to "Download a PDF version of the decision", @decision.pdf_file.url
       %li= link_to "Download a Word document (.doc) version of the decision", @decision.doc_file.url
-  
+
   - if @decision.html.blank?
     %h2 An HTML version of this decision is not currently available.
   - else
