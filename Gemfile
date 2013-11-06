@@ -11,10 +11,6 @@ gem 'bootstrap-will_paginate'
 # For speeding up Postgres array parsing
 gem 'pg_array_parser'
 
-#For importing
-gem 'capybara'
-gem 'capybara-webkit'
-
 group :test, :development do
   gem 'rspec-rails'
   gem 'warden-rspec-rails'
