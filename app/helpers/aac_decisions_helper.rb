@@ -27,6 +27,6 @@ module AacDecisionsHelper
   end
 
   def link_label(aac_decision)
-    aac_decision.ncn || aac_decision.file_number || aac_decision.reported_number
+    aac_decision.file_number || aac_decision.ncn || aac_decision.reported_number
   end
 end
