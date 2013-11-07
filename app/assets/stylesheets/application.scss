@@ -8,18 +8,23 @@
 // MOJ Toolkit
 @import "moj-base";
 
+// Core
+@import "core/grid";
+
+// Components
+@import "cpt/button";
+@import "cpt/table";
+@import "cpt/panel";
+@import "cpt/pagination";
+@import "cpt/default-search";
+@import "cpt/adv-search";
+@import "cpt/ui-autocomplete";
+@import "cpt/download-links";
+
+// Modules
+@import "mod/decision";
+@import "mod/feedbacks";
+
 // Application
 @import "main";
-@import "feedbacks";
-@import "decisions";
-// @import "admin";
-
-
-.container {
-  max-width: 980px;
-  margin: auto;
-}
-
-.result {
-  background-color:rgb(255, 255, 89);
-}
+@import "admin/admin";

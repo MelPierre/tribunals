@@ -1,0 +1,42 @@
+ul.decision-details {
+  margin: 20px 0;
+  padding: 0;
+  @include core-19;
+  font-size: 1.8rem;
+  li {
+    list-style: none;
+    padding: 0;
+    margin-left: 0;
+    clear:both;
+    span.value {
+      margin-bottom: 16px;
+      float:left;
+    }
+    span.label {
+      margin-bottom: 16px;
+      float:left;
+      width: 240px;
+      font-weight: bold;
+    }
+  }
+}
+
+.decisions {
+  float: left;
+  width: 614px;
+}
+
+.decision {
+  padding-top: 20px;
+
+  h2 {
+    @include heading-36;
+    font-size: 3rem;
+    font-weight: bold;
+  }
+
+  .decision-inner {
+    border: 3px solid #d7d7d7;
+    padding: 20px;
+  }
+}
