@@ -21,68 +21,74 @@
       = page_entries_info @decisions
     = will_paginate @decisions
 
-  .main.cf
-    .advanced-search
-      %fieldset#advanced_search
-        %h2 Filter the results
-        %h3 Case status
-        .status-filter
-          %label.checkbox.inline
-            = radio_button :search, :reported, "all", checked: true
-            All
-          %label.checkbox.inline
-            = radio_button :search, :reported, "true"
-            Reported
-          %label.checkbox.inline
-            = radio_button :search, :reported, "false"
-            Unreported
-        #search_reported_only
-          %h3
-            %label Neutral citation number
-          = text_field :search, :ncn, :value => params[:search][:ncn]
-          %h3
-            %label Country
-          = select :search, :country, options_for_select([[]] + Decision.country_list, params[:search][:country])
-          %label.checkbox
-            = check_box :search, :country_guideline, :value => params[:search][:country_guideline]
-            Used as country guidance
-          %h3
-            %label Name of judge
-          = select :search, :judge, options_for_select([[]] + Decision.judges_list, params[:search][:judge])
-          %h3
-            %label Appellant name
-          = text_field :search, :claimant, :value => params[:search][:claimant]
-        .buttons
-          = button_tag "Clear", :class => "button left", :type => "reset"
-          = submit_tag "Search", :class => "button right primary"
-    .decisions
-      %table.decisions-table
-        %tr.headings
-          %th Reference number
-          %th Status
-          %th Promulgation date
-          %th Country
-        - @decisions.each do |decision, group = cycle('even', 'odd')|
-          %tr.first{:class => group}
-            %td{class: decision.reported ? 'reported' : 'unreported' }= link_to decision.link_label, decision_path(decision)
-            %td
-              - if reported_label(decision.reported?) == "Yes"
-                Reported
-              - else
-                Unreported
-            / %td hearingdate
-            %td.date= time_element(decision.promulgated_on)
-            %td= decision.country
-          - if decision.case_title
-            %tr{:class => group + (search_present() ? '' : ' last')}
-              %td{:colspan => 4}
-                Case title:
-                %strong= decision.case_title
-          - if search_present()
-            %tr.last{:class => group}
-              %td{:colspan => 4}
-                %strong Search result:
-                = hilighted_search_result(params[:search][:query], decision.text)
+  .main
+    .col-narrow
+      .default-search
+        %label{:for => "search_query"} Enter your search terms
+        = text_field :search, :query, :value => params[:search][:query], :placeholder => "eg UKUT 211 or Judge Allen"
+        %button.button.primary{:type => "submit"} Search
+      .advanced-search
+        %fieldset#advanced_search
+          %h2 Filter the results
+          %h3 Case status
+          .status-filter
+            %label.checkbox.inline
+              = radio_button :search, :reported, "all", checked: true
+              All
+            %label.checkbox.inline
+              = radio_button :search, :reported, "true"
+              Reported
+            %label.checkbox.inline
+              = radio_button :search, :reported, "false"
+              Unreported
+          #search_reported_only
+            %h3
+              %label Neutral citation number
+            = text_field :search, :ncn, :value => params[:search][:ncn]
+            %h3
+              %label Country
+            = select :search, :country, options_for_select([[]] + Decision.country_list, params[:search][:country])
+            %label.checkbox
+              = check_box :search, :country_guideline, :value => params[:search][:country_guideline]
+              Used as country guidance
+            %h3
+              %label Name of judge
+            = select :search, :judge, options_for_select([[]] + Decision.judges_list, params[:search][:judge])
+            %h3
+              %label Appellant name
+            = text_field :search, :claimant, :value => params[:search][:claimant]
+          .buttons
+            = button_tag "Clear", :class => "button left", :type => "reset"
+            = submit_tag "Search", :class => "button right primary"
+    .col-wide
+      .decisions
+        %table.decisions-table
+          %tr.headings
+            %th Reference number
+            %th Status
+            %th Promulgation date
+            %th Country
+          - @decisions.each do |decision, group = cycle('even', 'odd')|
+            %tr.first{:class => group}
+              %td{class: decision.reported ? 'reported' : 'unreported' }= link_to decision.link_label, decision_path(decision)
+              %td
+                - if reported_label(decision.reported?) == "Yes"
+                  Reported
+                - else
+                  Unreported
+              / %td hearingdate
+              %td.date= time_element(decision.promulgated_on)
+              %td= decision.country
+            - if decision.case_title
+              %tr{:class => group + (search_present() ? '' : ' last')}
+                %td{:colspan => 4}
+                  Case title:
+                  %strong= decision.case_title
+            - if search_present()
+              %tr.last{:class => group}
+                %td{:colspan => 4}
+                  %strong Search result:
+                  = hilighted_search_result(params[:search][:query], decision.text)
 
   .pagination-row.bottom
     .page-entries
