@@ -24,6 +24,19 @@ module Tribunals
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    # app title appears in the header bar
+    config.app_title = 'Tribunal decisions'
+    # phase governs text indicators and highlight colours
+    # presumed values: alpha, beta, live
+    config.phase = 'beta'
+    # product type may also govern highlight colours
+    # known values: information, service
+    config.product_type = 'service'
+    # govbranding switches on or off the crown logo, full footer and NTA font
+    config.govbranding = true
+    # feedback_email is the address linked in the alpha/beta bar asking for feedback
+    config.feedback_email = 'test@example.com'
+
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/scrapers)
 
@@ -35,5 +48,18 @@ module Tribunals
     config.filter_parameters += [:password]
 
     config.assets.enabled = false
+    # config.assets.precompile += %w(
+    #   gov-static/gov-goodbrowsers.css
+    #   gov-static/gov-ie6.css
+    #   gov-static/gov-ie7.css
+    #   gov-static/gov-ie8.css
+    #   gov-static/gov-fonts.css
+    #   gov-static/gov-fonts-ie8.css
+    #   gov-static/gov-print.css
+    #   moj-base.css
+    #   gov-static/gov-ie.js
+
+    #   application-admin.js
+    # )
   end
 end
