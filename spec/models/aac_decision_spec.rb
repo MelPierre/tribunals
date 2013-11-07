@@ -1,18 +1,21 @@
 require 'spec_helper'
 
 describe AacDecision do
-
   describe "search" do
     before(:each) do
       @aac_decision1 = AacDecision.create!(aac_decision_hash(text: "Some searchable text is here"))
-      @aac_decision2 = AacDecision.create!(aac_decision_hash(text: "Some other searchable text is here gerald"))
-      @aac_decision3 = AacDecision.create!(aac_decision_hash(text: "gerald"))
+      @aac_decision2 = AacDecision.create!(aac_decision_hash(text: "beautiful searchable text is here gerald"))
+      @aac_decision3 = AacDecision.create!(aac_decision_hash(claimant: "gerald", text:"Some beautiful decision made long ago"))
       @aac_decision4 = AacDecision.create!(aac_decision_hash(claimant: 'Green'))
       @aac_decision5 = AacDecision.create!(aac_decision_hash(ncn: '[2013] UKUT 456'))
     end
 
     it "should filter on search text" do
-      AacDecision.filtered(:query => "gerald").should == [@aac_decision2, @aac_decision3]
+      AacDecision.filtered(:query => "beautiful").should == [@aac_decision2, @aac_decision3]
+    end
+
+    it "should search metadata as well as body text" do
+      AacDecision.filtered(:query => "gerald").sort.should == [@aac_decision3, @aac_decision2].sort
     end
   end
 
