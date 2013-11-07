@@ -1,31 +1,30 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require toolkit/stylesheets/_colours
- *= require toolkit/stylesheets/_conditionals
- *= require toolkit/stylesheets/_css3
- *= require toolkit/stylesheets/_shims
- *= require toolkit/stylesheets/_font_stack
- *= require toolkit/stylesheets/_typography
- *= require header
- *= require main
- *= require admin
- *= require feedbacks
- *= require_self
- */
+// GOV.UK Toolkit
+@import "colours";
+@import "typography";
+@import "conditionals";
+@import "css3";
+@import "design-patterns/buttons";
 
-.container {
-  max-width: 980px;
-  margin: auto;
-}
+// MOJ Toolkit
+@import "moj-base";
 
-.result {
-  background-color:rgb(255, 255, 89);
-}
+// Core
+@import "core/grid";
+
+// Components
+@import "cpt/button";
+@import "cpt/table";
+@import "cpt/panel";
+@import "cpt/pagination";
+@import "cpt/default-search";
+@import "cpt/adv-search";
+@import "cpt/ui-autocomplete";
+@import "cpt/download-links";
+
+// Modules
+@import "mod/decision";
+@import "mod/feedbacks";
+
+// Application
+@import "main";
+@import "admin/admin";

@@ -1,0 +1,13 @@
+.col {
+  float: left;
+}
+
+.col-narrow {
+  @extend .col;
+  width: 30.67485%;
+  margin-right: 6.54397%;
+}
+.col-wide {
+  @extend .col;
+  width: 62.78119%;
+}

@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def body_class
+    "#{Rails.configuration.phase} #{Rails.configuration.product_type}"
+  end
+
   def hilighted_search_result(search_term, text)
     search_regexp = /\b#{Regexp.escape(search_term)}\b/i
     if excerpt = excerpt(text, search_regexp, radius: 10, separator: ' ')

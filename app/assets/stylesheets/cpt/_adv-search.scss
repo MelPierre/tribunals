@@ -1,0 +1,51 @@
+.advanced-search {
+  width: 300px;
+  float: left;
+  margin-right: 64px;
+
+  label {
+    display: block;
+    clear: both;
+  }
+
+  .status-filter {
+    label {
+      display: inline;
+      margin-right: 15px;
+    }
+  }
+
+  h2 {
+    @include core-24;
+    margin: 0 0 16px 0;
+    font-weight: bold;
+  }
+
+  h3 {
+    @include core-19;
+    font-size: 1.8rem;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+
+  .buttons {
+    margin-top: 20px;
+  }
+
+  input[type="text"],
+  input[role="textbox"] {
+    width: 290px;
+    border: 1px solid #999;
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1.25;
+    margin: 0;
+    min-width: 8em;
+    padding: 0.25em;
+  }
+  select {
+    width: 300px;
+    border: 1px solid #999;
+    padding: 4px;
+  }
+}

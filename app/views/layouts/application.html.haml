@@ -1,18 +1,16 @@
 !!!
 %html
   %head
-    = render "shared/head"
+    = render "shared/head", :title => Rails.configuration.app_title
     = render "shared/ga"
 
-  %body.beta
-    
+  %body{:class => body_class()}
+
     = render "shared/header"
+    = render "shared/cookie_message"
 
     #wrapper.group.information
-      .indicator.cf
-        %p
-          %strong Beta:
-          = render "shared/beta_notice"
+      = render "shared/phase_indicator"
       %section#content.group{:role => "main"}
         .full-width-group
           = yield
