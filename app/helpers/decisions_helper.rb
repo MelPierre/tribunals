@@ -14,7 +14,7 @@ module DecisionsHelper
   end
 
   def judge_list(judges)
-    judges.map { |judge| schema_author_span(judge) }.join(', ').html_safe    
+    judges.map { |judge| schema_author_span(judge) }.join(', ').html_safe
   end
 
   def schema_author_span(author)
