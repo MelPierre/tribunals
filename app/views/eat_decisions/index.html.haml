@@ -47,10 +47,12 @@
           %tr.first{:class => group}
             %td
               = link_to link_label(decision), eat_decision_path(decision)
-              %p 
+              %p
                 Parties:
-              %p 
-                Topic: 
+                = "#{decision.claimant} v #{decision.respondent}"
+              %p
+                Topic:
+                = display_categories(decision)
             %td.date= time_element(decision.hearing_date)
           - if search_present()
             %tr.last{:class => group}
@@ -62,4 +64,3 @@
     .page-entries
       = page_entries_info @eat_decisions
     = will_paginate @eat_decisions
-
