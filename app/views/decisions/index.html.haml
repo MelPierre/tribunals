@@ -23,10 +23,14 @@
 
   .main
     .col-narrow
+      %fieldset.default-search
+        %label{:for => "search_query"} Enter your search terms
+        = text_field :search, :query, :value => params[:search][:query]
+        %button.button.primary{:type => "submit"} Search
       .advanced-search
         %fieldset#advanced_search
-          %h2 Refine your search
-          %h3 Case status
+          %legend Refine your search
+          %label Case status
           .status-filter
             %label.checkbox.inline
               = radio_button :search, :reported, "all", checked: true
@@ -39,10 +43,7 @@
               Unreported
           #search_reported_only
             %h3
-              %label Neutral citation number
-            = text_field :search, :ncn, :value => params[:search][:ncn]
-            %h3
-              %label Country
+              %label{:for => :search_country} Country
             = select :search, :country, options_for_select([[]] + Decision.country_list, params[:search][:country])
             %label.checkbox
               = check_box :search, :country_guideline, :value => params[:search][:country_guideline]
