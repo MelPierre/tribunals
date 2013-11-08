@@ -11,6 +11,8 @@ script:
   - bundle exec rake db:migrate
   - bundle exec rake spec
 notifications:
+  email:
+    - dev@digital.justice.gov.uk
   hipchat:
     rooms:
       secure: HxNbVehJdrap+dZ3vn1WJ5n1YoSezdLOjMKkBBOw9h4Zs6uCq+X8phEYYPIiGhalcu/V8FNTOAWAFLTwHN6YgTUn2Qh3Put5ZgEz0zGTJfmtpp7vI/bcHWPkoNEgaLHCH12YJ5N/DOuPIeDDdN90tAOjZqob/mfDCNUAQbgbAgY=
