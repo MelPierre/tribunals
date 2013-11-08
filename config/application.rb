@@ -48,18 +48,18 @@ module Tribunals
     config.filter_parameters += [:password]
 
     config.assets.enabled = false
-    # config.assets.precompile += %w(
-    #   gov-static/gov-goodbrowsers.css
-    #   gov-static/gov-ie6.css
-    #   gov-static/gov-ie7.css
-    #   gov-static/gov-ie8.css
-    #   gov-static/gov-fonts.css
-    #   gov-static/gov-fonts-ie8.css
-    #   gov-static/gov-print.css
-    #   moj-base.css
-    #   gov-static/gov-ie.js
+    config.assets.precompile += %w(
+      gov-static/gov-goodbrowsers.css
+      gov-static/gov-ie6.css
+      gov-static/gov-ie7.css
+      gov-static/gov-ie8.css
+      gov-static/gov-fonts.css
+      gov-static/gov-fonts-ie8.css
+      gov-static/gov-print.css
+      moj-base.css
+      gov-static/gov-ie.js
 
-    #   application-admin.js
-    # )
+      application-admin.js
+    )
   end
 end
