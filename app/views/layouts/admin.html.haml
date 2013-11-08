@@ -1,11 +1,12 @@
 !!!
 %html
   %head
-    = render "shared/head"
+    = render "shared/head", :title => Rails.configuration.app_title
     = stylesheet_link_tag "admin", :media => "all"
     = csrf_meta_tags
-  %body
-    
+
+  %body{:class => body_class()}
+
     = render "shared/header"
 
     #wrapper.group{:class => authenticated? ? 'admin' : 'beta'}
@@ -23,10 +24,7 @@
               |
               =link_to 'Log out', logout_admin_authentication_path
       - else
-        .indicator.cf
-          %p
-            %strong Beta:
-            This is a new service - your feedback will help us to improve it
+        = render "shared/phase_indicator"
 
       %section#content.group{:role => "main"}
         .full-width-group
