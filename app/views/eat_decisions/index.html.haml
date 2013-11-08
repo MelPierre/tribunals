@@ -49,7 +49,7 @@
               = link_to link_label(decision), eat_decision_path(decision)
               %p
                 Parties:
-                = "#{decision.claimant} v #{decision.respondent}"
+                = display_parties(decision)
               %p
                 Topic:
                 = display_categories(decision)
