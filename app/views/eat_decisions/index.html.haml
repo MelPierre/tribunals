@@ -51,8 +51,10 @@
               = link_to link_label(decision), eat_decision_path(decision)
               %p
                 Parties:
+                = display_parties(decision)
               %p
                 Topic:
+                = display_categories(decision)
             %td.date= time_element(decision.hearing_date)
           - if search_present()
             %tr.last{:class => group}
