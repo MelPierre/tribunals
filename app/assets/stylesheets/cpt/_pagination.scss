@@ -1,0 +1,55 @@
+.pagination-row {
+  clear: both;
+  padding: 2em 0;
+
+  &.bottom {
+    border-top: 1px solid #a1a1a1;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+}
+
+.page-entries {
+  float: left;
+}
+
+.pagination {
+  float: right;
+  margin: 0;
+  border: 0;
+
+  ul {
+    float: right;
+  }
+  li {
+    display: inline;
+    float: none;
+    width: auto;
+
+    a {
+      display: inline;
+      padding: 0 2px;
+    }
+    &.next {
+      float: none;
+      a {
+        padding: 0;
+        &:before {
+          background: none;
+          content: none;
+          display: inline;
+          float: none;
+          margin: 0;
+          width: auto;
+        }
+      }
+    }
+
+    &.disabled a {
+      color: #999;
+    }
+    &.active a {
+      font-weight: bold;
+    }
+  }
+}

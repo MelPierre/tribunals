@@ -1,0 +1,27 @@
+.input-append {
+  width: 600px;
+  padding: 25px 20px;
+  background-color: #eaedef;
+
+  label {
+    @include core-19;
+    font-size: 1.8rem;
+  }
+
+  input {
+    width: 385px;
+  }
+  button {
+    margin: 10px 0 0 10px;
+    vertical-align: -2px;
+  }
+}
+
+p.sub {
+  font-size: 1.4rem;
+  margin-bottom: 1.9rem;
+}
+
+.default-search {
+
+}

@@ -1,0 +1,21 @@
+.download-links {
+  width: 494px;
+  background-color: #d5e8f4;
+  background: #d5e8f4 url(../images/download.png) 513px center no-repeat;
+  padding: 10px 50px 10px 16px;
+
+  margin: 20px 0;
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    list-style: none;
+    margin: 5px 0;
+  }
+  a {
+    color: #2c2b93;
+    font-size: 1.8rem;
+  }
+}
