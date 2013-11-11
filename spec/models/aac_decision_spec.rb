@@ -8,9 +8,15 @@ describe AacDecision do
       @aac_decision3 = AacDecision.create!(aac_decision_hash(claimant: "gerald", text:"Some beautiful decision made long ago"))
       @aac_decision3.judges.create!(name: "Blake")
       adc = AacCategory.create!(name: "Benefits for children")
-      @aac_decision4 = AacDecision.create!(aac_decision_hash(claimant: 'Green', aac_decision_category_id: adc.id))
-      adsc = AacSubcategory.create!(name: "Children's Income", aac_decision_category_id: adc.id)
+      adsc = AacSubcategory.create!(name: "Children's Income", aac_category_id: adc.id)
+      
+      @aac_decision4 = AacDecision.create!(aac_decision_hash(claimant: 'Green'))
+      @aac_decision4.aac_subcategories << adsc
+      @aac_decision4.save!
+
       @aac_decision5 = AacDecision.create!(aac_decision_hash(ncn: '[2013] UKUT 456', text: 'little pete was a green boy', aac_decision_subcategory_id: adsc.id))
+      @aac_decision5.aac_subcategories << adsc
+      @aac_decision5.save!
     end
 
     it "should filter on search text" do
@@ -23,6 +29,18 @@ describe AacDecision do
 
     it "should filter on search text and judge" do
       AacDecision.filtered(:query => "gerald", :judge => 'Blake').should == [@aac_decision3]
+    end
+
+    it "should filter on category" do
+      AacDecision.filtered(:category => "Benefits for children").sort.should == [@aac_decision4, @aac_decision5]
+    end
+
+    it "should filter on search text and category" do
+      AacDecision.filtered(:query => "green", :category => "Benefits for children").sort.should == [@aac_decision4, @aac_decision5]
+    end
+
+    it "should filter on subcategory" do
+      AacDecision.filtered(:subcategory => "Children's Income").sort.should == [@aac_decision4, @aac_decision5]
     end
 
     it "should filter on search text and subcategory" do
