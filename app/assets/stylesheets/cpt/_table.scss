@@ -1,0 +1,42 @@
+.decisions-table {
+  width: 100%;
+  th, td {
+    @include core-14;
+    padding: 0 10px 5px;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .first td {
+    padding-top: 15px;
+    font-size: 1.8rem;
+    &.result-cell {
+      font-size: 1.4rem;
+    }
+
+    a {
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    &.reported a {
+      white-space: nowrap;
+    }
+  }
+  .last td {
+    padding-bottom: 10px;
+  }
+
+  .even td {
+    background-color: #eaedef;
+  }
+
+  .date {
+    white-space: nowrap;
+  }
+}
