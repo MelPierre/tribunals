@@ -10,58 +10,57 @@
     = page_entries_info @ftt_decisions
   = will_paginate @ftt_decisions
 
-  .main.cf
-    .col-narrow
-      = form_tag ftt_decisions_path, :method => :get, :class => 'search_form' do
-        %fieldset
-          %h2
-            %label{:for => "search_query"} Enter your search terms
-          = text_field :search, :query, :value => params[:search][:query]
-          .buttons.cf
-            %button.button.primary.right{:type => "submit"} Search
-        %fieldset#advanced_search
-          %legend
-            %h2 Refine your search
-          %h3
-            %label Judge
-          = select :search, :judge, options_for_select([[]] + FttJudge.list, params[:search][:judge])
-          %h3
-            %label Party
-          = select :search, :party, options_for_select([[]], params[:search][:party])
-          -# TODO: Make categories and subcategories lists dependent on each other
-          %h3
-            %label Topic
-          = select :search, :category, options_for_select([[]] + FttCategory.list, params[:search][:category])
-          %h3
-            %label Sub-topic
-          = select :search, :subcategory, options_for_select([[]] + FttSubcategory.list, params[:search][:subcategory])
-          .buttons.cf
-            = button_tag "Clear", :class => "button left", :type => "reset"
-    .col-wide
-      .decisions
-        .sort-filter
-          Sort by <select><option>Date of decision</option><option>Date of update</option></select>
-        %table.decisions-table
-          %tr.headings
-            %th Reference number
-            %th Date of decision
-          - @ftt_decisions.each do |decision, group = cycle('even', 'odd')|
-            %tr.first{:class => group}
-              %td
-                = link_to link_label(decision), ftt_decision_path(decision)
-                %p
-                  Parties:
-                %p
-                  Topic:
-              %td.date= time_element(decision.decision_date)
-            - if search_present()
-              %tr.last{:class => group}
-                %td{:colspan => 4}
-                  %strong Search result:
-                  = hilighted_search_result(params[:search][:query], decision.text)
+.main.cf
+  .col-narrow
+    = form_tag ftt_decisions_path, :method => :get, :class => 'search_form' do
+      %fieldset
+        %h2
+          %label{:for => "search_query"} Enter your search terms
+        = text_field :search, :query, :value => params[:search][:query]
+        .buttons.cf
+          %button.button.primary.right{:type => "submit"} Search
+      %fieldset#advanced_search
+        %legend
+          %h2 Refine your search
+        %h3
+          %label Judge
+        = select :search, :judge, options_for_select([[]] + FttJudge.list, params[:search][:judge])
+        %h3
+          %label Party
+        = select :search, :party, options_for_select([[]], params[:search][:party])
+        -# TODO: Make categories and subcategories lists dependent on each other
+        %h3
+          %label Topic
+        = select :search, :category, options_for_select([[]] + FttCategory.list, params[:search][:category])
+        %h3
+          %label Sub-topic
+        = select :search, :subcategory, options_for_select([[]] + FttSubcategory.list, params[:search][:subcategory])
+        .buttons.cf
+          = button_tag "Clear", :class => "button left", :type => "reset"
+  .col-wide
+    .decisions
+      .sort-filter
+        Sort by <select><option>Date of decision</option><option>Date of update</option></select>
+      %table.decisions-table
+        %tr.headings
+          %th Reference number
+          %th Date of decision
+        - @ftt_decisions.each do |decision, group = cycle('even', 'odd')|
+          %tr.first{:class => group}
+            %td
+              = link_to link_label(decision), ftt_decision_path(decision)
+              %p
+                Parties:
+              %p
+                Topic:
+            %td.date= time_element(decision.decision_date)
+          - if search_present()
+            %tr.last{:class => group}
+              %td{:colspan => 4}
+                %strong Search result:
+                = hilighted_search_result(params[:search][:query], decision.text)
 
-  .pagination-row.bottom
-    .page-entries
-      = page_entries_info @ftt_decisions
-    = will_paginate @ftt_decisions
-
+.pagination-row.bottom
+  .page-entries
+    = page_entries_info @ftt_decisions
+  = will_paginate @ftt_decisions
