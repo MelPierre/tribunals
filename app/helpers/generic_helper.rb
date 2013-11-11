@@ -16,7 +16,7 @@ module GenericHelper
     categories.join(', ')
   end
 
-  def display_parties(decision, separator = " vs ")
+  def display_parties(decision, separator = " v ")
     join_display_strings([decision.claimant, decision.respondent], separator)
   end
 

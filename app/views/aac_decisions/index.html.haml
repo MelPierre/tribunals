@@ -31,10 +31,10 @@
         -# TODO: Make categories and subcategories lists dependent on each other
         %h3
           %label Category
-        = select :search, :category, options_for_select([[]] + AacDecisionCategory.list, params[:search][:category]), {}, {:placeholder => "What the case is about"}
+        = select :search, :category, options_for_select([[]] + AacCategory.list, params[:search][:category]), {}, {:placeholder => "What the case is about"}
         %h3
           %label Sub-category
-        = select :search, :subcategory, options_for_select([[]] + AacDecisionSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
+        = select :search, :subcategory, options_for_select([[]] + AacSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
         .buttons.cf
           %button.button.secondary.left{:type => "reset"} Clear
           %button.button.primary.right{:type => "submit"} Refine search
