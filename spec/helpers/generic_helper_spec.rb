@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EatDecisionsHelper do
+describe GenericHelper do
 
   describe "#display_categories" do
     before(:all) do
@@ -11,7 +11,7 @@ describe EatDecisionsHelper do
     end
 
     it "should list the category & subcategory" do
-      expect(helper.display_categories(@decision)).to eq("Category/Subcategory")
+      expect(helper.display_categories(@decision)).to eq("Category / Subcategory")
     end
 
     describe "when the category is missing" do
@@ -41,12 +41,41 @@ describe EatDecisionsHelper do
       end
 
       it "should list all categories & their subcategories" do
-        result = "Category/Subcategory, Category 2/Subcategory 2"
+        result = "Category / Subcategory, Category 2 / Subcategory 2"
         expect(helper.display_categories(@decision)).to eq(result)
       end
-
     end
 
+    describe "when there is no subcategory" do
+      before { @decision = EatDecision.create!(eat_decision_hash) }
+
+      it "should not list anything" do
+        expect(helper.display_categories(@decision)).to eq ''
+      end
+    end
+
+    describe "when there is only a subcategory" do
+      before do
+        @decision = EatDecision.create!(eat_decision_hash)
+        subcategory = EatSubcategory.create!(name: "Subcategory")
+        @decision.eat_subcategories << subcategory.reload
+      end
+
+      it "should not list anything" do
+        expect(helper.display_categories(@decision)).to eq "Subcategory"
+      end
+    end
+  end
+
+  describe "display_parties" do
+
+    before(:all) do
+      @decision = EatDecision.create!(claimant: "Party1", respondent: "Party2")
+    end
+
+    it "should list the parties" do
+      expect(helper.display_parties(@decision)).to eq("Party1 vs Party2")
+    end
   end
 
 end

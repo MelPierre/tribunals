@@ -18,14 +18,6 @@ module AacDecisionsHelper
     aac_decision.ncn || "(unknown)"
   end
 
-  def display_parties(aac_decision)
-    if aac_decision.claimant && aac_decision.respondent
-      "#{aac_decision.claimant} vs #{aac_decision.respondent}"
-    else
-      aac_decision.claimant || aac_decision.respondent
-    end
-  end
-
   def link_label(aac_decision)
     aac_decision.file_number || aac_decision.ncn || aac_decision.reported_number
   end

@@ -8,4 +8,3 @@ module FttDecisionsHelper
     ftt_decision.file_number || "Unkown"
   end
 end
-
