@@ -18,12 +18,12 @@ moj.Modules.decisions = (function() {
 
     cacheEls();
     bindEvents();
-    
+
   };
 
   cacheEls = function() {
     $form = $( '.search_form' ).eq( 0 );
-    $fs = $( '.advanced-search fieldset', $form ).eq( 0 );
+    $fs = $( '#advanced_search', $form ).eq( 0 );
     resetBtns = $( 'button[type=reset]', $form );
     $adv = $( '#search_reported_only', $form );
   };
@@ -31,11 +31,21 @@ moj.Modules.decisions = (function() {
   bindEvents = function() {
     $( 'input:radio', $fs ).on( 'change', searchToggle );
 
-    $( 'select', $fs ).selectToAutocomplete();
+    $( 'select', $fs ).selectToAutocomplete().on('focus', function(){
+      $(this).trigger("autocompleteselect");
+    });
+
+    $( '.ui-autocomplete-input', $fs ).on('focus', function(e){
+      if($(this).val() == "") {
+        var e = jQuery.Event("keydown");
+            e.keyCode = 40;
+            $(this).trigger(e);
+      }
+    });
 
     $( resetBtns ).on( 'click', function ( e ) {
       e.preventDefault();
-      resetFilters();  
+      resetFilters();
     });
 
     $('.search_form').submit(function(e) {

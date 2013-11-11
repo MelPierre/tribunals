@@ -1,7 +1,8 @@
-.advanced-search {
-  width: 300px;
-  float: left;
-  margin-right: 64px;
+.search_form {
+  legend {
+    margin: 0;
+    padding: 0 0 0.4em;
+  }
 
   label {
     display: block;
@@ -17,24 +18,26 @@
 
   h2 {
     @include core-24;
-    margin: 0 0 16px 0;
+    font-size: 2.6rem;
+    margin: 0 0 0.3em;
     font-weight: bold;
   }
 
   h3 {
     @include core-19;
     font-size: 1.8rem;
-    margin-top: 20px;
+    margin-top: 15px;
+    margin-bottom: 2px;
     font-weight: bold;
   }
 
   .buttons {
-    margin-top: 20px;
+    margin-top: 1em;
   }
 
   input[type="text"],
   input[role="textbox"] {
-    width: 290px;
+    width: 97%;
     border: 1px solid #999;
     font-size: 1.6rem;
     font-weight: 300;
@@ -43,9 +46,32 @@
     min-width: 8em;
     padding: 0.25em;
   }
+
+  input.ui-autocomplete-input {
+    background: image-url("down-arrow.png") right center no-repeat;
+    padding-right: 2em;
+    width: 88%;
+  }
+
   select {
     width: 300px;
     border: 1px solid #999;
     padding: 4px;
+  }
+
+  .help {
+    font-size: 1.8rem;
+    margin: 0.5em 0 1em;
+  }
+}
+
+#advanced_search {
+  legend {
+    padding-top: 0.8em;
+
+    h2 {
+      margin-bottom: 0;
+      font-size: 2.4rem;
+    }
   }
 }

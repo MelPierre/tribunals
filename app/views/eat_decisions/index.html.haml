@@ -4,22 +4,24 @@
     Employment appeal judgments
   %p
     Search for judgments on appeals to the Employment Appeal Tribunal
-= form_tag eat_decisions_path, :method => :get, :class => 'search_form' do
-  .input-append
-    %label{:for => "search_query"} Enter an appeal number, party name, judge name or keyword
-    = text_field :search, :query, :value => params[:search][:query], :placeholder => "eg UKEAT/0164/12 or Judge Clark"
-    = button_tag "Clear", :class => "button", :type => "reset"
-    %button.button.primary{:type => "submit"} Search
 
-  .pagination-row
-    .page-entries
-      = page_entries_info @eat_decisions
-    = will_paginate @eat_decisions
+.pagination-row
+  .page-entries
+    = page_entries_info @eat_decisions
+  = will_paginate @eat_decisions
 
-  .main.cf
-    .advanced-search
+.main.cf
+  .col-narrow
+    = form_tag eat_decisions_path, :method => :get, :class => 'search_form' do
+      %fieldset
+        %h2
+          %label{:for => "search_query"} Enter your search terms
+        = text_field :search, :query, :value => params[:search][:query]
+        .buttons.cf
+          %button.button.primary.right{:type => "submit"} Search
       %fieldset#advanced_search
-        %h2 Filter the results
+        %legend
+          %h2 Refine your search
         %h3
           %label Judge
         = select :search, :judge, options_for_select([[]] + Judge.list, params[:search][:judge])
@@ -33,9 +35,9 @@
         %h3
           %label Sub-topic
         = select :search, :subcategory, options_for_select([[]] + EatSubcategory.list, params[:search][:subcategory])
-        .buttons
+        .buttons.cf
           = button_tag "Clear", :class => "button left", :type => "reset"
-          = submit_tag "Search", :class => "button right primary"
+  .col-wide
     .decisions
       .sort-filter
         Sort by <select><option>Date of hearing</option><option>Date of update</option></select>
@@ -60,7 +62,7 @@
                 %strong Search result:
                 = hilighted_search_result(params[:search][:query], decision.text)
 
-  .pagination-row.bottom
-    .page-entries
-      = page_entries_info @eat_decisions
-    = will_paginate @eat_decisions
+.pagination-row.bottom
+  .page-entries
+    = page_entries_info @eat_decisions
+  = will_paginate @eat_decisions
