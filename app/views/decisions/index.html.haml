@@ -37,13 +37,13 @@
         #search_reported_only
           %h3
             %label{:for => :search_country} Country
-          = select :search, :country, options_for_select(Decision.country_list, params[:search][:country]), {}, {:placeholder => "Show represented country only"}
+          = select :search, :country, options_for_select([[]] + Decision.country_list, params[:search][:country]), {}, {:placeholder => "Show represented country only"}
           %label.checkbox
             = check_box :search, :country_guideline, :value => params[:search][:country_guideline]
             Used as country guidance
           %h3
             %label Name of judge
-          = select :search, :judge, options_for_select(Decision.judges_list, params[:search][:judge]), {}, {:placeholder => "Show cases this judge heard only"}
+          = select :search, :judge, options_for_select([[]] + Decision.judges_list, params[:search][:judge]), {}, {:placeholder => "Show cases this judge heard only"}
           %h3
             %label Appellant name
           = text_field :search, :claimant, :value => params[:search][:claimant], :placeholder => "Show cases involving this person"
