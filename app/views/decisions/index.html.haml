@@ -49,6 +49,10 @@
           = text_field :search, :claimant, :value => params[:search][:claimant], :placeholder => "Show cases involving this person"
         .buttons.cf
           = button_tag "Clear", :class => "button left", :type => "reset"
+        %p.help
+          Email:
+          %a{:href => "mailto:utiacdecisions@hmcts.gsi.gov.uk"} utiacdecisions@hmcts.gsi.gov.uk if
+          you want a copy of an unreported decision from before 1 June 2013.
   .col-wide
     .decisions
       %table.decisions-table
