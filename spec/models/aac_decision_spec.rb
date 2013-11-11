@@ -7,9 +7,9 @@ describe AacDecision do
       @aac_decision2 = AacDecision.create!(aac_decision_hash(text: "beautiful searchable text is here gerald"))
       @aac_decision3 = AacDecision.create!(aac_decision_hash(claimant: "gerald", text:"Some beautiful decision made long ago"))
       @aac_decision3.judges.create!(name: "Blake")
-      adc = AacDecisionCategory.create!(name: "Benefits for children")
+      adc = AacCategory.create!(name: "Benefits for children")
       @aac_decision4 = AacDecision.create!(aac_decision_hash(claimant: 'Green', aac_decision_category_id: adc.id))
-      adsc = AacDecisionSubcategory.create!(name: "Children's Income", aac_decision_category_id: adc.id)
+      adsc = AacSubcategory.create!(name: "Children's Income", aac_decision_category_id: adc.id)
       @aac_decision5 = AacDecision.create!(aac_decision_hash(ncn: '[2013] UKUT 456', text: 'little pete was a green boy', aac_decision_subcategory_id: adsc.id))
     end
 
