@@ -25,7 +25,7 @@
         = select :search, :judge, options_for_select([[]] + Judge.list, params[:search][:judge]), {}, {:placeholder => "Cases that this judge heard"}
         %h3
           %label Name of party
-        = select :search, :party, options_for_select([[]], params[:search][:party]), {}, {:placeholder => "Cases connected to this party"}
+        = text_field :search, :party, :value => params[:search][:party], :placeholder => "Cases connected to this party"
         -# TODO: Make categories and subcategories lists dependent on each other
         %h3
           %label Category
