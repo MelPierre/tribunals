@@ -13,7 +13,7 @@ class AacDecision < ActiveRecord::Base
   end
 
   def self.filtered(filter_hash)
-    search(filter_hash[:query]).by_judge(filter_hash[:judge]).by_subcategory(filter_hash[:subcategory])
+    search(filter_hash[:query]).by_judge(filter_hash[:judge]).by_category(filter_hash[:category]).by_subcategory(filter_hash[:subcategory])
   end
 
   def self.search(query)
@@ -34,8 +34,12 @@ class AacDecision < ActiveRecord::Base
             coalesce(keywords::text, '') || ' ' || 
             coalesce(notes::text, '') || ' ' || 
             coalesce(text::text, '')"
-      where("to_tsvector('english', #{all_combined_fields}) @@ plainto_tsquery('english', :q::text)", q:query)
-      .order("#{all_combined_fields} ~* #{quoted_query} DESC")
+
+      joins(:judges)
+      .where("to_tsvector('english', judges.name) @@ plainto_tsquery('english', :q::text) or 
+            to_tsvector('english', #{all_combined_fields}) @@ plainto_tsquery('english', :q::text)", q:query)
+      .order("judges.name ~* #{quoted_query} DESC, 
+              #{all_combined_fields} ~* #{quoted_query} DESC")
     else
       where("")
     end
@@ -52,6 +56,15 @@ class AacDecision < ActiveRecord::Base
   def self.by_subcategory(subcategory_name)
     if subcategory_name.present?
       joins(:aac_subcategories).where(aac_subcategories: {name: subcategory_name})
+    else
+      where("")
+    end
+  end
+
+  def self.by_category(category_name)
+    if category_name.present?
+      #TODO: Refactor to avoid the find_by_name lookup
+      joins(:aac_subcategories).where(aac_subcategories: {aac_category_id: AacCategory.find_by_name(category_name).id})
     else
       where("")
     end
