@@ -51,8 +51,10 @@
               = link_to link_label(decision), ftt_decision_path(decision)
               %p
                 Parties:
+                = "#{decision.claimant} v #{decision.respondent}"
               %p
-                Topic:
+                Categories:
+                = display_categories(decision)
             %td.date= time_element(decision.decision_date)
           - if search_present()
             %tr.last{:class => group}
