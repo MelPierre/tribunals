@@ -51,7 +51,7 @@ class AacDecision < ActiveRecord::Base
 
   def self.by_subcategory(subcategory_name)
     if subcategory_name.present?
-      joins(:aac_decision_subcategory).where("? = aac_decision_subcategories.name", subcategory_name)
+      joins(:aac_subcategories).where(aac_subcategories: {name: subcategory_name})
     else
       where("")
     end
