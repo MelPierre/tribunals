@@ -31,7 +31,17 @@ moj.Modules.decisions = (function() {
   bindEvents = function() {
     $( 'input:radio', $fs ).on( 'change', searchToggle );
 
-    $( 'select', $fs ).selectToAutocomplete();
+    $( 'select', $fs ).selectToAutocomplete().on('focus', function(){
+      $(this).trigger("autocompleteselect");
+    });
+
+    $( '.ui-autocomplete-input', $fs ).on('focus', function(e){
+      if($(this).val() == "") {
+        var e = jQuery.Event("keydown");
+            e.keyCode = 40;
+            $(this).trigger(e);
+      }
+    });
 
     $( resetBtns ).on( 'click', function ( e ) {
       e.preventDefault();
