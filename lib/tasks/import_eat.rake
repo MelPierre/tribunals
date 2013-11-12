@@ -63,45 +63,50 @@ namespace :import do
       broken_count = 0
 
       EatDecision.find_each do |d|
-        file = d.filename.gsub(/\s/, '')
-        path = "#{url}/Public/Upload/#{file}"
-        uri = URI.parse path
-
-        response = query_head(uri)
-
-        if response.code.to_i == 200
-          download_doc path, d.id
-        else
-          puts "Can't download #{d.id}, #{d.filename}"
-          puts "Checking if I can download it as a PDF"
+        unless d.filename.blank?
+          puts "file is #{d.filename}"
+          file = d.filename.gsub(/\s/, '')
           path = "#{url}/Public/Upload/#{file}"
-          uri = pdf_version path
+          uri = URI.parse path
 
           response = query_head(uri)
 
           if response.code.to_i == 200
-            puts "PDF version can be downloaded"
-            download_doc path, id
+            download_doc path, d.id
           else
-            puts "PDF version can't be downloaded, trying webscrape"
-            doc = Nokogiri::HTML(open "http://#{uri.host}/Public/results.aspx?id=#{d.id}")
+            puts "Can't download #{d.id}, #{d.filename}"
+            puts "Checking if I can download it as a PDF"
+            path = "#{url}/Public/Upload/#{file}"
+            uri = pdf_version path
 
-            doc.xpath('//*[@id="rpResults__ctl1_lnkView"]/@href').each do |l|
-              puts "link is : #{l}"
-              path = "#{url}/Public/#{l}"
-              uri = URI.parse path
+            response = query_head(uri)
 
-              response = query_head(uri)
+            if response.code.to_i == 200
+              puts "PDF version can be downloaded"
+              download_doc path, id
+            else
+              puts "PDF version can't be downloaded, trying webscrape"
+              doc = Nokogiri::HTML(open "http://#{uri.host}/Public/results.aspx?id=#{d.id}")
 
-              if response.code.to_i == 200
-                puts "Webscrape worked, dow"
-                download_doc path, d.id
-              else
-                puts "Webscrape for #{d.id}, #{file} still failed..."
-                broken_count += 1
+              doc.xpath('//*[@id="rpResults__ctl1_lnkView"]/@href').each do |l|
+                puts "link is : #{l}"
+                path = "#{url}/Public/#{l}"
+                uri = URI.parse path
+
+                response = query_head(uri)
+
+                if response.code.to_i == 200
+                  puts "Webscrape worked, downloaded #{filename}"
+                  download_doc path, d.id
+                else
+                  puts "Webscrape for #{d.id}, #{file} still failed..."
+                  broken_count += 1
+                end
               end
             end
           end
+        else
+          puts "File for decision ID: #{d.id} is missing"
         end
       end
 
