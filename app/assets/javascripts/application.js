@@ -12,6 +12,8 @@
 //
 //= require_tree ../vendor
 //= require moj
+//= require moj.autocomplete
+//= require ui-combobox
 //= require decisions
 //= require admin/decisions
 //= require main
