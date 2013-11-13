@@ -11,6 +11,11 @@
   = will_paginate @ftt_decisions
 
 .main.cf
+  .sort-filter
+    Sort by
+    %select
+      %option{:value => "date_added"} Date added
+      %option{:value => "date_of_decision"} Date of decision
   .col-narrow
     = form_tag ftt_decisions_path, :method => :get, :class => 'search_form' do
       %fieldset
@@ -36,26 +41,29 @@
           %label Sub-category
         = select :search, :subcategory, options_for_select([[]] + FttSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
         .buttons.cf
-          = button_tag "Clear", :class => "button left", :type => "reset"
+          %button.button.secondary.left{:type => "reset"} Clear
+          %button.button.primary.right{:type => "submit"} Refine search
   .col-wide
     .decisions
-      .sort-filter
-        Sort by <select><option>Date of decision</option><option>Date of update</option></select>
       %table.decisions-table
         %tr.headings
           %th Reference number
-          %th Date of decision
+          %th{:width => "23%"} Date of decision
         - @ftt_decisions.each do |decision, group = cycle('even', 'odd')|
           %tr.first{:class => group}
             %td
               = link_to link_label(decision), ftt_decision_path(decision)
-              %p
-                Parties:
-                = "#{decision.claimant} v #{decision.respondent}"
-              %p
-                Categories:
-                = display_categories(decision)
             %td.date= time_element(decision.decision_date)
+          - if decision.claimant || decision.respondent
+            %tr{:class => group + (search_present() ? '' : ' last')}
+              %td{:colspan => 2}
+                Parties:
+                %strong= "#{decision.claimant} v #{decision.respondent}"
+          - if display_categories(decision)
+            %tr{:class => group + (search_present() ? '' : ' last')}
+              %td{:colspan => 2}
+                Categories:
+                %strong= "#{display_categories(decision)}"
           - if search_present()
             %tr.last{:class => group}
               %td{:colspan => 4}
