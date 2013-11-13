@@ -27,7 +27,8 @@
       copyAttr: true,
       autocomplete: {
         delay: 0,
-        minLength: 0
+        minLength: 0,
+        autoFocus: true
       }
     },
 
@@ -53,7 +54,7 @@
       if (this.settings.copyAttr) {
         var attrs = {};
         var raw_attrs = this.$select[0].attributes;
-        // moj.log(raw_attrs);
+
         for (var i=0; i < raw_attrs.length; i++) {
           var key = raw_attrs[i].nodeName;
           var value = raw_attrs[i].nodeValue;
@@ -77,7 +78,8 @@
       // set callbacks for autocomplete
       this.$text.on({
         autocompleteselect: this._autocompleteselect,
-        autocompletechange: this._autocompletechange
+        autocompletechange: this._autocompletechange,
+        autocompletesearch: this._autocompletesearch
       });
 
       // append input to wrapper
@@ -168,6 +170,15 @@
       // remove value from autocomplete obj
       $text.data("ui-autocomplete").term = "";
     },
+
+    // stop first item being selected when no value has been entered
+    _autocompletesearch: function(event, ui) {
+      if($(this).val() == ""){
+        $(this).data("ui-autocomplete").options.autoFocus = false;
+      } else {
+        $(this).data("ui-autocomplete").options.autoFocus = true;
+      }
+    }
   };
 
   $.fn.mojAutocomplete = function(options) {
