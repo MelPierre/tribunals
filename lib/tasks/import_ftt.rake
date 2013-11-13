@@ -8,7 +8,7 @@ namespace :import do
     end
 
     def munge_doc(decision, file_path)
-      decision.add_doc file_path
+      decision.add_single_doc file_path
       decision.process_doc
     end
 
