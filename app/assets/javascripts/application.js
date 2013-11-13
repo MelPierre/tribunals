@@ -12,6 +12,7 @@
 //
 //= require_tree ../vendor
 //= require moj
+//= require moj.autocomplete
 //= require decisions
 //= require admin/decisions
 //= require main
