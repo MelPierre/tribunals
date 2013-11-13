@@ -68,11 +68,19 @@
       // add autocomplete functionality to text field
       this.$text.autocomplete(this.settings.autocomplete);
 
+      // Our items have HTML tags.  The default rendering uses text()
+      // to set the content of the <a> tag.  We need html().
+      this.$text.data("ui-autocomplete")._renderItem = function(ul, item) {
+        return $("<li>").append($("<a>").html(item.label)).appendTo(ul);
+      };
+
+      // set callbacks for autocomplete
       this.$text.on({
         autocompleteselect: this._autocompleteselect,
         autocompletechange: this._autocompletechange
       });
 
+      // append input to wrapper
       this.$wrapper.append(this.$text);
     },
 
@@ -113,7 +121,7 @@
           var text = $( this ).text();
           if (this.value && (!request.term || matcher.test(text))){
             return {
-              label: text,
+              label: request.term != "" ? text.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + $.ui.autocomplete.escapeRegex(request.term) + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<span>$1</span>") : text,
               value: text,
               option: this
             };
