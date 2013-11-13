@@ -9,6 +9,11 @@
   = will_paginate @decisions
 
 .main.cf
+  .sort-filter
+    Sort by
+    %select
+      %option{:value => "date_added"} Date added
+      %option{:value => "date_of_decision"} Date of decision
   .col-narrow
     = form_tag decisions_path, :method => :get, :class => 'search_form' do
       %fieldset
@@ -48,7 +53,8 @@
             %label Appellant name
           = text_field :search, :claimant, :value => params[:search][:claimant], :placeholder => "Show cases involving this person"
         .buttons.cf
-          = button_tag "Clear", :class => "button left", :type => "reset"
+          %button.button.secondary.left{:type => "reset"} Clear
+          %button.button.primary.right{:type => "submit"} Refine search
         %p.help
           Email:
           %a{:href => "mailto:utiacdecisions@hmcts.gsi.gov.uk"} utiacdecisions@hmcts.gsi.gov.uk

@@ -9,6 +9,11 @@
   = will_paginate @aac_decisions
 
 .main.cf
+  .sort-filter
+    Sort by
+    %select
+      %option{:value => "date_added"} Date added
+      %option{:value => "date_of_decision"} Date of decision
   .col-narrow
     = form_tag aac_decisions_path, :method => :get, :class => 'search_form' do
       %fieldset
@@ -31,11 +36,10 @@
           %label Sub-category
         = select :search, :subcategory, options_for_select([[]] + AacDecisionSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
         .buttons.cf
-          = button_tag "Clear", :class => "button left", :type => "reset"
+          %button.button.secondary.left{:type => "reset"} Clear
+          %button.button.primary.right{:type => "submit"} Refine search
   .col-wide
     .decisions
-      .sort-filter
-        Sort by <select><option>Date added</option><option>Date of decision</option></select>
       %table.decisions-table
         %tr.headings
           %th Reference number

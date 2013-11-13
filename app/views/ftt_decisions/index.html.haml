@@ -11,6 +11,11 @@
   = will_paginate @ftt_decisions
 
 .main.cf
+  .sort-filter
+    Sort by
+    %select
+      %option{:value => "date_added"} Date added
+      %option{:value => "date_of_decision"} Date of decision
   .col-narrow
     = form_tag ftt_decisions_path, :method => :get, :class => 'search_form' do
       %fieldset
@@ -36,11 +41,10 @@
           %label Sub-category
         = select :search, :subcategory, options_for_select([[]] + FttSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
         .buttons.cf
-          = button_tag "Clear", :class => "button left", :type => "reset"
+          %button.button.secondary.left{:type => "reset"} Clear
+          %button.button.primary.right{:type => "submit"} Refine search
   .col-wide
     .decisions
-      .sort-filter
-        Sort by <select><option>Date of decision</option><option>Date of update</option></select>
       %table.decisions-table
         %tr.headings
           %th Reference number
