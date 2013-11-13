@@ -32,7 +32,7 @@
           %label.checkbox.inline
             = radio_button :search, :reported, "false"
             Unreported
-        %p.help
+        -# %p.help
           %a{:href => "#"} Find out what Un/Reported means
         #search_reported_only
           %h3
@@ -51,8 +51,8 @@
           = button_tag "Clear", :class => "button left", :type => "reset"
         %p.help
           Email:
-          %a{:href => "mailto:utiacdecisions@hmcts.gsi.gov.uk"} utiacdecisions@hmcts.gsi.gov.uk if
-          you want a copy of an unreported decision from before 1 June 2013.
+          %a{:href => "mailto:utiacdecisions@hmcts.gsi.gov.uk"} utiacdecisions@hmcts.gsi.gov.uk
+          if you want a copy of an unreported decision from before 1 June 2013.
   .col-wide
     .decisions
       %table.decisions-table
