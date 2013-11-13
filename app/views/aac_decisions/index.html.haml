@@ -1,9 +1,7 @@
 %header.page-header.group
   %h1
     %span Information
-    Administrative appeals decisions
-  %p
-    Search for judges' decisions on appeals to the Administrative Appeals Chamber.
+    Administrative Appeals Chamber: decisions on appeals to the Upper Tribunal
 
 .pagination-row
   .page-entries
@@ -23,15 +21,15 @@
         %legend
           %h2 Refine your search
         %h3
-          %label Judge
-        = select :search, :judge, options_for_select([[]] + Judge.list, params[:search][:judge])
+          %label Name of judge
+        = select :search, :judge, options_for_select([[]] + Judge.list, params[:search][:judge]), {}, {:placeholder => "Cases that this judge heard"}
         -# TODO: Make categories and subcategories lists dependent on each other
         %h3
           %label Category
-        = select :search, :category, options_for_select([[]] + AacDecisionCategory.list, params[:search][:category])
+        = select :search, :category, options_for_select([[]] + AacDecisionCategory.list, params[:search][:category]), {}, {:placeholder => "What the case is about"}
         %h3
           %label Sub-category
-        = select :search, :subcategory, options_for_select([[]] + AacDecisionSubcategory.list, params[:search][:subcategory])
+        = select :search, :subcategory, options_for_select([[]] + AacDecisionSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
         .buttons.cf
           = button_tag "Clear", :class => "button left", :type => "reset"
   .col-wide
