@@ -7,6 +7,11 @@ namespace :import do
       FttDecision.where("file_no_1 like :q or file_no_2 like :q or file_number like :q", q:"%#{id}%")
     end
 
+    def munge_doc(decision, file_path)
+      decision.add_doc file_path
+      decision.process_doc
+    end
+
     def sieve_files(dir, files, doc_type="doc_file")
       file_type = doc_type.gsub('_', ' ')
 
@@ -22,7 +27,9 @@ namespace :import do
           if result.count == 1
             puts "  Decision: #{result.first.id} matches with #{file_name} !"
             if result.first.send("#{doc_type}").blank?
-              puts "  OK: #{result.first.id} doesn't have a #{file_type}"
+              full_path = "#{ENV['DOCS']}/#{dir}/#{file_name}.#{file_type}"
+              puts "  OK: #{result.first.id} doesn't have a #{file_type} so #{full_path} can be used"
+              munge_doc(result.first, full_path) if file_type == "doc"
             else
               decision = result.first
               found_file = decision.doc_file.file.path.split('/').last
