@@ -38,6 +38,16 @@ namespace :maintenance do
         end
       end
     end
+
+    task :assign_subcategories => :environment do
+      AacDecision.find_each do |d|
+        puts "Assigning subcategories for AacDecision id #{d.id}"
+        d.aac_subcategories << AacSubcategory.find(d.aac_decision_subcategory_id) if d.aac_decision_subcategory_id
+        d.aac_subcategories << AacSubcategory.find(d.old_sec_subcategory_id) if d.old_sec_subcategory_id    
+        puts "Subcategories for AacDecision id #{d.id}: #{d.aac_subcategory_ids}"
+        d.save!
+      end
+    end
   end
 
   namespace :ftt do

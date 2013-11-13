@@ -33,10 +33,7 @@
         %span= schema_time_element(@aac_decision.last_updatedtime)
       %li
         %span.label Category:
-        %span= category_name(@aac_decision)
-      %li
-        %span.label Sub-category:
-        %span= subcategory_name(@aac_decision)
+        %span= display_categories(@aac_decision)
       %li
         %span.label Notes:
         %span{:class => "notes"}= @aac_decision.notes

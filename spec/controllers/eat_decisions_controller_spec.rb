@@ -21,7 +21,7 @@ describe EatDecisionsController do
 
       it "should have parties info" do
         get :index
-        expect(response.body).to match /Parties:\n<strong>One vs Two<\/strong>/
+        expect(response.body).to match /Parties:\n<strong>One v Two<\/strong>/
       end
     end
 

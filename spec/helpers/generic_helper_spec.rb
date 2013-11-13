@@ -74,7 +74,7 @@ describe GenericHelper do
     end
 
     it "should list the parties" do
-      expect(helper.display_parties(@decision)).to eq("Party1 vs Party2")
+      expect(helper.display_parties(@decision)).to eq("Party1 v Party2")
     end
   end
 
