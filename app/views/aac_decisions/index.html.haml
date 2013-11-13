@@ -9,6 +9,11 @@
   = will_paginate @aac_decisions
 
 .main.cf
+  .sort-filter
+    Sort by
+    %select
+      %option{:value => "date_added"} Date added
+      %option{:value => "date_of_decision"} Date of decision
   .col-narrow
     = form_tag aac_decisions_path, :method => :get, :class => 'search_form' do
       %fieldset
@@ -31,29 +36,37 @@
           %label Sub-category
         = select :search, :subcategory, options_for_select([[]] + AacDecisionSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
         .buttons.cf
-          = button_tag "Clear", :class => "button left", :type => "reset"
+          %button.button.secondary.left{:type => "reset"} Clear
+          %button.button.primary.right{:type => "submit"} Refine search
   .col-wide
     .decisions
-      .sort-filter
-        Sort by <select><option>Date added</option><option>Date of decision</option></select>
       %table.decisions-table
         %tr.headings
           %th Reference number
-          %th Date added
+          %th{:width => "23%"} Date added
         - @aac_decisions.each do |decision, group = cycle('even', 'odd')|
           %tr.first{:class => group}
             %td
               = link_to link_label(decision), aac_decision_path(decision)
-              %p
-                Category:
-                = "#{category_name(decision)} / #{subcategory_name(decision)}"
-              %p
-                Parties:
-                = display_parties(decision)
             %td.date= time_element(decision.created_datetime)
+          - if display_parties(decision)
+            %tr{:class => group + (search_present() ? '' : ' last')}
+              %td{:colspan => 2}
+                Parties:
+                %strong= "#{display_parties(decision)}"
+          - if category_name(decision)
+            %tr{:class => group + (search_present() ? '' : ' last')}
+              %td{:colspan => 2}
+                Category:
+                %strong= "#{category_name(decision)}"
+          - if subcategory_name(decision)
+            %tr{:class => group + (search_present() ? '' : ' last')}
+              %td{:colspan => 2}
+                Sub-category:
+                %strong= "#{subcategory_name(decision)}"
           - if search_present()
             %tr.last{:class => group}
-              %td{:colspan => 4}
+              %td{:colspan => 2}
                 %strong Search result:
                 = hilighted_search_result(params[:search][:query], decision.text)
 
