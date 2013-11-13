@@ -24,7 +24,9 @@ namespace :import do
             if result.first.send("#{doc_type}").blank?
               puts "  OK: #{result.first.id} doesn't have a #{file_type}"
             else
-              puts "  WARRNING: #{result.first.id} already has a doc file"
+              decision = result.first
+              found_file = decision.doc_file.file.path.split('/').last
+              puts "  WARRNING: #{decision.id} already has a doc file #{found_file}"
             end
 
           elsif result.count > 1
