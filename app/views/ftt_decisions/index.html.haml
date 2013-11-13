@@ -48,7 +48,7 @@
       %table.decisions-table
         %tr.headings
           %th Reference number
-          %th Date of decision
+          %th{:width => "23%"} Date of decision
         - @ftt_decisions.each do |decision, group = cycle('even', 'odd')|
           %tr.first{:class => group}
             %td
