@@ -47,13 +47,17 @@
           %tr.first{:class => group}
             %td
               = link_to link_label(decision), eat_decision_path(decision)
-              %p
-                Parties:
-                = display_parties(decision)
-              %p
-                Topic:
-                = display_categories(decision)
             %td.date= time_element(decision.hearing_date)
+          - if display_parties(decision)
+            %tr{:class => group + (search_present() ? '' : ' last')}
+              %td{:colspan => 2}
+                Parties:
+                %strong= "#{display_parties(decision)}"
+          - if display_categories(decision)
+            %tr{:class => group + (search_present() ? '' : ' last')}
+              %td{:colspan => 2}
+                Categories:
+                %strong= "#{display_categories(decision)}"
           - if search_present()
             %tr.last{:class => group}
               %td{:colspan => 4}
