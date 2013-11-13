@@ -52,7 +52,7 @@ moj.Modules.decisions = (function() {
   };
 
   resetFilters = function() {
-    $form.find( 'input[type=text], input.ui-autocomplete-input' ).val( '' );
+    $form.find( 'input[type=text], select' ).val( '' );
     $( '#search_reported_all' ).trigger( 'click' );
     $adv.show();
   };
