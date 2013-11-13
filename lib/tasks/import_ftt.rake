@@ -2,6 +2,70 @@ require 'ftt_importer'
 
 namespace :import do
   namespace :ftt do
+
+    def find_doc id
+      FttDecision.where("file_no_1 like :q or file_no_2 like :q or file_number like :q", q:"%#{id}%")
+    end
+
+    def sieve_files(dir, files, doc_type="doc_file")
+      file_type = doc_type.gsub('_', ' ')
+
+      puts "Looking at #{file_type}s"
+
+      if files.count > 0
+        files.each do |file|
+          word_file_name = file.split('/').last
+          file_name = word_file_name.split('.').first
+          puts "  file found: #{file_name}"
+          result = find_doc "#{file_name}"
+
+          if result.count == 1
+            puts "  Decision: #{result.first.id} matches with #{file_name} !"
+            if result.first.send("#{doc_type}").blank?
+              puts "  OK: #{result.first.id} doesn't have a #{file_type}"
+            else
+              puts "  WARRNING: #{result.first.id} already has a doc file"
+            end
+
+          elsif result.count > 1
+            puts "Match found for #{dir}/#{file_name}, but there are multiple decisions matching"
+            puts "Multiple IDs: #{result.map(&:id)}"
+          elsif result.count == 0
+            puts "  #{file_name} unmatched"
+          end
+        end
+      else
+        puts "  no #{file_type}s found"
+      end
+    end
+
+    desc "match docs with judgments - expect DOCS env var with the documents"
+    task :docs2judgments => :environment do
+      abort "DOCS env var required, exiting..." if ENV['DOCS'].blank?
+      Dir.chdir("#{ENV['DOCS']}") do
+        Dir.glob("[^j]*").each do |dir|
+          Dir.chdir dir do
+            puts '>' * 80
+
+            puts "for dir: #{dir}"
+            wordfiles = Dir.glob("*doc")
+            pdfs = Dir.glob("*pdf")
+
+            if wordfiles.count > 0
+              sieve_files(dir, wordfiles, doc_type="doc_file")
+              sieve_files(dir, pdfs, doc_type="pdf_file")
+            elsif (wordfiles.count == 0) && (pdfs.count > 0)
+              sieve_files(dir, pdfs, doc_type="pdf_file")
+            else
+              puts "EEEEK: no files found in #{dir}"
+            end
+
+            puts '<' * 80
+          end
+        end
+      end
+    end
+
     desc "run all the tasks for the import:eat namespace"
     task :all => [:judgments, :categories, :subcategories, :assign_subcategories_to_decisions, :judges, :judges_judgments_mapping]
 
