@@ -32,13 +32,17 @@ class FttDecision < ActiveRecord::Base
     end
   end
 
+  def add_single_doc path
+    DocProcessor.add_doc_file(self, File.open(path))
+  end
+
   def process_doc
     DocProcessor.process_doc_file(self, doc_file) if doc_file.present?
   end
 
   def set_html_from_text(cache={})
     if self.text
-      self.html = self.text.gsub(/\n/, '<br/>')  
+      self.html = self.text.gsub(/\n/, '<br/>')
       #TODO: check if citation pattern for FTT has same formatting requirement as IAT
     end
   end
