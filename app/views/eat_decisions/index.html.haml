@@ -56,12 +56,12 @@
             %tr{:class => group + (search_present() ? '' : ' last')}
               %td{:colspan => 2}
                 Parties:
-                %strong= "#{display_parties(decision)}"
+                %strong= display_parties(decision)
           - if display_categories(decision)
             %tr{:class => group + (search_present() ? '' : ' last')}
               %td{:colspan => 2}
                 Categories:
-                %strong= "#{display_categories(decision)}"
+                %strong= display_categories(decision)
           - if search_present()
             %tr.last{:class => group}
               %td{:colspan => 4}
