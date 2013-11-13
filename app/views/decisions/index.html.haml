@@ -9,11 +9,6 @@
   = will_paginate @decisions
 
 .main.cf
-  .sort-filter
-    Sort by
-    %select
-      %option{:value => "date_added"} Date added
-      %option{:value => "date_of_decision"} Date of decision
   .col-narrow
     = form_tag decisions_path, :method => :get, :class => 'search_form' do
       %fieldset
