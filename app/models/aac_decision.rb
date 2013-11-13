@@ -95,15 +95,15 @@ class AacDecision < ActiveRecord::Base
   end
 
   def subcategory_names
-    aac_subcategories.pluck(:name)
+    aac_subcategories.pluck(:name).join(' ')
   end
 
   def category_names
-    aac_subcategories.map(&:aac_category).map(&:name)
+    aac_subcategories.map(&:aac_category).map(&:name).join(' ')
   end
 
   def judge_names
-    judges.pluck(:name)
+    judges.pluck(:name).join(' ')
   end
 
   def update_search_text
