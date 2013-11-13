@@ -53,17 +53,12 @@
             %tr{:class => group + (search_present() ? '' : ' last')}
               %td{:colspan => 2}
                 Parties:
-                %strong= "#{display_parties(decision)}"
-          - if category_name(decision)
+                %strong= display_parties(decision)
+          - if display_categories(decision)
             %tr{:class => group + (search_present() ? '' : ' last')}
               %td{:colspan => 2}
-                Category:
-                %strong= "#{category_name(decision)}"
-          - if subcategory_name(decision)
-            %tr{:class => group + (search_present() ? '' : ' last')}
-              %td{:colspan => 2}
-                Sub-category:
-                %strong= "#{subcategory_name(decision)}"
+                Categories:
+                %strong= display_categories(decision)
           - if search_present()
             %tr.last{:class => group}
               %td{:colspan => 2}
