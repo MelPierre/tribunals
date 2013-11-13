@@ -1,4 +1,6 @@
 class AacDecision < ActiveRecord::Base
+  before_save :update_search_text
+
   has_many :aac_subcategories_decisions
   has_many :aac_subcategories, through: :aac_subcategories_decisions
   has_many :aac_judgements
@@ -13,33 +15,14 @@ class AacDecision < ActiveRecord::Base
   end
 
   def self.filtered(filter_hash)
-    search(filter_hash[:query]).by_judge(filter_hash[:judge]).by_category(filter_hash[:category]).by_subcategory(filter_hash[:subcategory])
+    by_judge(filter_hash[:judge]).by_category(filter_hash[:category]).by_subcategory(filter_hash[:subcategory]).search(filter_hash[:query])
   end
 
   def self.search(query)
     if query.present?
       quoted_query = self.connection.quote(query)
-      all_combined_fields = "coalesce(ncn::text, '') || ' ' || 
-            coalesce(ncn_year::text, '') || ' ' ||
-            coalesce(ncn_code1::text, '') || ' ' ||
-            coalesce(ncn_citation::text, '') || ' ' ||
-            coalesce(ncn_code2::text, '') || ' ' ||
-            coalesce(file_number::text, '') || ' ' || 
-            coalesce(file_no_1::text, '') || ' ' || 
-            coalesce(file_no_2::text, '') || ' ' || 
-            coalesce(file_no_3::text, '') || ' ' || 
-            coalesce(reported_number::text, '') || ' ' || 
-            coalesce(claimant::text, '') || ' ' || 
-            coalesce(respondent::text, '') || ' ' || 
-            coalesce(keywords::text, '') || ' ' || 
-            coalesce(notes::text, '') || ' ' || 
-            coalesce(text::text, '')"
-
-      joins(:judges)
-      .where("to_tsvector('english', judges.name) @@ plainto_tsquery('english', :q::text) or 
-            to_tsvector('english', #{all_combined_fields}) @@ plainto_tsquery('english', :q::text)", q:query)
-      .order("judges.name ~* #{quoted_query} DESC, 
-              #{all_combined_fields} ~* #{quoted_query} DESC")
+      where("to_tsvector('english', search_text::text) @@ plainto_tsquery('english', :q::text)", q:query)
+      .order("search_text ~* #{quoted_query} DESC")
     else
       where("")
     end
@@ -110,4 +93,24 @@ class AacDecision < ActiveRecord::Base
       #TODO: check if citation pattern for AAC has same formatting requirement as IAT
     end
   end
+
+  def subcategory_names
+    aac_subcategories.pluck(:name)
+  end
+
+  def category_names
+    aac_subcategories.map(&:aac_category).map(&:name)
+  end
+
+  def judge_names
+    judges.pluck(:name)
+  end
+
+  def update_search_text
+    self.search_text = [subcategory_names, category_names, judge_names, ncn, ncn_year, ncn_code1, ncn_citation, ncn_code2, file_number, file_no_1, file_no_2, 
+                        file_no_3, reported_number, claimant, respondent, keywords, notes, text]
+                        .join(' ')
+
+  end
 end
+
