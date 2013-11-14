@@ -8,7 +8,7 @@ def munge_doc(decision, file_path)
   decision.process_doc
 end
 
-def doc_present?(decision, doc_type)
+def doc_absent?(decision, doc_type)
   decision.send("#{doc_type}").blank?
 end
 
@@ -46,7 +46,7 @@ def sieve_files(dir, files, doc_type="doc_file")
         decision = result.first
         puts "  Decision: #{decision.id} matches with #{file_name} !"
 
-        if doc_present?(decision, doc_type)
+        if doc_absent?(decision, doc_type)
           full_path = "#{ENV['DOCS']}/#{dir}/#{file_name}.#{file_type}"
           run_doc(decision, file_type, full_path)
         else
