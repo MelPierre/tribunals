@@ -1,6 +1,10 @@
 require 'doc_processor'
 
 class EatDecision < ActiveRecord::Base
+  include DecisionSearch
+
+  before_save :update_search_text
+
   has_many :eat_category_decisions
   has_many :eat_subcategories, through: :eat_category_decisions
 
@@ -9,6 +13,10 @@ class EatDecision < ActiveRecord::Base
 
   def self.ordered
     order("hearing_date DESC")
+  end
+
+  def self.filtered(filter_hash)
+    search(filter_hash[:query])
   end
 
   def add_doc
@@ -27,4 +35,22 @@ class EatDecision < ActiveRecord::Base
     end
   end
 
+  def subcategory_names
+    eat_subcategories.pluck(:name).join(' ')
+  end
+
+  def category_names
+    eat_subcategories.map(&:eat_category).map(&:name).join(' ')
+  end
+
+  def judge_names
+    eat_judges.pluck(:name).join(' ')
+  end
+
+  def update_search_text
+    self.search_text = [subcategory_names, category_names, judges, file_number, 
+                        claimant, respondent, keywords, notes, text]
+                        .join(' ')
+
+  end
 end
