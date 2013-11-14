@@ -1,6 +1,10 @@
 require 'doc_processor'
 
 class FttDecision < ActiveRecord::Base
+  include DecisionSearch
+
+  before_save :update_search_text
+
   has_many :ftt_subcategories_decisions
   has_many :ftt_subcategories, through: :ftt_subcategories_decisions
   has_many :ftt_judgments
@@ -15,15 +19,6 @@ class FttDecision < ActiveRecord::Base
 
   def self.filtered(filter_hash)
     search(filter_hash[:query])
-  end
-
-  def self.search(query)
-    if query.present?
-      quoted_query = self.connection.quote(query)
-      where("to_tsvector('english', text::text) @@ plainto_tsquery('english', ?::text)", query).order("text ~* #{quoted_query} DESC")
-    else
-      where("")
-    end
   end
 
   def add_doc
@@ -45,5 +40,24 @@ class FttDecision < ActiveRecord::Base
       self.html = self.text.gsub(/\n/, '<br/>')
       #TODO: check if citation pattern for FTT has same formatting requirement as IAT
     end
+  end
+
+  def subcategory_names
+    ftt_subcategories.pluck(:name).join(' ')
+  end
+
+  def category_names
+    ftt_subcategories.map(&:ftt_category).map(&:name).join(' ')
+  end
+
+  def judge_names
+    ftt_judges.pluck(:name).join(' ')
+  end
+
+  def update_search_text
+    self.search_text = [subcategory_names, category_names, judge_names, file_number, 
+                        claimant, respondent, notes, text]
+                        .join(' ')
+
   end
 end

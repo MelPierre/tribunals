@@ -43,10 +43,6 @@ class EatDecision < ActiveRecord::Base
     eat_subcategories.map(&:eat_category).map(&:name).join(' ')
   end
 
-  def judge_names
-    eat_judges.pluck(:name).join(' ')
-  end
-
   def update_search_text
     self.search_text = [subcategory_names, category_names, judges, file_number, 
                         claimant, respondent, keywords, notes, text]
