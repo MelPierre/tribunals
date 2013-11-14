@@ -7,8 +7,8 @@
 
 .pagination-row
   .page-entries
-    = page_entries_info @ftt_decisions
-  = will_paginate @ftt_decisions
+    = page_entries_info @decisions
+  = will_paginate @decisions
 
 .main.cf
   .sort-filter
@@ -45,32 +45,9 @@
           %button.button.primary.right{:type => "submit"} Refine search
   .col-wide
     .decisions
-      %table.decisions-table
-        %tr.headings
-          %th Reference number
-          %th{:width => "23%"} Date of decision
-        - @ftt_decisions.each do |decision, group = cycle('even', 'odd')|
-          %tr.first{:class => group}
-            %td
-              = link_to link_label(decision), ftt_decision_path(decision)
-            %td.date= time_element(decision.decision_date)
-          - if display_parties(decision)
-            %tr{:class => group + (search_present() ? '' : ' last')}
-              %td{:colspan => 2}
-                Parties:
-                %strong= display_parties(decision)
-          - if display_categories(decision)
-            %tr{:class => group + (search_present() ? '' : ' last')}
-              %td{:colspan => 2}
-                Categories:
-                %strong= display_categories(decision)
-          - if search_present()
-            %tr.last{:class => group}
-              %td{:colspan => 4}
-                %strong Search result:
-                = hilighted_search_result(params[:search][:query], decision.text)
+      = render "shared/decisions_table"
 
 .pagination-row.bottom
   .page-entries
-    = page_entries_info @ftt_decisions
-  = will_paginate @ftt_decisions
+    = page_entries_info @decisions
+  = will_paginate @decisions
