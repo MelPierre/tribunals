@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def hilighted_metadata_result(search_term, text, show_default = false)
-    search_regexp = /\b#{Regexp.escape(search_term)}\b/i
+    search_regexp = /#{Regexp.escape(search_term)}/i
 
     if text.nil? 
       nil
