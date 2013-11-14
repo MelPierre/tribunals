@@ -4,61 +4,63 @@
 moj.Modules.decisions = (function() {
   "use strict";
 
-  var init,
-      cacheEls,
-      bindEvents,
-      resetFilters,
-      searchToggle,
+  var $form,
       $fs,
-      $form,
       $adv,
-      resetBtns;
+      $resetBtns;
 
-  init = function() {
-
+  var init = function() {
     cacheEls();
     bindEvents();
-
   };
 
-  cacheEls = function() {
-    $form = $( '.search_form' ).eq( 0 );
-    $fs = $( '#advanced_search', $form ).eq( 0 );
-    resetBtns = $( 'button[type=reset]', $form );
-    $adv = $( '#search_reported_only', $form );
+  var cacheEls = function() {
+    $form = $('.search_form').eq(0);
+    $fs = $('#advanced_search');
+    $resetBtns = $('button[type=reset]', $form);
+    $adv = $('#search_reported_only', $form);
   };
 
-  bindEvents = function() {
-    $( 'input:radio', $fs ).on( 'change', searchToggle );
+  var bindEvents = function() {
+    $('input:radio', $fs).on('change', searchToggle);
 
-    $( 'select', $fs ).mojAutocomplete();
+    $($form).on('change', '.js-submit-onChange', submitForm);
 
-    $( resetBtns ).on( 'click', function ( e ) {
+    $('select', $fs).mojAutocomplete();
+
+    $($resetBtns).on('click', function (e) {
       e.preventDefault();
       resetFilters();
     });
 
-    $('.search_form').submit(function(e) {
-      ga('send', 'event', 'Search', 'Top', $('#search_query').val());
+    $form.submit(function (e) {
+      if(typeof ga != 'undefined')
+        ga('send', 'event', 'Search', 'Top', $('#search_query').val());
     });
 
-    $('a.pdf-file').click(function(e) {
-      ga('send', 'event', 'Download', 'PDF', $(this).attr('href'));
+    $('a.pdf-file').click(function (e) {
+      if(typeof ga != 'undefined')
+        ga('send', 'event', 'Download', 'PDF', $(this).attr('href'));
     });
 
-    $('a.doc-file').click(function(e) {
-      ga('send', 'event', 'Download', 'DOC', $(this).attr('href'));
+    $('a.doc-file').click(function (e) {
+      if(typeof ga != 'undefined')
+        ga('send', 'event', 'Download', 'DOC', $(this).attr('href'));
     });
   };
 
-  resetFilters = function() {
-    $form.find( 'input[type=text], select' ).val( '' );
-    $( '#search_reported_all' ).trigger( 'click' );
+  var resetFilters = function() {
+    $form.find('input[type=text], select').val('');
+    $('#search_reported_all').trigger('click');
     $adv.show();
   };
 
-  searchToggle = function() {
-    $adv.toggle( !$( '#search_reported_false' ).is( ':checked' ) );
+  var searchToggle = function() {
+    $adv.toggle(!$('#search_reported_false').is(':checked'));
+  };
+
+  var submitForm = function() {
+    $form.submit();
   };
 
   // public
