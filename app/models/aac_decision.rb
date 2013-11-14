@@ -15,7 +15,7 @@ class AacDecision < ActiveRecord::Base
   end
 
   def self.filtered(filter_hash)
-    by_judge(filter_hash[:judge]).by_category(filter_hash[:category]).by_subcategory(filter_hash[:subcategory]).search(filter_hash[:query])
+    by_judge(filter_hash[:judge]).by_category(filter_hash[:category]).by_subcategory(filter_hash[:subcategory]).by_party(filter_hash[:party]).search(filter_hash[:query])
   end
 
   def self.search(query)
@@ -48,6 +48,14 @@ class AacDecision < ActiveRecord::Base
     if category_name.present?
       #TODO: Refactor to avoid the find_by_name lookup
       joins(:aac_subcategories).where(aac_subcategories: {aac_category_id: AacCategory.find_by_name(category_name).id})
+    else
+      where("")
+    end
+  end
+
+  def self.by_party(party_name)
+    if party_name.present?
+      where("claimant ilike :q or respondent ilike :q ", q:"%#{party_name}%")
     else
       where("")
     end
