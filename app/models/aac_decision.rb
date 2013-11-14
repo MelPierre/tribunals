@@ -10,8 +10,8 @@ class AacDecision < ActiveRecord::Base
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
-  def self.ordered
-    order("created_datetime DESC")
+  def self.ordered(order_by = "created_datetime")
+    order("#{order_by} DESC")
   end
 
   def self.filtered(filter_hash)
