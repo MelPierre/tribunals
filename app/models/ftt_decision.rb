@@ -51,7 +51,7 @@ class FttDecision < ActiveRecord::Base
   end
 
   def judge_names
-    ftt_judges.pluck(:name).join(' ')
+    ftt_judges.pluck(:name).join(', ')
   end
 
   def update_search_text
