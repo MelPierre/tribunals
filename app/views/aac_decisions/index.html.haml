@@ -10,11 +10,6 @@
 
 = form_tag aac_decisions_path, :method => :get, :class => 'search_form' do
   .main.cf
-    .sort-filter
-      Sort by
-      %select{:id => "search_sort", :name => "search[sort]"}
-        %option{:value => "created_datetime", :selected => "selected"} Date added
-        %option{:value => "decision_date"} Date of decision
     .col-narrow
       %fieldset
         %h2
@@ -48,23 +43,39 @@
           - @aac_decisions.each do |decision, group = cycle('even', 'odd')|
             %tr.first{:class => group}
               %td
-                = link_to link_label(decision), aac_decision_path(decision)
+                - if search_present()
+                  = link_to(hilighted_metadata_result(params[:search][:query], link_label(decision), true), aac_decision_path(decision))
+                - else 
+                  = link_to(link_label(decision), aac_decision_path(decision))
               %td.date= time_element(decision.send(@order_by))
             - if display_parties(decision)
               %tr{:class => group + (search_present() ? '' : ' last')}
                 %td{:colspan => 2}
                   Parties:
-                  %strong= display_parties(decision)
+                  - if search_present()
+                    %strong= hilighted_metadata_result(params[:search][:query], display_parties(decision), true)
+                  - else
+                    %strong= display_parties(decision)
             - if display_categories(decision)
               %tr{:class => group + (search_present() ? '' : ' last')}
                 %td{:colspan => 2}
                   Categories:
-                  %strong= display_categories(decision)
+                  - if search_present()
+                    %strong= hilighted_metadata_result(params[:search][:query], display_categories(decision), true)
+                  - else
+                    %strong= display_categories(decision)
             - if search_present()
               %tr.last{:class => group}
                 %td{:colspan => 2}
-                  %strong Search result:
-                  = hilighted_search_result(params[:search][:query], decision.search_text)
+                  - if decision.judge_names && hilighted_metadata_result(params[:search][:query], decision.judge_names, false)
+                    %strong Search result:
+                    %br
+                    Judges: 
+                    = hilighted_metadata_result(params[:search][:query], decision.judge_names, false)
+                  - elsif hilighted_search_result(params[:search][:query], decision.text)            
+                    %strong Search result:
+                    %br
+                    = hilighted_search_result(params[:search][:query], decision.text)
 
 .pagination-row.bottom
   .page-entries
