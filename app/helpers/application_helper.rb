@@ -10,6 +10,20 @@ module ApplicationHelper
     end
   end
 
+  def hilighted_metadata_result(search_term, text, show_default = false)
+    search_regexp = /\b#{Regexp.escape(search_term)}\b/i
+
+    if text.nil? 
+      nil
+    else
+      if text =~ search_regexp
+        text.gsub(search_regexp, "<span class='result'>#{search_term}</span>").html_safe
+      else
+        show_default ? text : nil
+      end
+    end
+  end
+
   def page_title(prefix=nil)
     if prefix
       [prefix, 'Upper Tribunal (Immigration and Asylum Chamber) Decision Database'].join(' | ')
