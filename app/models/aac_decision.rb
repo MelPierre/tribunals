@@ -1,4 +1,6 @@
 class AacDecision < ActiveRecord::Base
+  include DecisionSearch
+
   before_save :update_search_text
 
   has_many :aac_subcategories_decisions
@@ -15,17 +17,9 @@ class AacDecision < ActiveRecord::Base
   end
 
   def self.filtered(filter_hash)
-    by_judge(filter_hash[:judge]).by_category(filter_hash[:category]).by_subcategory(filter_hash[:subcategory]).by_party(filter_hash[:party]).search(filter_hash[:query])
-  end
-
-  def self.search(query)
-    if query.present?
-      quoted_query = self.connection.quote(query)
-      where("to_tsvector('english', search_text::text) @@ plainto_tsquery('english', :q::text)", q:query)
-      .order("search_text ~* #{quoted_query} DESC")
-    else
-      where("")
-    end
+    by_judge(filter_hash[:judge]).by_category(filter_hash[:category])
+    .by_subcategory(filter_hash[:subcategory]).by_party(filter_hash[:party])
+    .search(filter_hash[:query])
   end
 
   def self.by_judge(judge_name)
