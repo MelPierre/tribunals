@@ -9,6 +9,7 @@ moj.Modules.decisions = (function() {
       bindEvents,
       resetFilters,
       searchToggle,
+      submitForm,
       $fs,
       $form,
       $adv,
@@ -23,13 +24,15 @@ moj.Modules.decisions = (function() {
 
   cacheEls = function() {
     $form = $( '.search_form' ).eq( 0 );
-    $fs = $( '#advanced_search', $form ).eq( 0 );
+    $fs = $( '#advanced_search' );
     resetBtns = $( 'button[type=reset]', $form );
     $adv = $( '#search_reported_only', $form );
   };
 
   bindEvents = function() {
     $( 'input:radio', $fs ).on( 'change', searchToggle );
+
+    $( $form ).on( 'change', '.js-submit-onChange', submitForm );
 
     $( 'select', $fs ).mojAutocomplete();
 
@@ -38,7 +41,8 @@ moj.Modules.decisions = (function() {
       resetFilters();
     });
 
-    $('.search_form').submit(function(e) {
+    $form.submit(function(e) {
+      // moj.log("submitting...");
       ga('send', 'event', 'Search', 'Top', $('#search_query').val());
     });
 
@@ -59,6 +63,10 @@ moj.Modules.decisions = (function() {
 
   searchToggle = function() {
     $adv.toggle( !$( '#search_reported_false' ).is( ':checked' ) );
+  };
+
+  submitForm = function() {
+    $form.submit();
   };
 
   // public
