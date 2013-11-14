@@ -4,11 +4,6 @@
     padding: 0 0 0.4em;
   }
 
-  label {
-    display: block;
-    clear: both;
-  }
-
   .status-filter {
     label {
       display: inline;
@@ -29,29 +24,36 @@
     margin-top: 15px;
     margin-bottom: 2px;
     font-weight: bold;
+
+    label {
+      display: block;
+      clear: both;
+    }
+  }
+
+  fieldset {
+    input[type="text"],
+    input[role="textbox"] {
+      width: 97%;
+      border: 1px solid #999;
+      font-size: 1.6rem;
+      font-weight: 300;
+      line-height: 1.25;
+      margin: 0;
+      min-width: 8em;
+      padding: 0.25em;
+    }
+
+    select {
+      width: 100%;
+      border: 1px solid #999;
+      padding: 4px;
+    }
   }
 
   .buttons {
     margin-top: 1em;
     margin-bottom: 1.2em;
-  }
-
-  input[type="text"],
-  input[role="textbox"] {
-    width: 97%;
-    border: 1px solid #999;
-    font-size: 1.6rem;
-    font-weight: 300;
-    line-height: 1.25;
-    margin: 0;
-    min-width: 8em;
-    padding: 0.25em;
-  }
-
-  select {
-    width: 300px;
-    border: 1px solid #999;
-    padding: 4px;
   }
 
   .help {
@@ -68,5 +70,16 @@
       margin-bottom: 0;
       font-size: 2.4rem;
     }
+  }
+}
+
+.sort-filter {
+  text-align: right;
+  padding: 0 0 0.8em;
+  margin: -0.45em 0 1em;
+  border-bottom: 1px solid #a1a1a1;
+
+  select {
+    margin: 0 0.5em;
   }
 }
