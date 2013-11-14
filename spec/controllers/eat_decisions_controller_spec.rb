@@ -37,7 +37,7 @@ describe EatDecisionsController do
 
       it "should have topic info" do
         get :index
-        topic_info = "Topics:\n<strong>Category / Subcategory, Category 2 / Subcategory 2</strong>"
+        topic_info = "Topics: \n<strong>Category / Subcategory, Category 2 / Subcategory 2</strong>"
         expect(response.body).to match /#{topic_info}/
       end
     end

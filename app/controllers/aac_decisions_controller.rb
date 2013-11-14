@@ -8,8 +8,10 @@ class AacDecisionsController < ApplicationController
     if params[:search].present?  
        @order_by = params[:search][:sort] || @order_by
     end
-    @aac_decisions = AacDecision.ordered(@order_by).paginate(:page => params[:page], :per_page => 30)
-    @aac_decisions = @aac_decisions.filtered(params[:search]) if params[:search].present?    
+    @date_column_title = (@order_by == 'created_datetime') ? 'Date added' : 'Date of decision'
+    @categories_title = 'Categories: '
+    @decisions = AacDecision.ordered(@order_by).paginate(:page => params[:page], :per_page => 30)
+    @decisions = @decisions.filtered(params[:search]) if params[:search].present?    
   end
 
   def show
