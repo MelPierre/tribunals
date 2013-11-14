@@ -5,7 +5,8 @@ class EatDecisionsController < ApplicationController
     set_cache_control(EatDecision.maximum(:updated_at))
     
     params[:search] ||= {}
-    @eat_decisions = EatDecision.all.ordered.paginate(:page => params[:page], :per_page => 30)
+    @eat_decisions = EatDecision.ordered.paginate(:page => params[:page], :per_page => 30)
+    @eat_decisions = @eat_decisions.filtered(params[:search]) if params[:search].present?        
   end
 
   def show
