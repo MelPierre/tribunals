@@ -8,14 +8,14 @@
     = page_entries_info @aac_decisions
   = will_paginate @aac_decisions
 
-.main.cf
-  .sort-filter
-    Sort by
-    %select
-      %option{:value => "date_added"} Date added
-      %option{:value => "date_of_decision"} Date of decision
-  .col-narrow
-    = form_tag aac_decisions_path, :method => :get, :class => 'search_form' do
+= form_tag aac_decisions_path, :method => :get, :class => 'search_form' do
+  .main.cf
+    .sort-filter
+      Sort by
+      %select{:id => "search_sort", :name => "search[sort]"}
+        %option{:value => "created_datetime", :selected => "selected"} Date added
+        %option{:value => "decision_date"} Date of decision
+    .col-narrow
       %fieldset
         %h2
           %label{:for => "search_query"} Enter your search terms
@@ -38,32 +38,33 @@
         .buttons.cf
           %button.button.secondary.left{:type => "reset"} Clear
           %button.button.primary.right{:type => "submit"} Refine search
-  .col-wide
-    .decisions
-      %table.decisions-table
-        %tr.headings
-          %th Reference number
-          %th{:width => "23%"} Date added
-        - @aac_decisions.each do |decision, group = cycle('even', 'odd')|
-          %tr.first{:class => group}
-            %td
-              = link_to link_label(decision), aac_decision_path(decision)
-            %td.date= time_element(decision.created_datetime)
-          - if display_parties(decision)
-            %tr{:class => group + (search_present() ? '' : ' last')}
-              %td{:colspan => 2}
-                Parties:
-                %strong= display_parties(decision)
-          - if display_categories(decision)
-            %tr{:class => group + (search_present() ? '' : ' last')}
-              %td{:colspan => 2}
-                Categories:
-                %strong= display_categories(decision)
-          - if search_present()
-            %tr.last{:class => group}
-              %td{:colspan => 2}
-                %strong Search result:
-                = hilighted_search_result(params[:search][:query], decision.search_text)
+    .col-wide
+      .decisions
+        %table.decisions-table
+          %tr.headings
+            %th Reference number
+            %th{:width => "23%"} 
+              = (@order_by == 'created_datetime') ? 'Date added' : 'Date of decision'
+          - @aac_decisions.each do |decision, group = cycle('even', 'odd')|
+            %tr.first{:class => group}
+              %td
+                = link_to link_label(decision), aac_decision_path(decision)
+              %td.date= time_element(decision.send(@order_by))
+            - if display_parties(decision)
+              %tr{:class => group + (search_present() ? '' : ' last')}
+                %td{:colspan => 2}
+                  Parties:
+                  %strong= display_parties(decision)
+            - if display_categories(decision)
+              %tr{:class => group + (search_present() ? '' : ' last')}
+                %td{:colspan => 2}
+                  Categories:
+                  %strong= display_categories(decision)
+            - if search_present()
+              %tr.last{:class => group}
+                %td{:colspan => 2}
+                  %strong Search result:
+                  = hilighted_search_result(params[:search][:query], decision.search_text)
 
 .pagination-row.bottom
   .page-entries
