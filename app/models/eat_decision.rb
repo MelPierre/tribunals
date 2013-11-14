@@ -15,8 +15,21 @@ class EatDecision < ActiveRecord::Base
     order("#{order_by} DESC")
   end
 
+  def self.judges_list
+    pluck(:judges).uniq.sort
+  end
+
   def self.filtered(filter_hash)
-    search(filter_hash[:query])
+    by_judge(filter_hash[:judge])
+    .search(filter_hash[:query])
+  end
+
+  def self.by_judge(judge_name)
+    if judge_name.present?
+      where("? = judges", judge_name)
+    else
+      where("")
+    end
   end
 
   def add_doc
@@ -41,6 +54,10 @@ class EatDecision < ActiveRecord::Base
 
   def category_names
     eat_subcategories.map(&:eat_category).map(&:name).join(' ')
+  end
+
+  def judge_names
+    judges
   end
 
   def update_search_text
