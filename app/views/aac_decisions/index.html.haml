@@ -11,8 +11,10 @@
 = form_tag aac_decisions_path, :method => :get, :class => 'search_form' do
   .main.cf
     .sort-filter
-      Sort by
-      = select :search, :sort, options_for_select([["Date added", "created_datetime"], ["Date of decision", "decision_date"]], params[:search][:sort])
+      %label{:for => "date-sort"} Sort by
+      = select :search, :sort, options_for_select([["Date added", "created_datetime"], ["Date of decision", "decision_date"]], params[:search][:sort]), {}, {:id => "date-sort", :class => "js-submit-onChange"}
+      %noscript
+        %button.button.primary{:type => "submit"} Sort
     .col-narrow
       %fieldset
         %h2
