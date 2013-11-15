@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe Decision do
 
+  describe "#friendly_id" do
+    let(:decision) { Decision.new }
+
+    it "should respond to #friendly_id" do
+      decision.should respond_to(:friendly_id)
+    end
+  end
+
   describe "search" do
     before(:each) do
       @decision1 = Decision.create!(decision_hash(text: "Some searchable text is here"))
