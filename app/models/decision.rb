@@ -182,6 +182,10 @@ class Decision < ActiveRecord::Base
     end
   end
 
+  def judge_names
+    judges.join(', ')
+  end
+
   def self.judges_list
     order('judge ASC').pluck("DISTINCT UNNEST(judges) AS judge")
   end

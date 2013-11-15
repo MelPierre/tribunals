@@ -64,7 +64,12 @@
           %th Country
         - @decisions.each do |decision, group = cycle('even', 'odd')|
           %tr.first{:class => group}
-            %td{class: decision.reported ? 'reported' : 'unreported' }= link_to decision.link_label, decision_path(decision)
+            %td{class: decision.reported ? 'reported' : 'unreported' }
+              - if search_present()
+                = link_to(hilighted_metadata_result(params[:search][:query], decision.link_label, true), decision)
+              - else
+                = link_to(decision.link_label, decision)
+
             %td
               - if reported_label(decision.reported?) == "Yes"
                 Reported
@@ -72,17 +77,33 @@
                 Unreported
             / %td hearingdate
             %td.date= time_element(decision.promulgated_on)
-            %td= decision.country
+            %td
+              - if search_present()
+                = link_to(hilighted_metadata_result(params[:search][:query], decision.country, true), decision)
+              - else
+                = link_to(decision.country, decision)
+
           - if decision.case_title
             %tr{:class => group + (search_present() ? '' : ' last')}
               %td{:colspan => 4}
                 Case title:
-                %strong= decision.case_title
+                - if search_present()
+                  %strong= hilighted_metadata_result(params[:search][:query], decision.case_title, true)
+                - else
+                  %strong= decision.case_title
+
           - if search_present()
             %tr.last{:class => group}
               %td{:colspan => 4}
-                %strong Search result:
-                = hilighted_search_result(params[:search][:query], decision.text)
+                - if decision.judge_names && hilighted_metadata_result(params[:search][:query], decision.judge_names, false)
+                  %strong Search result:
+                  %br
+                  Judges:
+                  = hilighted_metadata_result(params[:search][:query], decision.judge_names, false)
+                - elsif hilighted_search_result(params[:search][:query], decision.text)
+                  %strong Search result:
+                  %br
+                  = hilighted_search_result(params[:search][:query], decision.text)
 
 .pagination-row.bottom
   .page-entries

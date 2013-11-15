@@ -32,5 +32,4 @@ module DecisionsHelper
       super
     end
   end
-
 end

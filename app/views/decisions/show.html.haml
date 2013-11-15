@@ -45,7 +45,7 @@
               No
       %li
         %span.label Judges:
-        %span= judge_list(@decision.judges)
+        %span= @decision.judge_names
       - if @decision.categories.present?
         %li
           %span.label Categories:
