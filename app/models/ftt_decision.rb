@@ -18,7 +18,44 @@ class FttDecision < ActiveRecord::Base
   end
 
   def self.filtered(filter_hash)
-    search(filter_hash[:query])
+    by_judge(filter_hash[:judge])
+    .by_category(filter_hash[:category])
+    .by_subcategory(filter_hash[:subcategory])
+    .by_party(filter_hash[:party])
+    .search(filter_hash[:query])
+  end
+
+  def self.by_judge(judge_name)
+    if judge_name.present?
+      joins(:ftt_judges).where("? = ftt_judges.name", judge_name)
+    else
+      where("")
+    end
+  end
+
+  def self.by_subcategory(subcategory_name)
+    if subcategory_name.present?
+      joins(:ftt_subcategories).where(ftt_subcategories: {name: subcategory_name})
+    else
+      where("")
+    end
+  end
+
+  def self.by_category(category_name)
+    if category_name.present?
+      #TODO: Refactor to avoid the find_by_name lookup
+      joins(:ftt_subcategories).where(ftt_subcategories: {ftt_category_id: FttCategory.find_by_name(category_name).id})
+    else
+      where("")
+    end
+  end
+
+  def self.by_party(party_name)
+    if party_name.present?
+      where("claimant ilike :q or respondent ilike :q ", q:"%#{party_name}%")
+    else
+      where("")
+    end
   end
 
   def self.ordered(order_by = "created_datetime")

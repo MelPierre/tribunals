@@ -110,3 +110,11 @@ def eat_decision_hash(h={})
     decision_date: Date.today,
   }.merge(h)
 end
+
+def ftt_decision_hash(h={})
+  {
+    file_number: 'e18158',
+    doc_file: sample_doc_file,
+    decision_date: Date.today,
+  }.merge(h)
+end
