@@ -47,6 +47,54 @@ describe EatDecision do
     end
   end
 
+  describe "friendly ID" do
+    before(:each) { EatDecision.destroy_all }
+
+    let(:decision) { EatDecision.create!(eat_decision_hash) }
+
+    it "should respond to #friendly_id" do
+      decision.should respond_to(:friendly_id)
+    end
+
+    context "when the filename contains '/'" do
+      it "should replace them with '-'" do
+        decision.friendly_id.should eq 'eat-123-45'
+      end
+    end
+
+    context "when the filename contains ' & '" do
+      let(:decision) { EatDecision.create!(eat_decision_hash(filename: 'EAT1/2 & EAT3/4')) }
+
+      it "should substitute ' & ' to '_' in filename" do
+        decision.friendly_id.should eq 'eat1-2-eat3-4'
+      end
+    end
+
+    context "when the filename contains '& '" do
+      let(:decision) { EatDecision.create!(eat_decision_hash(filename: 'EAT1/2& EAT3/4')) }
+
+      it "should substitute '& ' to '_' in filename" do
+        decision.friendly_id.should eq 'eat1-2-eat3-4'
+      end
+    end
+
+    context "when the filename contains '& '" do
+      let(:decision) { EatDecision.create!(eat_decision_hash(filename: 'EAT1/2 &EAT3/4')) }
+
+      it "should substitute ' &' to '_' in filename" do
+        decision.friendly_id.should eq 'eat1-2-eat3-4'
+      end
+    end
+
+    context "when the filename contains '& '" do
+      let(:decision) { EatDecision.create!(eat_decision_hash(filename: 'EAT1/2 EAT3/4')) }
+
+      it "should substitute ' ' to '_' in filename" do
+        decision.friendly_id.should eq 'eat1-2-eat3-4'
+      end
+    end
+  end
+
   describe "with a .doc" do
     describe "process_doc" do
       before(:all) do
