@@ -1,7 +1,9 @@
 %header.page-header.group
   %h1
     %span Information
-    Administrative Appeals Chamber: decisions on appeals to the Upper Tribunal
+    Administrative appeals chamber:
+    %br
+    decisions on appeals to the Upper Tribunal
 
 .pagination-row
   .page-entries
@@ -23,10 +25,10 @@
           %h2 Refine your search
         %h3
           %label Name of judge
-        = select :search, :judge, options_for_select([[]] + Judge.list, params[:search][:judge]), {}, {:placeholder => "Cases that this judge heard"}
+        = select :search, :judge, options_for_select([[]] + Judge.list, params[:search][:judge]), {}, {:placeholder => "Show cases this judge heard only"}
         %h3
           %label Name of party
-        = text_field :search, :party, :value => params[:search][:party], :placeholder => "Show cases involving this person"
+        = text_field :search, :party, :value => params[:search][:party], :placeholder => "Show cases brought by this party"
         -# TODO: Make categories and subcategories lists dependent on each other
         %h3
           %label Category
