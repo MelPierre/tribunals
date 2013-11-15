@@ -3,6 +3,9 @@ require 'spec_helper'
 describe EatDecisionsController do
   render_views
 
+  let(:pdf_text) { "Download a PDF version of the decision" }
+  let(:doc_text) { "Download a Word document (.doc) version of the decision" }
+
   describe "GET 'index'" do
     before { @decision = EatDecision.create!(eat_decision_hash).reload }
 
@@ -83,13 +86,11 @@ describe EatDecisionsController do
         before { get :show, id: decision.id }
 
         it "should show pdf link" do
-          link_text = "Download a PDF version of the decision"
-          expect(response.body).to include link_text
+          expect(response.body).to include pdf_text
         end
 
         it "should not show doc link" do
-          link_text = "Download a Word document (.doc) version of the decision"
-          expect(response.body).to_not include link_text
+          expect(response.body).to_not include doc_text
         end
       end
     end
@@ -103,13 +104,11 @@ describe EatDecisionsController do
         before { get :show, id: decision.id }
 
         it "should show doc link" do
-          link_text = "Download a Word document (.doc) version of the decision"
-          expect(response.body).to include link_text
+          expect(response.body).to include doc_text
         end
 
         it "should not show pdf link" do
-          link_text = "Download a PDF version of the decision"
-          expect(response.body).to_not include link_text
+          expect(response.body).to_not include pdf_text
         end
       end
     end
@@ -123,13 +122,11 @@ describe EatDecisionsController do
         before { get :show, id: decision.id }
 
         it "should show doc link" do
-          link_text = "Download a Word document (.doc) version of the decision"
-          expect(response.body).to include link_text
+          expect(response.body).to include doc_text
         end
 
         it "should show pdf link" do
-          link_text = "Download a PDF version of the decision"
-          expect(response.body).to include link_text
+          expect(response.body).to include pdf_text
         end
       end
     end
