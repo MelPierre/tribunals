@@ -21,6 +21,10 @@ class FttDecision < ActiveRecord::Base
     search(filter_hash[:query])
   end
 
+  def self.ordered(order_by = "created_datetime")
+    order("#{order_by} DESC")
+  end
+
   def add_doc
     if doc = Dir.glob(File.join("#{Rails.root}/data/ftt/docs/j#{id}", "*.doc")).first
       DocProcessor.add_doc_file(self, File.open(doc))
@@ -55,7 +59,7 @@ class FttDecision < ActiveRecord::Base
   end
 
   def update_search_text
-    self.search_text = [subcategory_names, category_names, judge_names, file_number, 
+    self.search_text = [subcategory_names, category_names, judge_names, file_number,
                         claimant, respondent, notes, text]
                         .join(' ')
 
