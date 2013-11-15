@@ -1,6 +1,8 @@
 require 'ukit_utils'
 
 class Decision < ActiveRecord::Base
+  include DecisionSearch
+
   before_save :update_search_text
 
   mount_uploader :doc_file, DocFileUploader
@@ -46,17 +48,6 @@ class Decision < ActiveRecord::Base
     end
   end
 
-  def self.search(query)
-    if query.present?
-      quoted_query = self.connection.quote(query)
-      all_combined_fields = "coalesce(ncn::text, '') || ' ' || char_array_to_text(judges) || ' ' || char_array_to_text(categories) || ' ' || char_array_to_text(keywords) || ' ' || coalesce(appeal_number::text, '') || ' ' || coalesce(case_notes::text, '') || ' ' || coalesce(claimant::text, '') || ' ' || coalesce(country::text, '') || ' ' || coalesce(case_name::text, '') || ' ' || coalesce(text::text, '')"
-      where("to_tsvector('english', #{all_combined_fields}) @@ plainto_tsquery('english', :q::text)", q:query)
-      .order("#{all_combined_fields} ~* #{quoted_query} DESC")
-    else
-      where("")
-    end
-  end
- 
   [:country_guideline, :country].each do |field|
     class_eval <<-FILTERS
       def self.by_#{field}(field)
