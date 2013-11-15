@@ -35,10 +35,7 @@
         %span.label Notes
         %span= @ftt_decision.notes
 
-  .download-links
-    %ul
-      %li= link_to "Download a PDF version of the decision", @ftt_decision.pdf_file.url, class: 'pdf-file' if @ftt_decision.pdf_file
-      %li= link_to "Download a Word document (.doc) version of the decision", @ftt_decision.doc_file.url, class: 'doc-file' if @ftt_decision.doc_file
+  = render "shared/doc_downloads", {:decision => @ftt_decision}
 
   - if @ftt_decision.html.blank?
     %h2 An HTML version of this decision is not currently available.

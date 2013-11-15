@@ -3,6 +3,9 @@ require 'spec_helper'
 describe EatDecisionsController do
   render_views
 
+  let(:pdf_text) { "Download a PDF version of the decision" }
+  let(:doc_text) { "Download a Word document (.doc) version of the decision" }
+
   describe "GET 'index'" do
     before { @decision = EatDecision.create!(eat_decision_hash).reload }
 
@@ -70,6 +73,60 @@ describe EatDecisionsController do
 
         it "caches the page conditionally" do
           controller.should_receive(:set_cache_control).with(decision.updated_at)
+        end
+      end
+    end
+
+    context "decision exists with only a pdf" do
+      let(:decision) do
+          EatDecision.create!(eat_decision_hash(pdf_file: sample_pdf_file, doc_file: nil)).reload
+      end
+
+      context "rendering" do
+        before { get :show, id: decision.id }
+
+        it "should show pdf link" do
+          expect(response.body).to include pdf_text
+        end
+
+        it "should not show doc link" do
+          expect(response.body).to_not include doc_text
+        end
+      end
+    end
+
+    context "decision exists with only a doc" do
+      let(:decision) do
+          EatDecision.create!(eat_decision_hash(doc_file: sample_doc_file, pdf_file: nil)).reload
+      end
+
+      context "rendering" do
+        before { get :show, id: decision.id }
+
+        it "should show doc link" do
+          expect(response.body).to include doc_text
+        end
+
+        it "should not show pdf link" do
+          expect(response.body).to_not include pdf_text
+        end
+      end
+    end
+
+    context "decision exists with a pdf and doc" do
+      let(:decision) do
+          EatDecision.create!(eat_decision_hash(pdf_file: sample_pdf_file, doc_file: sample_doc_file)).reload
+      end
+
+      context "rendering" do
+        before { get :show, id: decision.id }
+
+        it "should show doc link" do
+          expect(response.body).to include doc_text
+        end
+
+        it "should show pdf link" do
+          expect(response.body).to include pdf_text
         end
       end
     end
