@@ -1,7 +1,7 @@
 %header.page-header.group
   %h1
     %span Information
-    Employment Appeals: judgments on appeals to the Employment Appeal Tribunal
+    Employment appeals: judgments on appeals to the Employment Appeal Tribunal
 
 .pagination-row
   .page-entries
@@ -23,10 +23,10 @@
           %h2 Refine your search
         %h3
           %label Name of judge
-        = select :search, :judge, options_for_select([[]] + EatDecision.judges_list, params[:search][:judge]), {}, {:placeholder => "Cases that this judge heard"}
+        = select :search, :judge, options_for_select([[]] + EatDecision.judges_list, params[:search][:judge]), {}, {:placeholder => "Show cases this judge heard only"}
         %h3
           %label Name of party
-        = text_field :search, :party, :value => params[:search][:party], :placeholder => "Cases connected to this party"
+        = text_field :search, :party, :value => params[:search][:party], :placeholder => "Show cases brought by this party"
         -# TODO: Make categories and subcategories lists dependent on each other
         %h3
           %label Topic
@@ -40,7 +40,7 @@
     .col-wide
       .decisions
         = render "shared/decisions_table"
-    
+
 .pagination-row.bottom
   .page-entries
     = page_entries_info @decisions
