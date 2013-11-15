@@ -16,8 +16,8 @@ module ApplicationHelper
     if text.nil? 
       nil
     else
-      if text =~ search_regexp
-        text.gsub(search_regexp, "<span class='result'>#{search_term}</span>").html_safe
+      if match = text.match(search_regexp)
+        text.gsub(search_regexp, "<span class='result'>#{match[0]}</span>").html_safe
       else
         show_default ? text : nil
       end
