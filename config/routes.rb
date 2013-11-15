@@ -1,19 +1,19 @@
 Tribunals::Application.routes.draw do
   get '/utiac/decisions', to: 'decisions#index', as: :root
-  get '/aac/decisions', to: 'aac_decisions#index'
-  get '/eat/decisions', to: 'eat_decisions#index'
-  get '/tax/decisions', to: 'ftt_decisions#index'
+  get '/utaac', to: 'aac_decisions#index'
+  get '/employment', to: 'eat_decisions#index'
+  get '/tax', to: 'ftt_decisions#index'
 
   scope '/utiac' do
     resources :decisions
     get '/' => redirect('/utiac/decisions')
   end
 
-  scope '/aac' do
+  scope '/utaac' do
     resources :aac_decisions
   end
 
-  scope '/eat' do
+  scope '/employment' do
     resources :eat_decisions
   end
 
