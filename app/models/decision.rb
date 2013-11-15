@@ -1,6 +1,8 @@
 require 'ukit_utils'
 
 class Decision < ActiveRecord::Base
+  before_save :update_search_text
+
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
@@ -195,5 +197,11 @@ class Decision < ActiveRecord::Base
 
   def self.country_list
     order('country ASC').pluck("DISTINCT country")
+  end
+
+  def update_search_text
+    self.search_text = [ncn, judges, categories, keywords, appeal_number, case_notes,
+                        claimant, country, case_name, text]
+                        .join(' ')
   end
 end
