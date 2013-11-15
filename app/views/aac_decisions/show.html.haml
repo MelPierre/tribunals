@@ -37,12 +37,9 @@
       %li
         %span.label Notes:
         %span{:class => "notes"}= @aac_decision.notes
-  
-  .download-links
-    %ul
-      %li= link_to "Download a PDF version of the decision", @aac_decision.pdf_file.url, class: 'pdf-file'
-      %li= link_to "Download a Word document (.doc) version of the decision", @aac_decision.doc_file.url, class: 'doc-file'
-  
+
+  = render "shared/doc_downloads", {:decision => @aac_decision}
+
   - if @aac_decision.html.blank?
     %h2 An HTML version of this decision is not currently available.
   - else
