@@ -56,6 +56,13 @@ describe EatDecision do
       decision.should respond_to(:friendly_id)
     end
 
+    describe "finders" do
+      it "finds a decision by slug" do
+        decision = EatDecision.create!(eat_decision_hash(filename: 'EAT1/2 EAT3/4'))
+        EatDecision.find('eat1-2-eat3-4').should eq decision
+      end
+    end
+
     context "when the filename contains '/'" do
       it "should replace them with '-'" do
         decision.friendly_id.should eq 'eat-123-45'
