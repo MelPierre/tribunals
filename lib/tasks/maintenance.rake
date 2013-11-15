@@ -50,6 +50,16 @@ namespace :maintenance do
     end
   end
 
+  namespace :eat do
+    task :remove_judges_whitespace => :environment do
+      EatDecision.find_each do |d|
+        d.judges = d.judges.squish
+        #Turn off validation while saving because some records have data missing for required fields
+        d.save(validate: false)
+      end
+    end
+  end
+
   namespace :ftt do
     task :assign_file_numbers => :environment do
       FttDecision.find_each do |d|
