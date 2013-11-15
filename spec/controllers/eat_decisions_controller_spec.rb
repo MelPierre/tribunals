@@ -73,5 +73,65 @@ describe EatDecisionsController do
         end
       end
     end
+
+    context "decision exists with only a pdf" do
+      let(:decision) do
+          EatDecision.create!(eat_decision_hash(pdf_file: sample_pdf_file, doc_file: nil)).reload
+      end
+
+      context "rendering" do
+        before { get :show, id: decision.id }
+
+        it "should show pdf link" do
+          link_text = "Download a PDF version of the decision"
+          expect(response.body).to include link_text
+        end
+
+        it "should not show doc link" do
+          link_text = "Download a Word document (.doc) version of the decision"
+          expect(response.body).to_not include link_text
+        end
+      end
+    end
+
+    context "decision exists with only a doc" do
+      let(:decision) do
+          EatDecision.create!(eat_decision_hash(doc_file: sample_doc_file, pdf_file: nil)).reload
+      end
+
+      context "rendering" do
+        before { get :show, id: decision.id }
+
+        it "should show doc link" do
+          link_text = "Download a Word document (.doc) version of the decision"
+          expect(response.body).to include link_text
+        end
+
+        it "should not show pdf link" do
+          link_text = "Download a PDF version of the decision"
+          expect(response.body).to_not include link_text
+        end
+      end
+    end
+
+    context "decision exists with a pdf and doc" do
+      let(:decision) do
+          EatDecision.create!(eat_decision_hash(pdf_file: sample_pdf_file, doc_file: sample_doc_file)).reload
+      end
+
+      context "rendering" do
+        before { get :show, id: decision.id }
+
+        it "should show doc link" do
+          link_text = "Download a Word document (.doc) version of the decision"
+          expect(response.body).to include link_text
+        end
+
+        it "should show pdf link" do
+          link_text = "Download a PDF version of the decision"
+          expect(response.body).to include link_text
+        end
+      end
+    end
   end
 end

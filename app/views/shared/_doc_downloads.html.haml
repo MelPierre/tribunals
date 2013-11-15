@@ -1,9 +1,9 @@
 - if decision.pdf_file? || decision.doc_file?
   .download-links
     %ul
-      -if decision.pdf_file.url
-        %li= link_to "Download a PDF version of the decision", decision.pdf_file.url, class: 'pdf-file' if decision.pdf_file
-      -if decision.doc_file.url
-        %li= link_to "Download a Word document (.doc) version of the decision", decision.doc_file.url, class: 'doc-file' if decision.doc_file
+      - if decision.pdf_file?
+        %li= link_to "Download a PDF version of the decision", decision.pdf_file.url, class: 'pdf-file'
+      - if decision.doc_file?
+        %li= link_to "Download a Word document (.doc) version of the decision", decision.doc_file.url, class: 'doc-file'
 - else
   %h2 Documents for this decision are not currently available.
