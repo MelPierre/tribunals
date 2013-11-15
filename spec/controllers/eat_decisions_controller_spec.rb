@@ -20,7 +20,7 @@ describe EatDecisionsController do
     end
 
     context "parties information" do
-      before { EatDecision.create!(claimant: "One", respondent: "Two") }
+      before { EatDecision.create!(eat_decision_hash.merge!(claimant: "One", respondent: "Two")) }
 
       it "should have parties info" do
         get :index

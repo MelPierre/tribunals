@@ -8,6 +8,13 @@ class EatDecision < ActiveRecord::Base
   has_many :eat_category_decisions
   has_many :eat_subcategories, through: :eat_category_decisions
 
+  extend FriendlyId
+  friendly_id :based_off_filename, use: [:slugged, :finders]
+
+  def based_off_filename
+    filename.gsub(/\.(doc|pdf)/, '')
+  end
+
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
@@ -89,7 +96,7 @@ class EatDecision < ActiveRecord::Base
   end
 
   def update_search_text
-    self.search_text = [subcategory_names, category_names, judges, file_number, 
+    self.search_text = [subcategory_names, category_names, judges, file_number,
                         claimant, respondent, keywords, notes, text]
                         .join(' ')
 
