@@ -1,0 +1,5 @@
+.sort-filter
+  %label{:for => "date-sort"} Sort by
+  = select :search, :sort, options_for_select(@sort_options, params[:search][:sort]), {}, {:id => "date-sort", :class => "js-submit-onChange"}
+  %noscript
+    %button.button.primary{:type => "submit"} Sort

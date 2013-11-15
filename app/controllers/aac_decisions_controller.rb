@@ -4,6 +4,7 @@ class AacDecisionsController < ApplicationController
   def index
     set_cache_control(AacDecision.maximum(:updated_at))
     @order_by = 'created_datetime'
+    @sort_options = [["Date added", "created_datetime"], ["Date of decision", "decision_date"]]
     params[:search] ||= {}
     if params[:search].present?  
        @order_by = params[:search][:sort] || @order_by

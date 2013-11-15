@@ -10,14 +10,10 @@
     = page_entries_info @decisions
   = will_paginate @decisions
 
-.main.cf
-  .sort-filter
-    Sort by
-    %select
-      %option{:value => "date_added"} Date added
-      %option{:value => "date_of_decision"} Date of decision
-  .col-narrow
-    = form_tag ftt_decisions_path, :method => :get, :class => 'search_form' do
+= form_tag ftt_decisions_path, :method => :get, :class => 'search_form' do
+  .main.cf
+    = render "shared/sort_filter"
+    .col-narrow
       %fieldset
         %h2
           %label{:for => "search_query"} Enter your search terms
@@ -43,9 +39,9 @@
         .buttons.cf
           %button.button.secondary.left{:type => "reset"} Clear
           %button.button.primary.right{:type => "submit"} Refine search
-  .col-wide
-    .decisions
-      = render "shared/decisions_table"
+    .col-wide
+      .decisions
+        = render "shared/decisions_table"
 
 .pagination-row.bottom
   .page-entries
