@@ -11,8 +11,8 @@ class EatDecision < ActiveRecord::Base
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
-  def self.ordered
-    order("hearing_date DESC")
+  def self.ordered(order_by = "hearing_date")
+    order("#{order_by} DESC")
   end
 
   def self.filtered(filter_hash)
