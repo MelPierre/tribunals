@@ -75,4 +75,22 @@ describe FttDecision do
       end
     end
   end
+
+
+  describe "friendly ID" do
+    before(:each) { FttDecision.destroy_all }
+
+    let(:decision) { FttDecision.create!(ftt_decision_hash) }
+
+    it "should respond to #friendly_id" do
+      decision.should respond_to(:friendly_id)
+    end
+
+    describe "finders" do
+      it "finds a decision by slug" do
+        decision = FttDecision.create!(ftt_decision_hash(file_number: 'TC02896'))
+        FttDecision.find('tc02896').should eq decision
+      end
+    end
+  end
 end
