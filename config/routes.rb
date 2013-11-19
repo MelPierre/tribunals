@@ -1,7 +1,6 @@
 Tribunals::Application.routes.draw do
   get '/utiac/decisions', to: 'decisions#index', as: :root
   get '/utaac', to: 'aac_decisions#index'
-  get '/employment', to: 'eat_decisions#index'
   get '/tax', to: 'ftt_decisions#index'
 
   scope '/utiac' do
@@ -13,7 +12,7 @@ Tribunals::Application.routes.draw do
     resources :aac_decisions
   end
 
-  scope '/employment' do
+  scope '/eat' do
     get '/', to: 'eat_decisions#index', as: :eat_decisions
     get ':id', to: 'eat_decisions#show', as: :eat_decision
   end
