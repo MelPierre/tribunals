@@ -5,11 +5,11 @@ describe FttDecision do
     before(:each) do
       @decision1 = FttDecision.create!(ftt_decision_hash(text: "Some searchable text is here"))
       @decision2 = FttDecision.create!(ftt_decision_hash(text: "Some other beautiful searchable text is here gerald"))
-      @decision3 = FttDecision.create!(eat_decision_hash(claimant: "gerald", text:"Some beautiful decision made long ago"))
+      @decision3 = FttDecision.create!(ftt_decision_hash(claimant: "gerald", text:"Some beautiful decision made long ago"))
       @decision3.ftt_judges.create!(name: "Blake")
       adc = FttCategory.create!(name: "Benefits for children")
       adsc = FttSubcategory.create!(name: "Children's Income", ftt_category_id: adc.id)
-      
+
       @decision4 = FttDecision.create!(ftt_decision_hash(claimant: 'Green'))
       @decision4.ftt_subcategories << adsc
       @decision4.save!
@@ -45,7 +45,7 @@ describe FttDecision do
 
     it "should filter on search text and subcategory" do
       FttDecision.filtered(:query => "[2013] UKUT 456", :subcategory => "Children's Income").should == [@decision5]
-    end    
+    end
   end
 
   describe "with a .doc" do
