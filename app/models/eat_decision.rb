@@ -9,10 +9,16 @@ class EatDecision < ActiveRecord::Base
   has_many :eat_subcategories, through: :eat_category_decisions
 
   extend FriendlyId
-  friendly_id :based_off_filename, use: [:slugged, :finders]
+  friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  def based_off_filename
-    filename.gsub(/\.(doc|pdf)/, '')
+  def slug_candidates
+    if !filename.blank?
+      filename.gsub(/\.(doc|pdf)/, '')
+    elsif !file_number.blank?
+      file_number
+    else
+      "decision-#{id}"
+    end
   end
 
   mount_uploader :doc_file, DocFileUploader

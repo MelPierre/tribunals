@@ -8,7 +8,7 @@ describe EatDecision do
       @decision3 = EatDecision.create!(eat_decision_hash(claimant: "gerald", text:"Some beautiful decision made long ago", judges: "Blake"))
       adc = EatCategory.create!(name: "Benefits for children")
       adsc = EatSubcategory.create!(name: "Children's Income", eat_category_id: adc.id)
-      
+
       @decision4 = EatDecision.create!(eat_decision_hash(claimant: 'Green'))
       @decision4.eat_subcategories << adsc
       @decision4.save!
@@ -60,6 +60,22 @@ describe EatDecision do
       it "finds a decision by slug" do
         decision = EatDecision.create!(eat_decision_hash(filename: 'EAT1/2 EAT3/4'))
         EatDecision.find('eat1-2-eat3-4').should eq decision
+      end
+    end
+
+    context "when the filename is missing" do
+      it "should create a friendly_id based on the file_number" do
+        decision = EatDecision.create!(eat_decision_hash(filename: ''))
+        decision.friendly_id.should eq 'v18158'
+      end
+
+      context "when the file_number is missing also" do
+        let(:decision) { EatDecision.create!(eat_decision_hash(filename: '', file_number: '')) }
+
+        it "should create unique friendly_id" do
+          decision = EatDecision.create!(eat_decision_hash(filename: '', file_number: ''))
+          decision.friendly_id.should_not be nil
+        end
       end
     end
 
