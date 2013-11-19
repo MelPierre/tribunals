@@ -17,8 +17,9 @@ Tribunals::Application.routes.draw do
     get ':id', to: 'eat_decisions#show', as: :eat_decision
   end
 
-  scope '/tax' do
-    resources :ftt_decisions
+  scope '/ftt-tax' do
+    get '/', to: 'ftt_decisions#index', as: :ftt_decisions
+    get ':id', to: 'ftt_decisions#show', as: :ftt_decision
   end
 
   namespace :admin do
