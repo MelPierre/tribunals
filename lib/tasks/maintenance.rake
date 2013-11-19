@@ -48,6 +48,19 @@ namespace :maintenance do
         d.save!
       end
     end
+
+    task :assign_ncn => [:environment] do
+      AacDecision.find_each do |d|
+        puts "Assigning neutral citation number (ncn) for AacDecision id #{d.id}"
+        ncn = "[#{d.ncn_year}]" if d.ncn_year
+        ncn = "#{ncn} #{d.ncn_code1} #{d.ncn_citation}"
+        ncn = "#{ncn} (#{d.ncn_code2})" if d.ncn_code2
+        #d.ncn = "[#{d.ncn_year}] #{d.ncn_code1} #{d.ncn_citation} (#{d.ncn_code2})"
+        puts "NCN for AacDecision id #{d.id}: #{ncn}"
+        d.ncn = ncn
+        d.save!
+      end
+    end
   end
 
   namespace :eat do
