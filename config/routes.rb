@@ -14,7 +14,8 @@ Tribunals::Application.routes.draw do
   end
 
   scope '/employment' do
-    resources :eat_decisions
+    get '/', to: 'eat_decisions#index', as: :eat_decisions
+    get ':id', to: 'eat_decisions#show', as: :eat_decision
   end
 
   scope '/tax' do
