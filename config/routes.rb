@@ -9,7 +9,8 @@ Tribunals::Application.routes.draw do
   end
 
   scope '/utaac' do
-    resources :aac_decisions
+    get '/', to: 'aac_decisions#index', as: :aac_decisions
+    get ':id', to: 'aac_decisions#show', as: :aac_decision
   end
 
   scope '/eat' do

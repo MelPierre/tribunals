@@ -32,4 +32,14 @@ describe Tribunals::Application.routes do
       expect(get: "/ftt-tax/1").to route_to(controller: 'ftt_decisions', action: 'show', id: '1')
     end
   end
+
+  describe "AAC routes" do
+    it "should render AAC's index routes" do
+      expect(get: "/utaac").to route_to(controller: 'aac_decisions', action: 'index')
+    end
+
+    it "should render AAC's show routes" do
+      expect(get: "/utaac/1").to route_to(controller: 'aac_decisions', action: 'show', id: '1')
+    end
+  end
 end
