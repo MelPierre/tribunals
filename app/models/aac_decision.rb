@@ -9,6 +9,15 @@ class AacDecision < ActiveRecord::Base
   has_many :judges, through: :aac_judgements
   has_many :aac_import_errors
 
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  def slug_candidates
+    slug = "#{file_no_1}-#{file_no_2}-#{file_no_3}"
+    id if (file_no_1.blank? or file_no_2.blank? or file_no_3.blank?)
+    return slug
+  end
+
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
@@ -91,7 +100,7 @@ class AacDecision < ActiveRecord::Base
 
   def set_html_from_text(cache={})
     if self.text
-      self.html = self.text.gsub(/\n/, '<br/>')  
+      self.html = self.text.gsub(/\n/, '<br/>')
       #TODO: check if citation pattern for AAC has same formatting requirement as IAT
     end
   end
@@ -109,10 +118,9 @@ class AacDecision < ActiveRecord::Base
   end
 
   def update_search_text
-    self.search_text = [subcategory_names, category_names, judge_names, ncn, ncn_year, ncn_code1, ncn_citation, ncn_code2, file_number, file_no_1, file_no_2, 
+    self.search_text = [subcategory_names, category_names, judge_names, ncn, ncn_year, ncn_code1, ncn_citation, ncn_code2, file_number, file_no_1, file_no_2,
                         file_no_3, reported_number, claimant, respondent, keywords, notes, text]
                         .join(' ')
 
   end
 end
-
