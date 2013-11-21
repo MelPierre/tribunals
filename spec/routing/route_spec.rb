@@ -12,5 +12,34 @@ describe Tribunals::Application.routes do
     get '/utiac'
     response.should redirect_to(decisions_path)
   end
-end
 
+  describe "EAT routes" do
+    it "should render EAT's index routes" do
+      expect(get: "/eat").to route_to(controller: 'eat_decisions', action: 'index')
+    end
+
+    it "should render EAT's show routes" do
+      expect(get: "/eat/1").to route_to(controller: 'eat_decisions', action: 'show', id: '1')
+    end
+  end
+
+  describe "FTT routes" do
+    it "should render FTT's index routes" do
+      expect(get: "/ftt-tax").to route_to(controller: 'ftt_decisions', action: 'index')
+    end
+
+    it "should render FTT's show routes" do
+      expect(get: "/ftt-tax/1").to route_to(controller: 'ftt_decisions', action: 'show', id: '1')
+    end
+  end
+
+  describe "AAC routes" do
+    it "should render AAC's index routes" do
+      expect(get: "/utaac").to route_to(controller: 'aac_decisions', action: 'index')
+    end
+
+    it "should render AAC's show routes" do
+      expect(get: "/utaac/1").to route_to(controller: 'aac_decisions', action: 'show', id: '1')
+    end
+  end
+end
