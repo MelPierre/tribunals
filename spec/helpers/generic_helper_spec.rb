@@ -70,7 +70,7 @@ describe GenericHelper do
   describe "display_parties" do
 
     before(:all) do
-      @decision = EatDecision.create!(claimant: "Party1", respondent: "Party2")
+      @decision = EatDecision.create!(eat_decision_hash.merge!(claimant: "Party1", respondent: "Party2"))
     end
 
     it "should list the parties" do

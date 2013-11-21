@@ -10,6 +10,17 @@ class FttDecision < ActiveRecord::Base
   has_many :ftt_judgments
   has_many :ftt_judges, through: :ftt_judgments
 
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  def slug_candidates
+    if !file_number.blank?
+      file_number
+    else
+      "decision-#{id}"
+    end
+  end
+
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 

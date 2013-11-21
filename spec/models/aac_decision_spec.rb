@@ -9,7 +9,7 @@ describe AacDecision do
       @aac_decision3.judges.create!(name: "Blake")
       adc = AacCategory.create!(name: "Benefits for children")
       adsc = AacSubcategory.create!(name: "Children's Income", aac_category_id: adc.id)
-      
+
       @aac_decision4 = AacDecision.create!(aac_decision_hash(claimant: 'Green'))
       @aac_decision4.aac_subcategories << adsc
       @aac_decision4.save!
@@ -81,6 +81,56 @@ describe AacDecision do
       expect {
         @aac_decision.process_doc
       }.to change { @aac_decision.aac_import_errors.count }.by 1
+    end
+  end
+
+  describe "friendly ID" do
+    before(:each) { AacDecision.destroy_all }
+    files = { file_no_1: "AAC", file_no_2: "333", file_no_3: "2013" }
+    let(:decision) { AacDecision.create!(aac_decision_hash(files)) }
+
+    it "should respond to #friendly_id" do
+      decision.should respond_to(:friendly_id)
+    end
+
+    describe "finders" do
+      it "finds a decision by slug" do
+        files = { file_no_1: "ABC", file_no_2: "444", file_no_3: "2013" }
+        decision = AacDecision.create!(aac_decision_hash(files))
+        AacDecision.find('abc-444-2013').should eq decision
+      end
+
+      context "when the first file is missing" do
+        it "has an id without a leading hyphen" do
+          files = { file_no_1: "", file_no_2: "444", file_no_3: "2013" }
+          decision = AacDecision.create!(aac_decision_hash(files))
+          decision.id.to_s.should_not match(/^\-/)
+        end
+      end
+
+      context "when the second file is missing" do
+        it "should have an id without the double hyphen" do
+          files = { file_no_1: "ABC", file_no_2: "", file_no_3: "2013" }
+          decision = AacDecision.create!(aac_decision_hash(files))
+          decision.id.to_s.should_not match(/\-\-/)
+        end
+      end
+
+      context "when second the third file is missing" do
+        it "should have an id without the trailing hyphen" do
+          files = { file_no_1: "ABC", file_no_2: "", file_no_3: "2013" }
+          decision = AacDecision.create!(aac_decision_hash(files))
+          decision.id.to_s.should_not match(/-$/)
+        end
+      end
+
+      context "when all the files are missing" do
+        it "should still have an id" do
+          decision = AacDecision.create!(aac_decision_hash)
+          decision.id.should_not be_blank
+        end
+      end
+
     end
   end
 end
