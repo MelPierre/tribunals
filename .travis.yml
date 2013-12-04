@@ -5,9 +5,10 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libreoffice
 before_script:
-  - psql -c 'create database tribunals_test;' -U postgres
+  - psql -c 'create role tribunals login createdb;' -U postgres 
 services: postgres
 script:
+  - bundle exec rake db:create
   - bundle exec rake db:migrate
   - bundle exec rake spec
 notifications:
