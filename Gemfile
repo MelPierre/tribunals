@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
+source 'http://gems.dsd.io'
 
 gem 'nokogiri'
 
