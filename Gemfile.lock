@@ -25,7 +25,6 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/
   remote: http://gems.dsd.io/
   specs:
     actionmailer (4.0.2)
@@ -235,6 +234,6 @@ DEPENDENCIES
   unicorn
   warden-rspec-rails
   whenever
-  will_paginate (~> 3.0)
+  will_paginate
   wirb
   wirble

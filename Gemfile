@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 source 'http://gems.dsd.io'
 
 gem 'nokogiri'
@@ -8,7 +7,7 @@ gem 'rails'
 
 gem 'pg'
 gem 'carrierwave', :git => 'https://github.com/carrierwaveuploader/carrierwave.git', :branch => 'master'
-gem 'will_paginate', '~> 3.0'
+gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
 # For speeding up Postgres array parsing
