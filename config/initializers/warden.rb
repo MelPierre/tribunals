@@ -1,26 +1,26 @@
-PASSWORD_FILE = File.join(Rails.root, 'db/password.hash')
+# PASSWORD_FILE = File.join(Rails.root, 'db/password.hash')
 
-Rails.configuration.middleware.use RailsWarden::Manager do |manager|
-  manager.default_strategies :password
-  manager.failure_app = Admin::AuthenticationsController.action(:new)
-end
+# Rails.configuration.middleware.use RailsWarden::Manager do |manager|
+#   manager.default_strategies :password
+#   manager.failure_app = Admin::AuthenticationsController.action(:new)
+# end
 
-class Warden::SessionSerializer
-  def serialize(_)
-    ''
-  end
+# class Warden::SessionSerializer
+#   def serialize(_)
+#     ''
+#   end
 
-  def deserialize(_)
-    true
-  end
-end
+#   def deserialize(_)
+#     true
+#   end
+# end
 
-Warden::Strategies.add(:password) do
-  def valid?
-    params[:password]
-  end
+# Warden::Strategies.add(:password) do
+#   def valid?
+#     params[:password]
+#   end
 
-  def authenticate!
-    return BCrypt::Password.new(File.read(PASSWORD_FILE)) == params[:password] ? success!(true) : fail!
-  end
-end
+#   def authenticate!
+#     return BCrypt::Password.new(File.read(PASSWORD_FILE)) == params[:password] ? success!(true) : fail!
+#   end
+# end
