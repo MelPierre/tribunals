@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
+#source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 source 'http://gems.dsd.io'
 
 gem 'nokogiri'
 
-gem 'rails'
+gem 'rails', '4.0.3'
 
 gem 'pg'
-gem 'carrierwave', :git => 'https://github.com/carrierwaveuploader/carrierwave.git', :branch => 'master'
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
@@ -37,8 +38,8 @@ end
 gem 'unicorn'
 gem 'fog'
 gem 'rails_warden'
-gem 'bcrypt-ruby', :require => 'bcrypt'
-gem 'whenever', :require => false
+gem 'bcrypt-ruby', require: 'bcrypt'
+gem 'whenever', require: false
 gem 'haml-rails'
 gem 'html2haml'
 gem 'jquery-rails'
@@ -46,5 +47,5 @@ gem 'friendly_id', github: 'FriendlyId/friendly_id', branch: 'master'
 gem 'appsignal'
 
 # frontend gems
-gem 'govuk_frontend_toolkit'
-gem 'moj_frontend_toolkit_gem', git: 'https://github.com/ministryofjustice/moj_frontend_toolkit_gem.git', tag: 'v0.1.0'
+gem 'govuk_frontend_toolkit', github: 'alphagov/govuk_frontend_toolkit_gem', submodules: true
+gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.1.0'
