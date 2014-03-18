@@ -10,12 +10,14 @@ gem 'carrierwave', github: 'carrierwaveuploader/carrierwave', branch: 'master'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
+# Authentication
+gem 'devise'
+
 # For speeding up Postgres array parsing
 gem 'pg_array_parser'
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'warden-rspec-rails'
   gem 'byebug'
   gem 'database_cleaner'
   gem 'better_errors'
@@ -24,6 +26,10 @@ group :test, :development do
   gem 'hirb'
   gem 'wirble'
   gem 'wirb'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'headless'
+  gem 'timecop'
 end
 
 group :test do
@@ -36,7 +42,6 @@ end
 
 gem 'unicorn'
 gem 'fog'
-gem 'rails_warden'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'whenever', require: false
 gem 'haml-rails'
