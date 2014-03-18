@@ -12,6 +12,7 @@ gem 'bootstrap-will_paginate'
 
 # Authentication
 gem 'devise'
+gem 'devise_invitable'
 
 # For speeding up Postgres array parsing
 gem 'pg_array_parser'

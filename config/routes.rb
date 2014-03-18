@@ -1,5 +1,6 @@
 Tribunals::Application.routes.draw do
   devise_for :users
+  
   get '/utiac/decisions', to: 'decisions#index', as: :root
   get '/aac/decisions', to: 'aac_decisions#index'
   get '/eat/decisions', to: 'eat_decisions#index'
