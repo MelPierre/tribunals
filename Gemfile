@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-source 'http://gems.dsd.io'
+source 'http://gems.dsd.io' unless ENV['TRAVIS'] || ENV['HEROKU']
 
 gem 'nokogiri'
 
@@ -52,4 +52,4 @@ gem 'appsignal'
 
 # frontend gems
 gem 'govuk_frontend_toolkit', github: 'alphagov/govuk_frontend_toolkit_gem', submodules: true
-gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.1.0'
+gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.2.1'
