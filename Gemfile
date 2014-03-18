@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-source 'http://gems.dsd.io'
+source 'http://gems.dsd.io' unless ENV['TRAVIS'] || ENV['HEROKU']
 
 gem 'nokogiri'
 
