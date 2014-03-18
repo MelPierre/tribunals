@@ -24,6 +24,7 @@ pickle-email-*.html
 *~
 \#*
 db/password.hash
+.powrc
 
 .DS_Store
 public/assets
