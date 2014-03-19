@@ -1,0 +1,43 @@
+%header
+  %h1 Edit decision
+= form_for [:admin, @decision] do |form|
+  .row#case_title
+    %label Case title
+    %span
+  - if @decision.doc_file
+    .row
+      = link_to('doc file', @decision.doc_url, :class => 'doclink')
+  .row
+    = form.label :doc_file
+    = form.file_field :doc_file
+  .row
+    %span.label Tribunal
+    %span Upper Tribunal (Tax and Chancery Chamber)
+  .row
+    = form.label 'Judges:'
+    .wrapper
+      = form.text_field :judge_names
+  .row
+    = form.label 'Appellant name:'
+    = form.text_field :claimant
+  .row
+    = form.label 'Respondent name:'
+    = form.text_field :respondent
+  .row
+    = form.label 'Date of decision:'
+    = form.date_select :decision_date, start_year: 2003, end_year: Date.today.year + 1
+  .row
+    = form.label 'Date added:'
+    = form.date_select :created_datetime, start_year: 2003, end_year: Date.today.year + 1
+  .row
+    = form.label 'Date updated:'
+    = form.date_select :last_updatedtime, start_year: 2003, end_year: Date.today.year + 1
+  .row
+    = form.label 'Category:'
+    = form.text_field :last_updatedtime
+  .row
+    = form.label 'Notes:'
+    = form.text_area :notes
+  .row
+    = form.submit :class => 'button primary'
+    %a.button{:href => admin_decision_path(@decision)} Cancel

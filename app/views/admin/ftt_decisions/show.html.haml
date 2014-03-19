@@ -1,0 +1,50 @@
+#global-breadcrumb.header-context
+  %nav{:role => "navigation"}
+    %ol.group
+      %li
+        %a{:href => "/"} Home
+
+  = link_to('Edit this decision', edit_admin_ftt_decision_path(@decision), :class => 'button')
+  = link_to('Delete this decision', admin_ftt_decision_path(@decision), method: :delete, data: { confirm: "Are you sure you'd like to remove this decision from the system?" } , class: 'button button-warning')
+
+%div{:vocab => "http://schema.org", :typeof => "CreativeWork"}
+  %header.page-header.group
+    %h1= "Decision Number: #{display_file_number(@decision)}"
+    %ul.decision-details
+      %li
+        %span.label Tribunal
+        %span Upper Tribunal (Tax and Chancery Chamber)
+      %li
+        %span.label Judges:
+        %span= @decision.judge_names
+      %li
+        %span.label Appellant name:
+        %span= @decision.claimant
+      %li
+        %span.label Respondent name:
+        %span= @decision.respondent
+      %li
+        %span.label Date of decision:
+        %span= schema_time_element(@decision.decision_date)
+      %li
+        %span.label Date added:
+        %span= schema_time_element(@decision.created_datetime)
+      %li
+        %span.label Date updated:
+        %span= schema_time_element(@decision.last_updatedtime)
+      %li
+        %span.label Category:
+        %span= display_categories(@decision)
+      %li
+        %span.label Notes
+        %span= @decision.notes
+
+  = render "shared/doc_downloads", {:decision => @decision}
+
+  - if @decision.html.blank?
+    %h2 An HTML version of this decision is not currently available.
+  - else
+    .decision
+      %h2 The decision
+      .decision-inner
+        = @decision.html.html_safe
