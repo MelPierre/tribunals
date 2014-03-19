@@ -1,35 +1,21 @@
 Tribunals::Application.routes.draw do
-
   devise_for :users
-  
-  get '/utiac/decisions', to: 'decisions#index', as: :root
-  get '/aac/decisions', to: 'aac_decisions#index'
-  get '/eat/decisions', to: 'eat_decisions#index'
-  get '/tax/decisions', to: 'ftt_decisions#index'
 
-  scope '/utiac' do
-    resources :decisions
-    get '/', to: redirect('/utiac/decisions')
-  end
+  get '/', to: redirect('/utiac')
+  get '/utiac/decisions/:id', to:  redirect{|params, request| "/utiac/#{params[:id]}" }
+  get '/utiac/decisions', to:  redirect('/utiac')
 
-  scope '/aac' do
-    resources :aac_decisions
-  end
+  resources :decisions, path: 'utiac'
+  resources :aac_decisions, path: 'utaac'
+  resources :eat_decisions, path: 'eat'
+  resources :ftt_decisions, path: 'ftt-tax'
 
-  scope '/eat' do
-    resources :eat_decisions
-  end
-
-  scope '/tax' do
-    resources :ftt_decisions
-  end
-
+  # TODO: These redirect parts seem messy and maybe not the correct way to manage the requirement, need to review
   namespace :admin do
-    resources :decisions
-    root to: 'decisions#index'
+    #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
+    get '/', to: redirect('/admin/utiac')
+    resources :decisions, path: 'utiac'
   end
-
-  get '/', to: redirect('/utiac/decisions')
 
   resource :feedback
 end
