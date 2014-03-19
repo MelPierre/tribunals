@@ -9,8 +9,8 @@
 
     = render 'shared/header'
 
-    #wrapper.group{class: authenticated? ? 'admin' : 'beta'}
-      - if authenticated?
+    #wrapper.group{class: signed_in? ? 'admin' : 'beta'}
+      - if signed_in?
         .indicator.cf
           .left
             %p
@@ -22,7 +22,7 @@
               |
               = link_to 'Upload decision', new_admin_decision_path
               |
-              =link_to 'Log out', logout_admin_authentication_path
+              =link_to 'Log out', destroy_user_session_path, method: 'delete'
       - else
         = render 'shared/phase_indicator'
 
