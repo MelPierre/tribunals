@@ -14,6 +14,9 @@ gem 'bootstrap-will_paginate'
 gem 'devise'
 gem 'devise_invitable'
 
+# Forms
+gem 'simple_form'
+
 # For speeding up Postgres array parsing
 gem 'pg_array_parser'
 

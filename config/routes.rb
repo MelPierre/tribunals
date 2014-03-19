@@ -1,4 +1,5 @@
 Tribunals::Application.routes.draw do
+  
   devise_for :users
   
   get '/utiac/decisions', to: 'decisions#index', as: :root
@@ -8,7 +9,7 @@ Tribunals::Application.routes.draw do
 
   scope '/utiac' do
     resources :decisions
-    get '/' => redirect('/utiac/decisions')
+    get '/', to: redirect('/utiac/decisions')
   end
 
   scope '/aac' do
@@ -25,11 +26,10 @@ Tribunals::Application.routes.draw do
 
   namespace :admin do
     resources :decisions
-    resource :authentication do
-      get :logout
-    end
+    root to: 'decisions#index'
   end
-  get '/' => redirect('/utiac/decisions')
+
+  get '/', to: redirect('/utiac/decisions')
 
   resource :feedback
 end
