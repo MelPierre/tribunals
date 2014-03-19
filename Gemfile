@@ -37,6 +37,7 @@ group :test, :development do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'headless'
+  gem 'shoulda-matchers'
   gem 'timecop'
 end
 
