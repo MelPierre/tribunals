@@ -41,7 +41,6 @@ test:
   adapter: postgresql
   encoding: unicode
   host: localhost
-  username: tribunals
   database: tribunals_test
   pool: 5
 
