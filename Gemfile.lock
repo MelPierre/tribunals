@@ -196,6 +196,9 @@ GEM
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
     sexp_processor (4.2.1)
+    simple_form (3.0.1)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -263,6 +266,7 @@ DEPENDENCIES
   rake
   rspec-rails
   sass-rails
+  simple_form
   timecop
   unicorn
   whenever
