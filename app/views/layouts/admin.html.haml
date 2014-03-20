@@ -1,16 +1,16 @@
 !!!
 %html
   %head
-    = render "shared/head", :title => Rails.configuration.app_title
-    = stylesheet_link_tag "admin", :media => "all"
+    = render "shared/head", title: Rails.configuration.app_title
+    = stylesheet_link_tag 'admin', media: 'all'
     = csrf_meta_tags
 
   %body{:class => body_class()}
 
-    = render "shared/header"
+    = render 'shared/header'
 
-    #wrapper.group{:class => authenticated? ? 'admin' : 'beta'}
-      - if authenticated?
+    #wrapper.group{class: signed_in? ? 'admin' : 'beta'}
+      - if signed_in?
         .indicator.cf
           .left
             %p
@@ -22,14 +22,14 @@
               |
               = link_to 'Upload decision', new_admin_decision_path
               |
-              =link_to 'Log out', logout_admin_authentication_path
+              =link_to 'Log out', destroy_user_session_path, method: 'delete'
       - else
-        = render "shared/phase_indicator"
+        = render 'shared/phase_indicator'
 
-      %section#content.group{:role => "main"}
-        .full-width-group
+      %section#content.group{role: 'main'}
+        .browse-container.full-width.group
           = yield
 
-    = render "shared/footer"
+    = render 'shared/footer'
 
-    = render "shared/script"
+    = render 'shared/script'

@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    = render "shared/head", :title => Rails.configuration.app_title
+    = render "shared/head", title: Rails.configuration.app_title
     = render "shared/ga"
 
   %body{:class => body_class()}
@@ -11,8 +11,8 @@
 
     #wrapper.group.information
       = render "shared/phase_indicator"
-      %section#content.group{:role => "main"}
-        .full-width-group
+      %section#content.group{ role: 'main'}
+        .browse-container.full-width.group
           = yield
 
     = render "shared/footer"
