@@ -1,6 +1,7 @@
 class Admin::DecisionsController < ::DecisionsController
   layout 'layouts/admin'
-  before_filter :authenticate!
+  before_filter :authenticate_user!
+  
   protect_from_forgery
 
   def create
