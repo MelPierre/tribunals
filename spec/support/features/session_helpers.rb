@@ -8,10 +8,10 @@ module Features
       password ||= password || 'password123'
       user ||= create(:user, password: password)
 
-      within '#new_user' do
-        fill_in 'Email', with: user.email
-        fill_in 'Password', with: password
-      end
+      fill_in 'Email', with: user.email
+      fill_in 'Password', with: password
+
+      save_and_open_page
 
       click_button 'Sign in'
     end
