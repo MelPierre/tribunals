@@ -5,8 +5,7 @@ class User < ActiveRecord::Base
 
   def has_tribunal?(code)
     code = code.to_s if code.is_a?(Symbol)
-    return true if tribunals.any?{|trib| trib.code == code }
-    false
+    tribunals.any?{|trib| trib.code == code }
   end
 
 end
