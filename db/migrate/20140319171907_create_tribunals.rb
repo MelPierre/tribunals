@@ -14,11 +14,5 @@ class CreateTribunals < ActiveRecord::Migration
     end
 
     add_index :tribunals_users, [:user_id, :tribunal_id]
-
-    Tribunal.create([
-      {name:'Immigration and Aslyum Chamber' , code:'utiac'},
-      {name:'First Tier Tribunal ' , code:'ftt' },
-      {name:'Administrative Appeals Chamber' , code:'aac'}
-    ])
   end
 end
