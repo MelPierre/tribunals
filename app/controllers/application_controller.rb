@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Concerns::Authentication
+  
   def enable_varnish
     headers['X-Varnish-Enable'] = '1'
   end

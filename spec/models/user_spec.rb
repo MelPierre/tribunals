@@ -12,7 +12,7 @@ describe User do
     end
 
     it 'should not return deleted users' do
-      user.update_attribute(:delete_at, Time.now)
+      user.update_attribute(:deleted_at, Time.now)
       User.all.should eq([])
     end
   end
