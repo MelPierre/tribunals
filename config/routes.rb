@@ -15,6 +15,7 @@ Tribunals::Application.routes.draw do
     #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
     get '/', to: redirect('/admin/utiac')
     resources :decisions, path: 'utiac'
+    resources :eat_decisions, path: 'eat'
   end
 
   resource :feedback
