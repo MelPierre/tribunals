@@ -8,7 +8,7 @@ describe User do
   describe '#save' do
 
     it 'should call assign_primary_tribunal' do
-      user = create(:user)
+      user = build(:user)
       expect(user).to receive(:assign_primary_tribunal)
       user.save
     end
@@ -26,27 +26,28 @@ describe User do
     it 'assigns the first tribunal if one is not assigned' do
       tribunal = create(:tribunal)
       user.tribunals << tribunal
+
       user.send(:assign_primary_tribunal)
       user.primary_tribunal.should eq(tribunal)
     end
 
     it 'it retains the existing tribunal if one is assigned' do
-      primary_tribunal = create(:tribunal)
-      tribunal = create(:tribunal)
+      primary_tribunal = build(:tribunal)
       
-      user.tribunals << tribunal
+      user.tribunals << build(:tribunal)
       user.primary_tribunal = primary_tribunal
+
       user.send(:assign_primary_tribunal)
       user.primary_tribunal.should eq(primary_tribunal)
     end
   end
 
   describe '#has_tribunal?' do
-    let(:user) { create(:user) }
+    let(:user) { build(:user) }
 
     context 'with aac in tribunals' do
       before do
-        user.tribunals << create(:tribunal, code: 'aac')
+        user.tribunals << build(:tribunal, code: 'aac')
       end
 
       it 'returns true when passed aac' do
@@ -69,22 +70,16 @@ describe User do
 
     context 'with aac as primary tribunal' do
       before do
-        user.primary_tribunal = create(:tribunal, code: 'aac')
+        user.primary_tribunal = build(:tribunal, code: 'aac')
       end
 
-      it 'returns true when passed aac' do
+      it 'returns true when passed aac as string or symbol' do
         user.has_tribunal?('aac').should be_true
-      end
-
-      it 'returns true when passed :aac' do
         user.has_tribunal?(:aac).should be_true
       end
 
-      it 'returns false when passed ftt' do
+      it 'returns false when passed ftt as string or symbol' do
         user.has_tribunal?('ftt').should be_false
-      end
-
-      it 'returns false when passed :ftt' do
         user.has_tribunal?(:ftt).should be_false
       end
 
