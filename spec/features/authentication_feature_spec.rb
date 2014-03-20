@@ -7,17 +7,15 @@ feature 'User Authentication' do
     let!(:user) { create(:user, tribunals: [tribunal]) }
 
     before do
-      visit '/admin/'
+      visit '/admin'
     end
 
     scenario 'User can sign in ' do
-      pending
       sign_in user
       expect(page).to have_content('Administrator view')
     end
 
     scenario 'Super admin can sign in' do
-      pending
       user.update_attribute(:admin, true)
 
       sign_in user
@@ -25,29 +23,47 @@ feature 'User Authentication' do
     end
 
     scenario 'User cannot switch to tribunal without access' do
-      pending
       sign_in user
 
       visit '/admin/eat'
       expect(page).to have_content('No Access')
     end
-  end
+  
+  end # with standard access to tribunal utiac
 
-  context 'without standard access to tribunal utiac' do
+  context 'unknown user' do
     
     scenario 'User cannot sign in' do
-      pending
-    end
-  end
+      visit '/admin'
+      fill_in 'Email', with: 'nobody@example.com'
+      fill_in 'Password', with: 'invalid'
+      click_button 'Sign in'
 
-  context 'with super admin access to tribunal' do
+      expect(page).to have_content('Invalid email or password')
+    end
+
+  end #unknown user
+
+
+  context 'with super admin access' do
+    let!(:user) { create(:user, admin: true) }
+    
+    before do
+      visit '/admin'
+    end
+
     scenario 'User can sign in' do
-      pending
+      sign_in user
+      expect(page).to have_content('Administrator view')
     end
 
     scenario 'User can access all tribunals' do
-      pending
+      sign_in user
+      visit '/admin/eat'
+
+      expect(page).to.not have_content('No Access')
     end
-  end
+
+  end #with super admin access
 
 end
