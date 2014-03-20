@@ -32,6 +32,19 @@ feature 'User Authentication' do
   
   end # with standard access to tribunal utiac
 
+  context 'user without tibunal' do
+    let!(:user) { create(:user, tribunals: []) }
+    
+    scenario 'User cannot sign in' do
+      visit '/admin'
+      fill_in 'Email', with: 'nobody@example.com'
+      fill_in 'Password', with: 'invalid'
+      click_button 'Sign in'
+
+      expect(page).to have_content('Invalid email or password')
+    end
+  end
+
   context 'unknown user' do
     
     scenario 'User cannot sign in' do
