@@ -1,7 +1,7 @@
-class Admin::UsersController
+class Admin::UsersController < ApplicationController
   layout 'admin'
   respond_to :html
-  before_filter :authenticate_admin!
+  before_filter :authenticate_user!, :require_admin!
 
   def index
     @users = User.page(params[:page]).per_page(20)
@@ -16,7 +16,6 @@ class Admin::UsersController
   def update
     @user = User.find(params[:id])
     flash[:notice] = 'User updated' if @user.update_attributes(user_params)
-    
     respond_with @user, locations: admin_users_path
   end
 

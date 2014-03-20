@@ -16,6 +16,7 @@ Tribunals::Application.routes.draw do
     get '/', to: redirect('/admin/utiac')
     resources :decisions, path: 'utiac'
     resources :eat_decisions, path: 'eat'
+    resources :users
   end
 
   resource :feedback
