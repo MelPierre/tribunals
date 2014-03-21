@@ -8,17 +8,20 @@ module Concerns
       def require_admin!
         unless is_admin?
           flash[:alert] = 'No Access'
-          redirect_to admin_path and return 
+          redirect_to root_path and return 
         end
       end
 
       def require_tribunal(code)
+        # return for super admin
+        return if is_admin?
+        # return for tribunal
         if tribunal = Tribunal.where(code: code).first && current_user
-          return if is_admin? || current_user.has_tribunal?(code)
+          return if current_user.has_tribunal?(code)
         end
         
         flash[:alert] = 'No Access'
-        redirect_to admin_path and return
+        redirect_to current_user.tribunals.count ? root_path : destroy_user_session_path and return
       end
 
       def is_admin?

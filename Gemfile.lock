@@ -173,6 +173,8 @@ GEM
     kgio (2.8.0)
     launchy (2.4.2)
       addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     listen (2.7.1)
       celluloid (>= 0.15.2)
       celluloid-io (>= 0.15.0)
@@ -318,6 +320,7 @@ DEPENDENCIES
   html2haml
   jquery-rails
   launchy
+  letter_opener
   moj_frontend_toolkit_gem!
   nokogiri
   pg

@@ -13,7 +13,7 @@
       = render 'shared/phase_indicator'
       %section#content.group{ role: 'main'}
         .browse-container.full-width.group
-          = render 'shared/notices'
+          = moj_flash
           = yield
 
     = render 'shared/footer'

@@ -23,7 +23,6 @@ feature 'User Authentication' do
     end
 
     scenario 'User cannot switch to tribunal without access' do
-      pending
       sign_in user
 
       visit '/admin/eat'
@@ -72,11 +71,10 @@ feature 'User Authentication' do
     end
 
     scenario 'User can access all tribunals' do
-      pending
       sign_in user
       visit '/admin/eat'
 
-      expect(page).to.not have_content('No Access')
+      expect(page).to have_content('Administrator view')
     end
 
   end #with super admin access
