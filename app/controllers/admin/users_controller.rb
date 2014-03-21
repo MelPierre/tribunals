@@ -16,10 +16,15 @@ class Admin::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     flash[:notice] = 'User updated' if @user.update_attributes(user_params)
-    respond_with @user, locations: admin_users_path
+    respond_with @user, location: admin_users_path
   end
 
   def delete
 
   end
+
+  protected
+    def user_params
+      params.require(:user).permit(:email, :active, :name)
+    end
 end
