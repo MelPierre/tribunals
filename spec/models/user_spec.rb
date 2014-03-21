@@ -4,20 +4,6 @@ describe User do
   it{ should have_and_belong_to_many(:tribunals) }
   it{ should validate_presence_of(:email) }
 
-  describe 'default_scope' do
-    let(:user) { create(:user) }
-
-    it 'should return active users' do
-      User.all.should eq([user])
-    end
-
-    it 'should not return deleted users' do
-      user.update_attribute(:deleted_at, Time.now)
-      User.all.should eq([])
-    end
-  end
-
-
   describe '#has_tribunal?' do
     let(:user) { build(:user) }
 
@@ -42,9 +28,9 @@ describe User do
         user.has_tribunal?(:ftt).should be_false
       end
 
-    end
+    end # with aac in tribunals
 
-  end
+  end #has_tribunal
 
 
 end

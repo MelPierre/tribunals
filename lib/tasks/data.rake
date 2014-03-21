@@ -4,8 +4,8 @@ namespace :data do
   task seed_tribunals: :environment do
     Tribunal.create([
       {name:'Immigration and Aslyum Chamber' , code:'utiac'},
-      {name:'First Tier Tribunal ' , code:'ftt' },
-      {name:'Administrative Appeals Chamber' , code:'aac'},
+      {name:'First Tier Tribunal ' , code:'ftt-tax' },
+      {name:'Administrative Appeals Chamber' , code:'utaac'},
       {name:'Employment Appeals Tribunal' , code:'eat'}
     ])
   end

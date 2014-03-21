@@ -1,10 +1,8 @@
 class User < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-  
+
   # associations
   has_and_belongs_to_many :tribunals
-
-  default_scope ->{ where(deleted_at: nil) }
 
   def has_tribunal?(code)
     code = code.to_s if code.is_a?(Symbol)
@@ -13,6 +11,10 @@ class User < ActiveRecord::Base
 
   def display_name
     name || email
+  end
+
+  def invite_key_fields
+    [:email, :tribunal_ids, :admin]
   end
 
 end
