@@ -10,11 +10,7 @@ class User < ActiveRecord::Base
   end
 
   def display_name
-    name || email
-  end
-
-  def invite_key_fields
-    [:email, :tribunal_ids, :admin]
+    self.name || self.email rescue ''
   end
 
 end

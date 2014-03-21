@@ -28,6 +28,11 @@ feature 'User Authentication' do
       visit '/admin/eat'
       expect(page).to have_content('No Access')
     end
+
+    scenario 'After signin should redirect to first allowed tribunal' do
+      sign_in user
+      expect(page.current_path).to eq('/admin/utiac')
+    end
   
   end # with standard access to tribunal utiac
 
