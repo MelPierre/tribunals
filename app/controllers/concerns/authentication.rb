@@ -6,7 +6,19 @@ module Concerns
       helper_method :is_admin?
 
       def require_admin!
-        redirect_to root_path status: :forbidden and return unless is_admin?
+        unless is_admin?
+          flash[:alert] = 'No Access'
+          redirect_to admin_path and return 
+        end
+      end
+
+      def require_tribunal(code)
+        if tribunal = Tribunal.where(code: code).first && current_user
+          return if is_admin? || current_user.has_tribunal?(code)
+        end
+        
+        flash[:alert] = 'No Access'
+        redirect_to admin_path and return
       end
 
       def is_admin?

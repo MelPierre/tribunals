@@ -5,7 +5,7 @@
     = stylesheet_link_tag 'admin', media: 'all'
     = csrf_meta_tags
 
-  %body{:class => body_class()}
+  %body{ class: body_class }
 
     = render 'shared/header'
 
@@ -20,6 +20,7 @@
           %h1= yield :title 
 
         .browse-container.full-width.group
+          = render 'shared/notices'
           = yield
 
     = render 'shared/footer'

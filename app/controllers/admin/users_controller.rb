@@ -20,11 +20,13 @@ class Admin::UsersController < ApplicationController
   end
 
   def delete
-
+    @user = User.find(params[:id])
+    @user.update_attribute(:deleted_at, Time.now)
+    respond_with @user, location: admin_users_path
   end
 
   protected
     def user_params
-      params.require(:user).permit(:email, :active, :name)
+      params.require(:user).permit(:email, :admin, :name, tribunal_ids: [])
     end
 end
