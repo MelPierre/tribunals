@@ -2,6 +2,13 @@
 
 <p>Someone has invited you to <%= root_url %>, you can accept it through the link below.</p>
 
+<p>The tribunals you have access to are:</p>
+<ul>
+  <% @resource.tribunals.each do |trib| %>
+    <li><%= trib.name %></li>
+  <% end %>
+</ul>
+
 <p><%= link_to 'Accept invitation', accept_invitation_url(@resource, :invitation_token => @token) %></p>
 
 <p>If you don't want to accept the invitation, please ignore this email.<br />
