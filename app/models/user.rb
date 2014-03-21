@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
     tribunals.any?{|trib| trib.code == code }
   end
 
+  def display_name
+    name || email
+  end
+
 end

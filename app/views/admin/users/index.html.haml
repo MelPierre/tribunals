@@ -8,6 +8,7 @@
     %th Email
     %th Super admin
     %th Tribunals
+    %th Invitiation
     %th 
     %th 
 
@@ -17,5 +18,6 @@
       %td= user.email
       %td= user.admin ? 'Yes' : 'No'
       %td= user.tribunals.map(&:code).join(',')
+      %td= user.invited_by.try(:display_name)
       %td= link_to 'Edit', edit_admin_user_path(user)
       %td= link_to 'Delete', admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }

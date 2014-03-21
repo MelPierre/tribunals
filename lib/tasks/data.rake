@@ -5,7 +5,8 @@ namespace :data do
     Tribunal.create([
       {name:'Immigration and Aslyum Chamber' , code:'utiac'},
       {name:'First Tier Tribunal ' , code:'ftt' },
-      {name:'Administrative Appeals Chamber' , code:'aac'}
+      {name:'Administrative Appeals Chamber' , code:'aac'},
+      {name:'Employment Appeals Tribunal' , code:'eat'}
     ])
   end
 

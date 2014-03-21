@@ -19,9 +19,10 @@ class Admin::UsersController < ApplicationController
     respond_with @user, location: admin_users_path
   end
 
-  def delete
+  def destroy
     @user = User.find(params[:id])
-    @user.update_attribute(:deleted_at, Time.now)
+    @user.destroy
+
     respond_with @user, location: admin_users_path
   end
 

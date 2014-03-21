@@ -40,6 +40,7 @@ group :test, :development do
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'timecop'
+  gem 'letter_opener'
 end
 
 group :test do
