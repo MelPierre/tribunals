@@ -7,7 +7,7 @@
     %th Name
     %th Email
     %th Super admin
-    %th 
+    %th Tribunals
     %th 
     %th 
 
@@ -16,6 +16,6 @@
       %td= user.name
       %td= user.email
       %td= user.admin ? 'Yes' : 'No'
-      %td= link_to 'Show', admin_user_path(user)
+      %td= user.tribunals.map(&:code).join(',')
       %td= link_to 'Edit', edit_admin_user_path(user)
       %td= link_to 'Delete', admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }
