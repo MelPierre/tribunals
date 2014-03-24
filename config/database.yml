@@ -18,6 +18,7 @@ development:
   host: localhost
   database: tribunals_development
   pool: 5
+  user: tribunals
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -43,11 +44,13 @@ test:
   host: localhost
   database: tribunals_test
   pool: 5
+  user: tribunals
+
 
 production:
   adapter: postgresql
   encoding: unicode
   database: tribunals_production
   pool: 5
-  username: tribunals
-  password:
+  user: tribunals
+
