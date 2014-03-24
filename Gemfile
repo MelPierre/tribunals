@@ -52,6 +52,7 @@ group :assets do
   gem 'sass-rails'
 end
 
+gem 'pdf-reader'
 gem 'unicorn'
 gem 'fog'
 gem 'bcrypt-ruby', require: 'bcrypt'
