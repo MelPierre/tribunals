@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ApplicationController do
   it "enables varnish" do
+    pending
     setup_controller_request_and_response
     controller.should_receive(:headers).and_return(headers = mock('headers'))
     headers.should_receive(:[]=).with('X-Varnish-Enable', '1')
