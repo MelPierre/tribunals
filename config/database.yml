@@ -49,7 +49,9 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: tribunals_production
+  database: tribunals
   pool: 5
+  timeout: 5000
   user: tribunals
+  password: Udoah5Hu
 
