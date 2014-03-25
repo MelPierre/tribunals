@@ -65,8 +65,3 @@ gem 'appsignal'
 # frontend gems
 gem 'govuk_frontend_toolkit', github: 'alphagov/govuk_frontend_toolkit_gem', submodules: true
 gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.2.1'
-
-# frontend gems
-# gem 'moj_template', '0.10.2'
-# gem 'govuk_frontend_toolkit', '0.43.0'
-

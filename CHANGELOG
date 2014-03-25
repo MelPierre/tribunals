@@ -1,3 +1,5 @@
-0.1.0-dev
+0.2.0-dev
 ---------------------------------
 67306010 - Streamline URL path for all tribunals
+67415098 - User authentication and invitiations
+67486824 - User authorization
