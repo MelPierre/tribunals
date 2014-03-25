@@ -29,4 +29,11 @@ module DocProcessor
     puts e.message
     puts e.backtrace.to_s
   end
+
+  def self.process_pdf_file(decision, pdf_file_path)
+    decision.pdf_file = File.open(pdf_file_path) if decision.pdf_file.file.nil?
+    reader = PDF::Reader.new(File.open(pdf_file_path))
+    decision.text = reader.pages.inject([]){|seed, page| seed << page.text }.join('\n')
+    decision.save!
+  end
 end
