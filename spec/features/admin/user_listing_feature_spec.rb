@@ -34,7 +34,7 @@ feature 'User listing' do
     scenario 'see a list of users' do
       visit '/admin/users'
 
-      users[0..14].each do |user|
+      User.order(:email).all[0..14].each do |user|
         expect(page).to have_content(user.email)
       end
     end
@@ -42,9 +42,11 @@ feature 'User listing' do
     scenario 'see a paginated list of users' do
       visit '/admin/users'
 
-      users[15..20].each do |user|
+      User.order(:email).all[15..20].each do |user|
         expect(page).not_to have_content(user.email)
       end
+
+      expect(page).to have_content('Next →')
     end
 
     scenario 'see an option to edit a user' do
@@ -62,11 +64,13 @@ feature 'User listing' do
     scenario 'see and option to delete a user' do
       visit '/admin/users'
 
-      expect(page).to have_css("a[href='/admin/users/#{users.first.id}'][method='delete']")
+      expect(page).to have_css("a[href='/admin/users/#{User.order(:email).first.id}'][data-method='delete']")
     end
 
     scenario 'be able to delete a user' do
-      pending
+      visit '/admin/users'
+
+      expect{ find(:css, "a[href='/admin/users/#{User.order(:email).first.id}'][data-method='delete']").click }.to change{User.count}.by(-1)
     end
 
   end
