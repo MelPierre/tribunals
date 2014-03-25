@@ -15,6 +15,11 @@ feature 'User Authentication' do
       expect(page).to have_content('Administrator view')
     end
 
+    scenario 'User can sign out' do
+      sign_in user
+      sign_out
+    end
+
     scenario 'Super admin can sign in' do
       user.update_attribute(:admin, true)
 
@@ -31,12 +36,13 @@ feature 'User Authentication' do
 
     scenario 'After signin should redirect to first allowed tribunal' do
       sign_in user
+      
       expect(page.current_path).to eq('/admin/utiac')
     end
   
   end # with standard access to tribunal utiac
 
-  context 'user without tibunal' do
+  context 'user without tribunal' do
     let!(:user) { create(:user, tribunals: []) }
     
     scenario 'User cannot sign in' do
