@@ -81,7 +81,8 @@ Tribunals::Application.configure do
 
   
   # Devise requirement for sending user emails
-  config.action_mailer.default_url_options = { :host => ENV['SMTP_DOMAIN'], :protocol => 'https'}
+  # TODO: ENV vars need to be setup on the server, otherwise invitations do not work
+  config.action_mailer.default_url_options = { host: ENV['SMTP_DOMAIN'], protocol: 'https'}
 
   config.action_mailer.smtp_settings = {
     address: ENV['SMTP_HOSTNAME'],
