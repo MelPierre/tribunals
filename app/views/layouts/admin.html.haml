@@ -5,29 +5,22 @@
     = stylesheet_link_tag 'admin', media: 'all'
     = csrf_meta_tags
 
-  %body{:class => body_class()}
+  %body{ class: body_class }
 
     = render 'shared/header'
 
     #wrapper.group{class: signed_in? ? 'admin' : 'beta'}
       - if signed_in?
-        .indicator.cf
-          .left
-            %p
-              %strong Administrator view:
-              select a case to edit its details
-          .right
-            %p
-              = link_to 'Admin home', admin_decisions_path
-              |
-              = link_to 'Upload decision', new_admin_decision_path
-              |
-              =link_to 'Log out', destroy_user_session_path, method: 'delete'
+        = render 'shared/admin_nav'
       - else
         = render 'shared/phase_indicator'
 
       %section#content.group{role: 'main'}
+        %header.page-header.group
+          %h1= yield :title 
+
         .browse-container.full-width.group
+          = moj_flash
           = yield
 
     = render 'shared/footer'

@@ -1,0 +1,15 @@
+#wrapper.admin{
+  table{
+    width:100%;
+    border-collapse: collapse;
+    td,th{
+      padding:6px;
+      border:1px solid #afafaf;
+    }
+    tr th{
+      background-color: #dedede;
+      color: #000;
+      text-align:left;
+    }
+  }
+}

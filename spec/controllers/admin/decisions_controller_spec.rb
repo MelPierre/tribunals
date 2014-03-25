@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Admin::DecisionsController do
   render_views
 
+  let!(:tribunal) { create(:tribunal,name: 'utiac', code: 'utiac') }
+  let!(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'unauthorized' do
     describe "GET #index" do
@@ -14,8 +16,9 @@ describe Admin::DecisionsController do
   end
   
   context 'authenticated' do
+
     before do
-      sign_in create(:user)
+      sign_in user
     end
 
     describe 'GET #index' do
