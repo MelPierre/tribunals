@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Concerns::Authentication
 
   def enable_varnish
-    headers['X-Varnish-Enable'] = '1'
+    headers['X-Varnish-Enable'] = '0'
   end
 
   def set_cache_control(timestamp)
