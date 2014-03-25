@@ -44,7 +44,6 @@ test:
   host: localhost
   database: tribunals_test
   pool: 5
-  user: tribunals
 
 
 production:
