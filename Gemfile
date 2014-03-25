@@ -35,11 +35,13 @@ group :test, :development do
   gem 'wirble'
   gem 'wirb'
   gem 'capybara'
+  gem 'capybara-email'
   gem 'capybara-webkit'
   gem 'headless'
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'timecop'
+  gem 'letter_opener'
 end
 
 group :test do

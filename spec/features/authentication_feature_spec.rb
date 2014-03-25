@@ -7,17 +7,20 @@ feature 'User Authentication' do
     let!(:user) { create(:user, tribunals: [tribunal]) }
 
     before do
-      visit '/admin/'
+      visit '/admin'
     end
 
     scenario 'User can sign in ' do
-      pending
       sign_in user
       expect(page).to have_content('Administrator view')
     end
 
+    scenario 'User can sign out' do
+      sign_in user
+      sign_out
+    end
+
     scenario 'Super admin can sign in' do
-      pending
       user.update_attribute(:admin, true)
 
       sign_in user
@@ -25,29 +28,66 @@ feature 'User Authentication' do
     end
 
     scenario 'User cannot switch to tribunal without access' do
-      pending
       sign_in user
 
       visit '/admin/eat'
       expect(page).to have_content('No Access')
     end
-  end
 
-  context 'without standard access to tribunal utiac' do
+    scenario 'After signin should redirect to first allowed tribunal' do
+      sign_in user
+      
+      expect(page.current_path).to eq('/admin/utiac')
+    end
+  
+  end # with standard access to tribunal utiac
+
+  context 'user without tribunal' do
+    let!(:user) { create(:user, tribunals: []) }
     
     scenario 'User cannot sign in' do
-      pending
+      visit '/admin'
+      fill_in 'Email', with: 'nobody@example.com'
+      fill_in 'Password', with: 'invalid'
+      click_button 'Sign in'
+
+      expect(page).to have_content('Invalid email or password')
     end
   end
 
-  context 'with super admin access to tribunal' do
+  context 'unknown user' do
+    
+    scenario 'User cannot sign in' do
+      visit '/admin'
+      fill_in 'Email', with: 'nobody@example.com'
+      fill_in 'Password', with: 'invalid'
+      click_button 'Sign in'
+
+      expect(page).to have_content('Invalid email or password')
+    end
+
+  end #unknown user
+
+
+  context 'with super admin access' do
+    let!(:user) { create(:user, admin: true) }
+    
+    before do
+      visit '/admin'
+    end
+
     scenario 'User can sign in' do
-      pending
+      sign_in user
+      expect(page).to have_content('Administrator view')
     end
 
     scenario 'User can access all tribunals' do
-      pending
+      sign_in user
+      visit '/admin/eat'
+
+      expect(page).to have_content('Administrator view')
     end
-  end
+
+  end #with super admin access
 
 end

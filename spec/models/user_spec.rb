@@ -28,7 +28,22 @@ describe User do
         user.has_tribunal?(:ftt).should be_false
       end
 
+    end # with aac in tribunals
+
+  end #has_tribunal
+
+  describe '#display_name' do
+    let(:user){ build(:user,)}
+    
+    it 'returns name when name is set' do
+      user.name = 'Danny Hawkins'
+      expect(user.display_name).to eq('Danny Hawkins')
     end
 
-  end
+    it 'returns email without name set' do
+      expect(user.display_name).to eq(user.email)
+    end
+
+  end #display_name
+  
 end

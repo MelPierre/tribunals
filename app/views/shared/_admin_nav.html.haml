@@ -1,0 +1,15 @@
+.indicator.cf
+  .left
+    %p
+      %strong Administrator view:
+      select a case to edit its details
+  .right
+    %p
+      = link_to 'Admin home', admin_decisions_path
+      |
+      - if is_admin?
+        = link_to 'Users', admin_users_path
+        |
+      = link_to 'Upload decision', new_admin_decision_path
+      |
+      =link_to 'Log out', destroy_user_session_path, method: 'delete'

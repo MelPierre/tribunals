@@ -89,6 +89,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-email (2.3.0)
+      capybara (~> 2.2.0)
+      mail
     capybara-webkit (1.1.0)
       capybara (~> 2.0, >= 2.0.2)
       json
@@ -173,6 +176,8 @@ GEM
     kgio (2.8.0)
     launchy (2.4.2)
       addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     listen (2.7.1)
       celluloid (>= 0.15.2)
       celluloid-io (>= 0.15.0)
@@ -300,6 +305,7 @@ DEPENDENCIES
   bootstrap-will_paginate
   byebug
   capybara
+  capybara-email
   capybara-webkit
   carrierwave!
   database_cleaner
@@ -318,6 +324,7 @@ DEPENDENCIES
   html2haml
   jquery-rails
   launchy
+  letter_opener
   moj_frontend_toolkit_gem!
   nokogiri
   pg
