@@ -92,9 +92,6 @@ Tribunals::Application.configure do
       authentication: :login,
       enable_starttls_auto: true
     }
-
-    Rails.logger.info("Using host: #{sending_host}")
-    Rails.logger.info("Using server: #{ENV['SMTP_HOSTNAME']}")
   end
   
 
