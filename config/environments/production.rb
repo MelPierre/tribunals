@@ -78,19 +78,23 @@ Tribunals::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.client_caching = true
-
   
   config.after_initialize do
-    ActionMailer::Base.default_url_options = { host: ENV['SMTP_HOST'], protocol: 'https'}
+    sending_host = ENV['SMTP_HOST'] || 'tribunalsdecisions.service.gov.uk'
+
+    ActionMailer::Base.default_url_options = { host: sending_host, protocol: 'https'}
     ActionMailer::Base.smtp_settings = {
-      address: ENV['SMTP_HOSTNAME'],
-      port: 587,
-      domain: ENV['SMTP_HOST'],
-      user_name: ENV['SMTP_USERNAME'],
-      password: ENV['SMTP_PASSWORD'],
+      address: ENV['SMTP_HOSTNAME'] || 'localhost',
+      port: ENV['SMTP_PORT'] || 587,
+      domain: sending_host,
+      user_name: ENV['SMTP_USERNAME'] || '',
+      password: ENV['SMTP_PASSWORD'] || '',
       authentication: :login,
       enable_starttls_auto: true
     }
+
+    Rails.logger.info("Using host: #{sending_host}")
+    Rails.logger.info("Using server: #{ENV['SMTP_HOSTNAME']}")
   end
   
 

@@ -27,7 +27,7 @@ Tribunals::Application.configure do
   config.assets.debug = true
 
   config.after_initialize do
-    ActionMailer::Base.default_url_options = { host: 'tribunals.dev' }
+    ActionMailer::Base.default_url_options = { host: ENV['SMTP_HOST'] || 'tribunals.dev' }
   end
   
 end
