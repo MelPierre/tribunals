@@ -35,7 +35,7 @@ Tribunals::Application.configure do
   config.active_support.deprecation = :stderr
 
   config.after_initialize do
-    ActionMailer::Base.default_url_options = { host: ENV['SMTP_HOST'] }
+    ActionMailer::Base.default_url_options = { host: 'tribunals.test' }
   end
   
 end
