@@ -81,7 +81,7 @@ Tribunals::Application.configure do
 
   
   config.after_initialize do
-    ActionMailer::Base.default_url_options = { host: ENV['SMTP_DOMAIN'], protocol: 'https'}
+    ActionMailer::Base.default_url_options = { host: ENV['SMTP_HOST'], protocol: 'https'}
     ActionMailer::Base..smtp_settings = {
       address: ENV['SMTP_HOSTNAME'],
       port: 587,
