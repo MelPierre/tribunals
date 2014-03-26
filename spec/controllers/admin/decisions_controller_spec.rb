@@ -10,7 +10,7 @@ describe Admin::DecisionsController do
     describe "GET #index" do
       it "requires authentication" do
         get :index
-        response.should redirect_to new_user_session_path
+        response.should redirect_to new_admin_user_session_path
       end
     end
   end
