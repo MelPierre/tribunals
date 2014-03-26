@@ -80,17 +80,18 @@ Tribunals::Application.configure do
   config.client_caching = true
 
   
-  # Devise requirement for sending user emails
-  # TODO: ENV vars need to be setup on the server, otherwise invitations do not work
-  config.action_mailer.default_url_options = { host: ENV['SMTP_DOMAIN'], protocol: 'https'}
+  config.after_initialize do
+    ActionMailer::Base.default_url_options = { host: ENV['SMTP_DOMAIN'], protocol: 'https'}
+    ActionMailer::Base..smtp_settings = {
+      address: ENV['SMTP_HOSTNAME'],
+      port: 587,
+      domain: ENV['SMTP_DOMAIN'],
+      user_name: ENV['SMTP_USERNAME'],
+      password: ENV['SMTP_PASSWORD'],
+      authentication: :login,
+      enable_starttls_auto: true
+    }
+  end
+  
 
-  config.action_mailer.smtp_settings = {
-    address: ENV['SMTP_HOSTNAME'],
-    port: 587,
-    domain: ENV['SMTP_DOMAIN'],
-    user_name: ENV['SMTP_USERNAME'],
-    password: ENV['SMTP_PASSWORD'],
-    authentication: :login,
-    enable_starttls_auto: true
-  }
 end

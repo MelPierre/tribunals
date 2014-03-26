@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   layout 'admin'
   respond_to :html
-  before_filter :authenticate_user!, :require_admin!
+  before_filter :authenticate_admin_user!, :require_admin!
 
   def index
     @users = User.page(params[:page]).per_page(15).order('email')
