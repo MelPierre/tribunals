@@ -35,6 +35,7 @@ module DocProcessor
     decision.pdf_file = pdf_io if decision.pdf_file.file.nil?
     reader = PDF::Reader.new(pdf_io)
     decision.text = reader.pages.inject([]){|seed, page| seed << page.text }.join('\n')
+    decision.set_html_from_text
     decision.save!
   end
 end
