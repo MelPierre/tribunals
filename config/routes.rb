@@ -10,6 +10,9 @@ Tribunals::Application.routes.draw do
   resources :eat_decisions, path: 'eat'
   resources :ftt_decisions, path: 'ftt-tax'
 
+  resources :all_decisions, path: 'all'
+
+
   # TODO: These redirect parts seem messy and maybe not the correct way to manage the requirement, need to review
   namespace :admin do
     #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
