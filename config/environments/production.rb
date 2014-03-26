@@ -85,7 +85,7 @@ Tribunals::Application.configure do
     ActionMailer::Base..smtp_settings = {
       address: ENV['SMTP_HOSTNAME'],
       port: 587,
-      domain: ENV['SMTP_DOMAIN'],
+      domain: ENV['SMTP_HOST'],
       user_name: ENV['SMTP_USERNAME'],
       password: ENV['SMTP_PASSWORD'],
       authentication: :login,
