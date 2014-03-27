@@ -18,6 +18,8 @@ feature 'User Authentication' do
     scenario 'User can sign out' do
       sign_in user
       sign_out
+      visit '/admin/utiac'
+      expect(current_path).to eq('/admin/users/sign_in')
     end
 
     scenario 'Super admin can sign in' do
