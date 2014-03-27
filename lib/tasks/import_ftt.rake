@@ -75,7 +75,7 @@ namespace :import do
       end
     end
 
-    desc "Process pdf files for AacDecision"
+    desc "Process pdf files for FttDecision"
     task :process_pdf, [:pdf_dir] => :environment do |t, args|
       pdf_dir = args[:pdf_dir]
       if Dir.exists?(pdf_dir)
