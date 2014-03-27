@@ -74,5 +74,19 @@ namespace :import do
         d.process_doc
       end
     end
+
+    desc "Process pdf files for AacDecision"
+    task :process_pdf, [:pdf_dir] => :environment do |t, args|
+      pdf_dir = args[:pdf_dir]
+      if Dir.exists?(pdf_dir)
+        Dir["#{pdf_dir}/**/*.pdf"].each do |pdf_file_path|
+          decision_id = File.dirname(pdf_file_path).split('/').last.gsub(/[^0-9]+/, '').to_i
+          decision = FttDecision.find_by_id(decision_id)
+          DocProcessor.process_pdf_file(decision, pdf_file_path) if decision.present?
+        end
+      else
+        puts 'This directory does not exist'
+      end
+    end
   end
 end
