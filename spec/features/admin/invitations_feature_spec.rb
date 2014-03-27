@@ -10,7 +10,7 @@ feature 'User invitiations' do
     visit '/admin'
     sign_in user
   
-    visit '/users/invitation/new'
+    visit '/admin/users/invitation/new'
     expect(page).to have_content('No Access')
   end
 
@@ -20,12 +20,12 @@ feature 'User invitiations' do
       clear_emails
       visit '/admin'
       sign_in admin
-      visit '/users/invitation/new'
+      visit '/admin/users/invitation/new'
     end
 
     scenario 'requires email' do
       click_button 'Send an invitation'
-      within 'div.user_email' do
+      within 'div.admin_user_email' do
         expect(page).to have_content("can't be blank")
       end
     end
@@ -75,7 +75,7 @@ feature 'User invitiations' do
       clear_emails
       visit '/admin'
       sign_in admin
-      visit '/users/invitation/new'
+      visit '/admin/users/invitation/new'
       fill_in 'Email', with: pending[:email]
       select 'utiac', from: 'Tribunals'
       expect{click_button('Send an invitation')}.to change{all_emails.length}.by(1)
@@ -96,7 +96,7 @@ feature 'User invitiations' do
       user = User.last
       open_email(user.email)
       current_email.click_link 'Accept invitation'
-      expect(current_path).to eq("/users/invitation/accept")
+      expect(current_path).to eq("/admin/users/invitation/accept")
 
       fill_in 'Password', with: 'password123'
       fill_in 'Password confirmation', with: 'password123'

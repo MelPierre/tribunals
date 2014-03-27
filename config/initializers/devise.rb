@@ -4,8 +4,8 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = ENV['DEVISE_SENDER']
-  config.secret_key = ENV['DEVISE_SECRET']
+  config.mailer_sender = ENV['DEVISE_SENDER'] || 'no-reply@tribunalsdecisions.service.gov.uk'
+  config.secret_key = ENV['DEVISE_SECRET'] || 'e02058ead3c17ca8f9a83bcbb3bfd629fee086613d6efbdd58b7b7908958da4cb8ec786daa09d336ff20933a6d4b60710d02ab5f02d1fd01111111111111'
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
 

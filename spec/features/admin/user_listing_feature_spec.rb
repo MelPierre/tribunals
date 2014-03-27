@@ -52,7 +52,7 @@ feature 'User listing' do
     scenario 'see an option to edit a user' do
       visit '/admin/users'
 
-      expect(page).to have_css("a[href='/admin/users/#{users.first.id}/edit']")
+      expect(page).to have_css("a[href='/admin/users/#{User.order(:email).first.id}/edit']")
     end
 
     scenario 'be able to edit a user' do
