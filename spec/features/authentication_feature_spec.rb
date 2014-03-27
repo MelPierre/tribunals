@@ -22,8 +22,8 @@ feature 'User Authentication' do
 
     scenario 'Super admin can sign in' do
       user.update_attribute(:admin, true)
-
       sign_in user
+
       expect(page).to have_content('Administrator view')
     end
 
