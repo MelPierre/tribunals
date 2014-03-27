@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Users::InvitationsController do
-  let!(:valid_params){ {user: { email: 'test@example.com', admin: true, tribunal_ids: [1,2,3] } } }
+  let!(:valid_params){ {admin_user: { email: 'test@example.com', admin: true, tribunal_ids: [1,2,3] } } }
   let!(:params) { ActionController::Parameters.new(valid_params)}
 
   describe '#invite_params' do

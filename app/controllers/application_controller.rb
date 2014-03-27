@@ -13,4 +13,8 @@ class ApplicationController < ActionController::Base
     "/admin/#{(resource.tribunals.first.try(:code))}"
   end
 
+  def after_sign_out_path_for(resource)
+    new_admin_user_session_path
+  end
+
 end
