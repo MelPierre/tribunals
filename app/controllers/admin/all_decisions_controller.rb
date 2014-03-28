@@ -1,6 +1,8 @@
 class Admin::AllDecisionsController < Admin::RestrictedController
   before_filter -> { require_tribunal(params[:tribunal_code]) }
 
+  helper_method :current_tribunal, :tribunal_form_view_path, :tribunal_common_view_path
+
   def index
     set_cache_control(decisions_relation.maximum(:updated_at))
     @order_by = 'decision_date'
@@ -52,11 +54,25 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     redirect_to admin_decisions_path
   end
 
-  def current_tribunal
-    Tribunal.find_by_code(params[:tribunal_code])
-  end
+  protected
 
-  def decisions_relation
-    current_tribunal.all_decisions
-  end
+    def current_tribunal
+      @current_tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
+    end
+
+    def tribunal_view_path
+      "/admin/all_decisions/"
+    end
+
+    def tribunal_form_view_path
+      tribunal_view_path + 'forms/' + current_tribunal.code.underscore
+    end
+
+    def tribunal_common_view_path
+      tribunal_view_path + 'common/'
+    end
+
+    def decisions_relation
+      current_tribunal.all_decisions
+    end
 end
