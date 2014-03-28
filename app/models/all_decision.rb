@@ -1,6 +1,7 @@
 class AllDecision < ActiveRecord::Base
-  # has_many :subcategories_decisions
-  # has_many :subcategories, through: :subcategories_decisions
+  has_many :category_decisions
+  has_many :subcategories, through: :category_decisions
+  has_many :categories, through: :category_decisions
   # has_many :judgments
   # has_many :judges, through: :judgements
   belongs_to :tribunal
