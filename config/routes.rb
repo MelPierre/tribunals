@@ -16,25 +16,16 @@ Tribunals::Application.routes.draw do
   namespace :admin do
     devise_for :users, controllers: { invitations: 'users/invitations', sessions: 'devise/sessions', passwords: 'devise/passwords', registrations: 'devise/registrations'}
     #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
-    get '/', to: redirect('/admin/utiac')
-<<<<<<< HEAD
+    get '/', to: redirect('/admin/utiac'), as: :decisions
 
-    resources :ftt_decisions
-
-    scope '/utiac' do
-      resources :decisions, path: ''
+    scope ':tribunal_code' do
+      resources :all_decisions, path: ''
     end
-
-    resource :authentication do
-      get :logout
-    end
-=======
-    resources :decisions, path: 'utiac'
-    resources :aac_decisions, path: 'utaac'
-    resources :eat_decisions, path: 'eat'
-    resources :ftt_decisions, path: 'ftt-tax'
+    # resources :decisions, path: 'utiac'
+    # resources :aac_decisions, path: 'utaac'
+    # resources :eat_decisions, path: 'eat'
+    # resources :ftt_decisions, path: 'ftt-tax'
     resources :users
->>>>>>> feature/new-admin
   end
 
   resource :feedback
