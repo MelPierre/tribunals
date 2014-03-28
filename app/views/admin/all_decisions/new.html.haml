@@ -1,6 +1,11 @@
 %h2 Add decision
-= simple_form_for @decision do |form|
-  %p Hey Guys
+= simple_form_for @decision, html: {multipart: true} do |form|
+  .form-inputs
+    = form.association :tribunal
+    / = form.association :jurisdiction
+    = form.input :doc_file, as: 'file'
+    = form.input :doc_file, as: 'file'
+
   = render tribunal_form_view_path, form: form, common_view_path: tribunal_common_view_path
 
   .form-actions
