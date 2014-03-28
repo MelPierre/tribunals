@@ -1,0 +1,79 @@
+@import "colours";
+@import "moj-base";
+
+form.simple_form {
+
+  .form-actions {
+    @extend .clearfix;
+    margin-top: 1em;
+    padding: 10px 30px;
+    background: #eee;
+
+    &.form-actions--right{
+      .button {
+        float: right;
+        margin-left:0.5em;
+      }
+    }
+
+  }
+  .error {
+    display: block;
+    font-size: 1.4rem;
+  }
+  div.input.string,
+  div.input.select,
+  div.input.decimal,
+  div.input.tel,
+  div.input.boolean,
+  div.input.text,
+  div.input.file,
+  div.input.email,
+  div.input.password,
+  // div.input.check_boxes,
+  div.input.integer {
+    margin-top: 10px;
+
+    label {
+      float: left;
+      width: 150px;
+    }
+    label.boolean,
+    span.hint {
+      float: none;
+      margin-left: 160px;
+      input {
+        margin-right: 5px;
+      }
+    }
+    input[type=text],
+    input[type=email],
+    input[type=password],
+    input[type=tel],
+    input[type=number],
+    input[type=file],
+    span.input {
+      width: 380px;
+      margin: 0 0.5em;
+    }
+    textarea {
+      width: 320px;
+      height: 70px;
+      margin: 0 10px;
+    }
+    select {
+      margin: 0 10px;
+      max-width: 390px;
+    }
+    input[type="email"], input[type="password"] {
+      font-family: "nta", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 300;
+      text-transform: none;
+      border: 1px solid #bbb;
+      min-width: 8em;
+      padding: 0.25em;
+    }
+  }
+}
