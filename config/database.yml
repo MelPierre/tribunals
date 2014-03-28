@@ -50,6 +50,7 @@ production:
   adapter: postgresql
   encoding: unicode
   database: tribunals
+  host: postgresql.local
   pool: 5
   timeout: 5000
   user: tribunals
