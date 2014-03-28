@@ -1,4 +1,5 @@
 /.bundle
+npm-debug.log
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /db/structure.sql
@@ -36,5 +37,6 @@ public/assets
 Icon
 
 public/uploads
+tmp
 data/*
 npm-debug.log

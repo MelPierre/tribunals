@@ -1,0 +1,41 @@
+%table.decisions-table
+  %tr.headings
+  - @tribunal["results_columns"].each do |column|
+    %th= column["label"]
+
+  - @decisions.each do |decision, group = cycle('even', 'odd')|
+    %tr.first{:class => group}
+      %td
+        - if search_present()
+          = link_to(hilighted_metadata_result(params[:search][:query], all_link_label(decision), true), decision)
+        - else
+          = link_to(all_link_label(decision), decision)
+      %td.date= time_element(decision.send(@order_by))
+    - if all_display_parties(decision)
+      %tr{:class => group + (search_present() ? '' : ' last')}
+        %td{:colspan => 2}
+          Parties:
+          - if search_present()
+            %strong= hilighted_metadata_result(params[:search][:query], all_display_parties(decision), true)
+          - else
+            %strong= all_display_parties(decision)
+    - if all_display_categories(decision)
+      %tr{:class => group + (search_present() ? '' : ' last')}
+        %td{:colspan => 2}
+          = @categories_title
+          - if search_present()
+            %strong= hilighted_metadata_result(params[:search][:query], all_display_categories(decision), true)
+          - else
+            %strong= all_display_categories(decision)
+    - if search_present()
+      %tr.last{:class => group}
+        %td{:colspan => 2}
+          - if decision.judge_names && hilighted_metadata_result(params[:search][:query], decision.judge_names, false)
+            %strong Search result:
+            %br
+            Judges:
+            = hilighted_metadata_result(params[:search][:query], decision.judge_names, false)
+          - elsif hilighted_search_result(params[:search][:query], decision.text)
+            %strong Search result:
+            %br
+            = hilighted_search_result(params[:search][:query], decision.text)

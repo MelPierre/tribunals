@@ -74,6 +74,30 @@ describe FttDecision do
         @decision.text.should == "Test\n"
       end
     end
+
+    describe "process_pdf" do
+      before(:all) do
+        @decision = FttDecision.create!(ftt_decision_hash(id: 1))
+        @decision.process_pdf(File.join(Bundler.root, 'spec', 'data', 'test.pdf'))
+      end
+
+      after(:all) do
+        @decision.destroy
+        delete_test_files
+      end
+
+      it "should contain a tmp html of the document" do
+        @decision.html.should include('Test')
+      end
+
+      it "should contain a pdf of the document" do
+        @decision.pdf_file.should be_a(PdfFileUploader)
+      end
+
+      it "should contain the raw text of the document" do
+        @decision.text.should == "Test"
+      end
+    end
   end
 
 

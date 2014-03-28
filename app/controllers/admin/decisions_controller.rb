@@ -1,6 +1,8 @@
 class Admin::DecisionsController < ::DecisionsController
   layout 'layouts/admin'
-  before_filter :authenticate!
+  before_filter :authenticate_admin_user!
+  before_filter -> { require_tribunal('utiac') }
+  
   protect_from_forgery
 
   def create
@@ -45,7 +47,7 @@ class Admin::DecisionsController < ::DecisionsController
 
   private
   def decision_params
-    params.require(:decision).permit(:doc_file, :promulgated_on, :appeal_number, :reported, :starred,
+    params.require(:decision).permit(:doc_file, :promulgated_on, :hearing_on, :appeal_number, :reported, :starred,
                                      :country_guideline, :judges, :categories, :country, :claimant,
                                      :keywords, :case_notes, :ncn)
   end

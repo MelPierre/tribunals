@@ -1,4 +1,4 @@
-class Admin::FttDecisionsController < Admin::DecisionsController
+class Admin::AllDecisionsController < RestrictedController
 
   def index
     set_cache_control(FttDecision.maximum(:updated_at))
