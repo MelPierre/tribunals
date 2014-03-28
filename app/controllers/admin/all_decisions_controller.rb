@@ -1,7 +1,8 @@
-class Admin::AllDecisionsController < RestrictedController
+class Admin::AllDecisionsController < Admin::RestrictedController
+  before_filter -> { require_tribunal(params[:tribunal_code]) }
 
   def index
-    set_cache_control(FttDecision.maximum(:updated_at))
+    set_cache_control(decisions_relation.maximum(:updated_at))
     @order_by = 'decision_date'
     @sort_options = [["Date of decision", "decision_date"], ["Date of update", "last_updatedtime"]]
     params[:search] ||= {}
@@ -10,17 +11,17 @@ class Admin::AllDecisionsController < RestrictedController
     end
     @date_column_title = (@order_by == 'decision_date') ? 'Date of decision' : 'Date of update'
     @categories_title = 'Categories: '
-    @decisions = FttDecision.ordered.paginate(:page => params[:page], :per_page => 30)
+    @decisions = decisions_relation.ordered.paginate(:page => params[:page], :per_page => 30)
     @decisions = @decisions.filtered(params[:search]) if params[:search].present?
   end
 
   def show
-    @decision = FttDecision.find(params[:id])
+    @decision = decisions_relation.find(params[:id])
     set_cache_control(@decision.updated_at)
   end
 
   def create
-    @decision = FttDecision.new(decision_params)
+    @decision = decisions_relation.new(decision_params)
     if @decision.save
       @decision.process_doc
       redirect_to admin_ftt_decision_path
@@ -30,7 +31,7 @@ class Admin::AllDecisionsController < RestrictedController
   end
 
   def new
-    @decision ||= FttDecision.new
+    @decision ||= decisions_relation.new
   end
 
   def edit
@@ -51,7 +52,11 @@ class Admin::AllDecisionsController < RestrictedController
     redirect_to admin_decisions_path
   end
 
-  def self.scope
-    FttDecision.all
+  def current_tribunal
+    Tribunal.find_by_code(params[:tribunal_code])
+  end
+
+  def decisions_relation
+    current_tribunal.all_decisions
   end
 end

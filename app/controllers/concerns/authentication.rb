@@ -16,10 +16,8 @@ module Concerns
         # return for super admin
         return if is_admin?
         # return for tribunal
-        if tribunal = Tribunal.where(code: code).first && current_admin_user
-          return if current_admin_user.has_tribunal?(code)
-        end
-        
+        tribunal = Tribunal.where(code: code).first
+        return if tribunal && current_admin_user && current_admin_user.has_tribunal?(code)
         flash[:alert] = 'No Access'
         redirect_to current_admin_user.tribunals.count ? after_sign_in_path_for(current_admin_user) : destroy_admin_user_session_path and return
       end
