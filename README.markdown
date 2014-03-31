@@ -32,13 +32,21 @@ elephant icon in the task bar and select **open psql**.
 
 In the terminal window that opens, type:
 
+    bundle exec rake db:create
+
+            or
+
     create database tribunals_development;
 
 After a brief pause, it should say **CREATE DATABASE**. Quit **psql**.
 
 Then
 
-    rake db:migrate
+    bundle exec rake db:migrate
+
+Then
+    bundle exec rake db:seed
+    bundle exec rake data:seed_tribunals
 
 Run
 
