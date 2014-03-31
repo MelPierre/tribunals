@@ -1,6 +1,7 @@
 module Decisions
   extend ActiveSupport::Concern
   included do
+    has_many :import_errors
     def process_doc
       if doc_file.present?
         Dir.mktmpdir do |tmp_html_dir|
