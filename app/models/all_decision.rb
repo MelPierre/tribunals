@@ -1,4 +1,5 @@
 class AllDecision < ActiveRecord::Base
+  include Decisions
   has_many :category, class_name: FttCategory
   has_many :subcategories, class_name: FttSubcategory
   # has_many :judgments
