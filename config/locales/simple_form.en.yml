@@ -8,14 +8,33 @@ en:
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
+
     error_notification:
       default_message: "Please review the problems below:"
 
     labels:
       all_decision: &ALL_DECISION
         doc_file: Doc File
-      decision: 
+        claimant: Appellant Name
+        respondent: Respondent Name
+        judges: Respondent Name
+        file_number: Decision No
+        decision: Date of Decision
+        upload_date: Date of Upload
+        publication_date: Date published
+        category: Category
+        subcategories: Sub-Category
+      decision:
         <<: *ALL_DECISION
+
+    placeholders:
+      all_decision: &ALL_DECISION
+        decision_date: 'DD/MM/YYYY'
+        upload_date: 'DD/MM/YYYY'
+        publication_date: 'DD/MM/YYYY'
+      decision:
+        <<: *ALL_DECISION
+
     # Labels and hints examples
     # labels:
     #   defaults:

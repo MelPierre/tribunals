@@ -1,4 +1,3 @@
 .form-inputs
-  / = form.association :category
-  / = form.association :sub_category
-  / = form.input :notes 
+  = form.association :category, input_html: { multiple: false}
+  = form.association :subcategories, input_html: { multiple: false}
