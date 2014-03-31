@@ -75,4 +75,11 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     def decisions_relation
       current_tribunal.all_decisions
     end
+
+  private
+    def decision_params
+      params.require(:all_decision).permit(:doc_file, :promulgated_on, :hearing_on, :appeal_number, :reported, :starred,
+                                       :country_guideline, :judges, :categories, :country, :claimant,
+                                       :keywords, :case_notes, :ncn)
+    end
 end
