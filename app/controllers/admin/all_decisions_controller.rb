@@ -26,9 +26,9 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     @decision = decisions_relation.new(decision_params)
     if @decision.save
       @decision.process_doc
-      redirect_to admin_ftt_decision_path
+      redirect_to admin_all_decisions_path
     else
-      render new_admin_ftt_decision_path
+      render new_admin_all_decision_path
     end
   end
 
