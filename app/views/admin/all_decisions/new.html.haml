@@ -1,5 +1,5 @@
 %h2 Add decision
-= simple_form_for @decision, html: {multipart: true} do |form|
+= simple_form_for @decision, url: :admin_all_decisions, html: {multipart: true} do |form|
   .form-inputs
     = form.association :tribunal
     / = form.association :jurisdiction
@@ -8,6 +8,6 @@
   = render tribunal_form_view_path, form: form, common_view_path: tribunal_common_view_path
 
   .form-actions
-    = form.button :submit, 'Add desision'
+    = form.button :submit, 'Add decision'
     = link_to 'Clear', '#'
 
