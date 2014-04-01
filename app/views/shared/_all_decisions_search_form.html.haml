@@ -1,0 +1,22 @@
+= form_tag decisions_path, :method => :get, :class => 'search_form' do
+  %fieldset
+    %h2
+      %label{:for => "search_query"} Enter your search terms
+    = text_field :search, :query, :value => params[:search][:query]
+    .buttons.cf
+      %button.button.primary.right{:type => "submit"} Search
+  %fieldset#advanced_search
+    %legend
+      %h2 Refine your search
+    - @tribunal[:filters].each do |filter|
+      %h3
+        %label= filter["label"]
+      = input_for(:search, filter)
+
+    .buttons.cf
+      %button.button.secondary.left{:type => "reset"} Clear
+      %button.button.primary.right{:type => "submit"} Refine search
+    %p.help
+      Email:
+      %a{:href => "mailto:utiacdecisions@hmcts.gsi.gov.uk"} utiacdecisions@hmcts.gsi.gov.uk
+      if you want a copy of an unreported decision from before 1 June 2013.

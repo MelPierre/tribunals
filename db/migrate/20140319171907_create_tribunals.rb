@@ -3,16 +3,15 @@ class CreateTribunals < ActiveRecord::Migration
     create_table :tribunals do |t|
       t.string :name
       t.string :code
-
+      t.string :title
+      t.string :category_label, default: 'Category'
+      t.string :subcategory_label, default: 'Sub-category'
+      t.json :filters, default: []
+      t.json :sort_by, default: []
+      t.json :results_columns, default: []
+      
       t.timestamps
     end
     add_index :tribunals, :code
-
-    create_table :tribunals_users, id: false do |t|
-      t.references :user
-      t.references :tribunal
-    end
-
-    add_index :tribunals_users, [:user_id, :tribunal_id]
   end
 end
