@@ -16,7 +16,6 @@ Tribunals::Application.routes.draw do
   namespace :admin do
     devise_for :users, controllers: { invitations: 'users/invitations', sessions: 'devise/sessions', passwords: 'devise/passwords', registrations: 'devise/registrations'}
     #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
-
     get '/', to: redirect('/admin/utiac'), as: :decisions
 
     scope ':tribunal_code' do
