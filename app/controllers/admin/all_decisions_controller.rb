@@ -5,6 +5,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   def index
     set_cache_control(decisions_relation.maximum(:updated_at))
+    @tribunal = current_tribunal
     @order_by = 'decision_date'
     @sort_options = [["Date of decision", "decision_date"], ["Date of update", "last_updatedtime"]]
     params[:search] ||= {}
