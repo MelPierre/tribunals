@@ -156,10 +156,35 @@ namespace :data do
   namespace :convert do
     desc "Convert categories data to new format"
     task categories: :environment do
+      Subcategory.delete_all
+      Category.delete_all
+      
       {"ftt-tax" => FttCategory, "utaac" => AacCategory, "eat" => EatCategory}.each do |k,v|
         tribunal = Tribunal.find_by_code(k)
-        tribunal.categories.delete_all
-        v.find_each { |cat| tribunal.categories.create(name: cat.name) }
+        v.find_each { |cat| 
+          new_cat = tribunal.categories.create(name: cat.name, legacy_id: cat.id)
+          cat_key = case k
+            when 'ftt-tax' then 'ftt'
+            when 'utaac' then 'aac'
+            else k
+          end
+          cat.send("#{cat_key}_subcategories").each do |subcat|
+            puts "Adding sub category #{subcat.name} to #{new_cat.name}"
+            new_cat.subcategories.create(name: subcat.name, legacy_id: subcat.id)
+          end 
+        }
+      end
+    end
+
+    desc "Convert judges data to new format"
+    task judges: :environment do
+      AllJudge.delete_all
+      
+      {"ftt-tax" => FttCategory, "utaac" => AacCategory, "eat" => EatCategory}.each do |k,v|
+        tribunal = Tribunal.find_by_code(k)
+        v.find_each { |cat| 
+          tribunal.categories.create(name: cat.name)
+        }
       end
     end
 
