@@ -2,7 +2,7 @@ namespace :data do
   desc 'Seed tribunals'
 
   task seed_tribunals: :environment do
-    Tribunal.destroy_all
+    Tribunal.delete_all
     Tribunal.create([
       {
         name:'Immigration and Aslyum Chamber',
