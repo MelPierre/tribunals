@@ -20,7 +20,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   def show
     @decision = decisions_relation.find_by_file_number(params[:id])
-    # set_cache_control(@decision.updated_at)
+    set_cache_control(@decision.updated_at)
     render 'admin/all_decisions/show'
   end
 
