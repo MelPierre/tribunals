@@ -19,8 +19,9 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def show
-    @decision = decisions_relation.find(params[:id])
-    set_cache_control(@decision.updated_at)
+    @decision = decisions_relation.find_by_file_number(params[:id])
+    # set_cache_control(@decision.updated_at)
+    render 'admin/all_decisions/show'
   end
 
   def create

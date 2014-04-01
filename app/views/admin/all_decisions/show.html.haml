@@ -4,8 +4,8 @@
       %li
         %a{:href => "/"} Home
 
-  = link_to('Edit this decision', edit_admin_ftt_decision_path(@decision), :class => 'button')
-  = link_to('Delete this decision', admin_ftt_decision_path(@decision), method: :delete, data: { confirm: "Are you sure you'd like to remove this decision from the system?" } , class: 'button button-warning')
+  / = link_to('Edit this decision', edit_admin_all_decision_path(@decision), :class => 'button')
+  / = link_to('Delete this decision', admin_all_decision_path(@decision), method: :delete, data: { confirm: "Are you sure you'd like to remove this decision from the system?" } , class: 'button button-warning')
 
 %div{:vocab => "http://schema.org", :typeof => "CreativeWork"}
   %header.page-header.group
@@ -14,9 +14,9 @@
       %li
         %span.label Tribunal
         %span Upper Tribunal (Tax and Chancery Chamber)
-      %li
-        %span.label Judges:
-        %span= @decision.judge_names
+      / %li
+      /  %span.label Judges:
+      /  %span= @decision.judge_names
       %li
         %span.label Appellant name:
         %span= @decision.claimant
@@ -28,10 +28,10 @@
         %span= schema_time_element(@decision.decision_date)
       %li
         %span.label Date added:
-        %span= schema_time_element(@decision.created_datetime)
+        %span= schema_time_element(@decision.upload_date)
       %li
         %span.label Date updated:
-        %span= schema_time_element(@decision.last_updatedtime)
+        %span= schema_time_element(@decision.publication_date)
       %li
         %span.label Category:
         %span= display_categories(@decision)
