@@ -2,8 +2,7 @@ class AllDecision < ActiveRecord::Base
   has_many :category_decisions
   has_many :subcategories, through: :category_decisions
   has_many :categories, through: :category_decisions
-  # has_many :judgments
-  # has_many :judges, through: :judgements
+  has_and_belongs_to_many :all_judges, join_table: :decisions_judges
   belongs_to :tribunal
 
   extend FriendlyId
