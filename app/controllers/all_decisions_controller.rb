@@ -12,7 +12,8 @@ class AllDecisionsController < ApplicationController
   end
 
   def show
-    @decision = self.class.scope.find(params[:id])
+
+    @decision = AllDecision.find(params[:id])
     set_cache_control(@decision.updated_at)
   end
 end

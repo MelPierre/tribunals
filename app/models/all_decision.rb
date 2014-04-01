@@ -1,6 +1,7 @@
 class AllDecision < ActiveRecord::Base
-  # has_many :subcategories_decisions
-  # has_many :subcategories, through: :subcategories_decisions
+  has_many :category_decisions
+  has_many :subcategories, through: :category_decisions
+  has_many :categories, through: :category_decisions
   # has_many :judgments
   # has_many :judges, through: :judgements
   belongs_to :tribunal
@@ -25,4 +26,5 @@ class AllDecision < ActiveRecord::Base
   scope :eat, ->{ where(tribunal_id: Tribunal.find_by_code("eat").try(:id)) } 
   scope :viewable, ->{ t = self.arel_table; where(t[:reported].eq(true).or(t[:promulgation_date].gteq(Date.new(2013, 6, 1)))) }
   scope :reported, ->{ where(reported: true) }
+
 end

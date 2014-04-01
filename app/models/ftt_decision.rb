@@ -87,6 +87,10 @@ class FttDecision < ActiveRecord::Base
     DocProcessor.process_doc_file(self, doc_file) if doc_file.present?
   end
 
+  def process_pdf(pdf_file_path)
+    DocProcessor.process_pdf_file(self, pdf_file_path)
+  end
+
   def set_html_from_text(cache={})
     if self.text
       self.html = self.text.gsub(/\n/, '<br/>')

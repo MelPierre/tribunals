@@ -2,7 +2,7 @@ namespace :data do
   desc 'Seed tribunals'
 
   task seed_tribunals: :environment do
-    Tribunal.destroy_all
+    Tribunal.delete_all
     Tribunal.create([
       {
         name:'Immigration and Aslyum Chamber',
@@ -154,38 +154,47 @@ namespace :data do
   end
 
   namespace :convert do
-    desc "Convert data to new format"
-    task :all => [:ftt, :eat, :utaac]
-
-    task ftt: :environment do
-
-      ftt = Tribunal.find_by_code "ftt-tax"
-      AllDecision.where(tribunal_id: ftt.id).destroy_all
-      FttDecision.find_each do |decision|
-        puts "Converting FTT decision  #{decision.file_number}"
-        AllDecision.create(
-                            tribunal_id: ftt.id,
-                            claimant: decision.claimant,
-                            respondent: decision.respondent,
-                            # doc_file: decision.doc_file,
-                            # pdf_file: decision.pdf_file,
-                            text: decision.text,
-                            html: decision.html,
-                            search_text: decision.search_text,
-                            slug: decision.slug,
-                            hearing_date: decision.hearing_date,
-                            decision_date: decision.decision_date,
-                            publication_date: decision.publication_date,
-                            file_number: decision.file_number,
-                            other_metadata: {  file_no_1: decision.file_no_1,
-                                                file_no_2: decision.file_no_2
-                                              },
-                            created_at: decision.created_at,
-                            updated_at: decision.updated_at
-                          )
+    desc "Convert categories data to new format"
+    task categories: :environment do
+      {"ftt-tax" => FttCategory, "utaac" => AacCategory, "eat" => EatCategory}.each do |k,v|
+        tribunal = Tribunal.find_by_code(k)
+        tribunal.categories.delete_all
+        v.find_each { |cat| tribunal.categories.create(name: cat.name) }
       end
     end
 
+    namespace :ftt do
+      desc "Convert decisions data to new format"
+      task decisions: :environment do
+
+        AllDecision.where(tribunal_id: ftt.id).destroy_all
+        FttDecision.find_each do |decision|
+          puts "Converting FTT decision  #{decision.file_number}"
+          AllDecision.create(
+                              tribunal_id: ftt.id,
+                              claimant: decision.claimant,
+                              respondent: decision.respondent,
+                              # doc_file: decision.doc_file,
+                              # pdf_file: decision.pdf_file,
+                              text: decision.text,
+                              html: decision.html,
+                              search_text: decision.search_text,
+                              slug: decision.slug,
+                              hearing_date: decision.hearing_date,
+                              decision_date: decision.decision_date,
+                              publication_date: decision.publication_date,
+                              file_number: decision.file_number,
+                              other_metadata: {  file_no_1: decision.file_no_1,
+                                                  file_no_2: decision.file_no_2
+                                                },
+                              created_at: decision.created_at,
+                              updated_at: decision.updated_at
+                            )
+        end
+      end      
+    end
+
+    desc "Convert decisions data to new format"
     task eat: :environment do
 
       eat = Tribunal.find_by_code "eat"
@@ -257,14 +266,5 @@ namespace :data do
                           )
       end
     end
-
-
-
   end
-
-
 end
-
-
-
-
