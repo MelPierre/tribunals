@@ -10,8 +10,8 @@ namespace :data do
         title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal',
         filters: [
                     {
-                      name: "reported", 
-                      label: "Case status", 
+                      name: "reported",
+                      label: "Case status",
                       type: "radio",
                       options: [
                                   {
@@ -114,7 +114,7 @@ namespace :data do
                 results_columns: [{name: "reference_id", label: "Reference number"}, {name: "date_of_decision", label: "Date of decision"}]
       },
       {
-        name:'Employment Appeals Tribunal', 
+        name:'Employment Appeals Tribunal',
         code:'eat',
         title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal',
         filters: [
@@ -158,10 +158,10 @@ namespace :data do
     task categories: :environment do
       Subcategory.delete_all
       Category.delete_all
-      
+
       {"ftt-tax" => FttCategory, "utaac" => AacCategory, "eat" => EatCategory}.each do |k,v|
         tribunal = Tribunal.find_by_code(k)
-        v.find_each { |cat| 
+        v.find_each { |cat|
           new_cat = tribunal.categories.create(name: cat.name, legacy_id: cat.id)
           cat_key = case k
             when 'ftt-tax' then 'ftt'
@@ -171,7 +171,7 @@ namespace :data do
           cat.send("#{cat_key}_subcategories").each do |subcat|
             puts "Adding sub category #{subcat.name} to #{new_cat.name}"
             new_cat.subcategories.create(name: subcat.name, legacy_id: subcat.id)
-          end 
+          end
         }
       end
     end
@@ -179,10 +179,10 @@ namespace :data do
     desc "Convert judges data to new format"
     task judges: :environment do
       AllJudge.delete_all
-      
+
       {"ftt-tax" => FttCategory, "utaac" => AacCategory, "eat" => EatCategory}.each do |k,v|
         tribunal = Tribunal.find_by_code(k)
-        v.find_each { |cat| 
+        v.find_each { |cat|
           tribunal.categories.create(name: cat.name)
         }
       end
@@ -191,6 +191,7 @@ namespace :data do
     namespace :ftt do
       desc "Convert decisions data to new format"
       task decisions: :environment do
+      ftt = Tribunal.find_by_code "ftt-tax"
 
         AllDecision.where(tribunal_id: ftt.id).destroy_all
         FttDecision.find_each do |decision|
@@ -216,7 +217,7 @@ namespace :data do
                               updated_at: decision.updated_at
                             )
         end
-      end      
+      end
     end
 
     desc "Convert decisions data to new format"
@@ -240,7 +241,7 @@ namespace :data do
                             decision_date: decision.decision_date,
                             upload_date: decision.upload_date,
                             file_number: decision.file_number,
-                            starred: decision.starred,                            
+                            starred: decision.starred,
                             other_metadata: {  filename: decision.filename,
                                                 uploaded_by: decision.uploaded_by
                                               },
@@ -277,12 +278,12 @@ namespace :data do
                             other_metadata: {  file_no_1: decision.file_no_1,
                                                 file_no_2: decision.file_no_2,
                                                 file_no_3: decision.file_no_3,
-                                                ncn_citation: decision.ncn_citation, 
-                                                ncn_code1: decision.ncn_code1, 
-                                                ncn_code2: decision.ncn_code2, 
-                                                ncn_year: decision.ncn_year, 
-                                                reported_no_1: decision.reported_no_1, 
-                                                reported_no_2: decision.reported_no_2, 
+                                                ncn_citation: decision.ncn_citation,
+                                                ncn_code1: decision.ncn_code1,
+                                                ncn_code2: decision.ncn_code2,
+                                                ncn_year: decision.ncn_year,
+                                                reported_no_1: decision.reported_no_1,
+                                                reported_no_2: decision.reported_no_2,
                                                 reported_no_3: decision.reported_no_3,
                                                 keywords: decision.keywords
                                               },
