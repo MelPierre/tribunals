@@ -6,4 +6,9 @@ class Tribunal < ActiveRecord::Base
   has_many :all_decisions
   has_many :categories
   has_many :subcategories
+
+  scope :utiac, ->{ where(code: "utiac").first }
+  scope :ftt, ->{ where(code: "ftt-tax").first }
+  scope :utaac, ->{ where(code: "utaac").first }
+  scope :eat, ->{ where(code: "eat").first }
 end
