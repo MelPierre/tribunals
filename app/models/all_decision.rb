@@ -1,7 +1,8 @@
 class AllDecision < ActiveRecord::Base
   include Decisions
-  has_many :category, class_name: FttCategory
-  has_many :subcategories, class_name: FttSubcategory
+  has_many :category_decisions
+  has_many :subcategories, through: :category_decisions
+  has_many :categories, through: :category_decisions
   # has_many :judgments
   # has_many :judges, through: :judgements
   belongs_to :tribunal
