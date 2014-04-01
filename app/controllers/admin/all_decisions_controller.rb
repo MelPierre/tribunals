@@ -79,8 +79,18 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   private
     def decision_params
-      params.require(:all_decision).permit(:doc_file, :promulgated_on, :hearing_on, :appeal_number, :reported, :starred,
-                                       :country_guideline, :judges, :categories, :country, :claimant,
-                                       :keywords, :case_notes, :ncn)
+      params.require(:all_decision).permit( :doc_file,
+                                            :tribunal_id,
+                                            :file_number,
+                                            :claimant,
+                                            :respondent,
+                                            :decision_date,
+                                            :upload_date,
+                                            :publication_date,
+                                            :categories,
+                                            :subcategories,
+                                            :notes
+                                            )
+
     end
 end
