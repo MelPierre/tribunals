@@ -93,8 +93,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
                                             :decision_date,
                                             :upload_date,
                                             :publication_date,
-                                            :categories,
-                                            :subcategories,
+                                            :category_ids,
+                                            :subcategory_ids,
                                             :notes
                                             )
 
