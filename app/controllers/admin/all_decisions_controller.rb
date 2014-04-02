@@ -23,6 +23,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     @decision = decisions_relation.find_by_file_number(params[:id])
     set_cache_control(@decision.updated_at)
     render 'admin/all_decisions/show'
+  rescue
+    redirect_to admin_all_decisions_path
   end
 
   def create
@@ -54,9 +56,9 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def destroy
-    @decision = self.class.scope.find(params[:id])
+    @decision = decisions_relation.find_by_file_number(params[:id])
     @decision.destroy
-    redirect_to admin_decisions_path
+    redirect_to admin_all_decisions_path
   end
 
   protected
