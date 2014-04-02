@@ -39,33 +39,12 @@ class CSVImporter
     puts "\nComplete!"
   end
 
-  # def import_decisions_judges_mapping  
-  #   each_row('judges_judgements_map.csv') do |row|
-  #     create_aac_judgements(row)
-  #   end    
-  # end
-
-  # def run
-  #   each_row('judgment.csv') do |row|
-  #     if decision = find_decision(row['Doc_name'], compute_ncn(row))
-  #       update_judgment(decision, row)
-  #     else
-  #       create_judgment(row)
-  #     end
-  #   end
-  # end
-
-  def find_decision(filename, ncn)
-    @tribunal.all_decisions.where('doc_file = ? or ncn = ?', filename, ncn).first
+  def update_decisions_judges  
+    each_row('judges_judgements_map.csv') { |row| update_decision_judge(row) }  
   end
 
   def compute_ncn(row)
     "[#{row['ncn_year']}] #{row['ncn_code']} #{row['ncn_citation']}"
-  end
-
-  def read_date(value, format=nil)
-    return nil unless value
-    format.nil? ? Date.parse(value.split(/ /).first) : Date.strptime(value, format)
   end
 
   def update_judgment(decision, row)
@@ -108,47 +87,62 @@ class CSVImporter
   end
 
   def update_decision(row)
-    begin
-      d = @tribunal.all_decisions.where('doc_file = ? or neutral_citation_number = ?', row['Doc_name'], compute_ncn(row)).first_or_initialize
+    d = @tribunal.all_decisions.where('doc_file = ? or neutral_citation_number = ?', row['Doc_name'], compute_ncn(row)).first_or_initialize
 
-      d.attributes = {
-        id: row['judgement_id'],
-        tribunal: row['tribunal'],
-        chamber: row['chamber'],
-        chamber_group: row['chamber_group'],
-        hearing_date: read_date(row['hearing_datetime'],'%m/%d/%Y'),
-        decision_date: read_date(row['decision_datetime'],'%m/%d/%Y'),
-        created_datetime: read_date(row['created_datetime'],'%m/%d/%Y'),
-        publication_date: read_date(row['publication_datetime'],'%m/%d/%Y'),
-        last_updatedtime: read_date(row['last_updatedtime'],'%m/%d/%Y'),
-        file_number: row['file_number'],
-        file_no_1: row['file_no_1'],
-        file_no_2: row['file_no_2'],
-        file_no_3: row['file_no_3'],
-        reported_number: row['reported_number'],
-        reported_no_1: row['reported_no_1'],
-        reported_no_2: row['reported_no_2'],
-        reported_no_3: row['reported_no_3'],
-        ncn: row['neutral_citation_number'],
-        ncn_year: row['ncn_year'],
-        ncn_code1: row['ncn_code1'],
-        ncn_citation: row['ncn_citation'],
-        ncn_code2: row['ncn_code2'],
-        claimant: row['claimant'],
-        respondent: row['respondent'],
-        notes: row['notes'],
-        is_published: row['is_published'],
-        aac_decision_subcategory_id: row['subcategory_id'],
-        old_sec_subcategory_id: row['sec_subcategory_id'],
-        keywords: row['keywords']
-      }
-      
-      print d.new_record? ? '+' : '.'
-      d.save
-    rescue StandardError => e
-      puts e
-      puts "Failed to import #{row['judgement_id']}"
+    # new_decision = AllDecision.create!(
+    #     # doc_file: decision.doc_file,
+    #     # pdf_file: decision.pdf_file,
+    #     text: decision.text,
+    #     html: decision.html,
+    #     search_text: decision.search_text,
+    #   )
+    
+    # map meta information
+    meta = {
+      file_no_1: row['file_no_1'],
+      file_no_2: row['file_no_2'],
+      file_no_3: row['file_no_3'],
+      ncn_citation: row['ncn_citation'],
+      ncn_code1: row['ncn_code1'],
+      ncn_code2: row['ncn_code2'],
+      ncn_year: row['ncn_year'],
+      reported_no_1: row['reported_no_1'],
+      reported_no_2: row['reported_no_2'],
+      reported_no_3: row['reported_no_3'],
+      keywords: row['keywords']
+    }
+    # map attributes
+    d.attributes = {
+      file_number: row['file_number'],
+      reported_number: row['reported_number'],
+      neutral_citation_number: compute_ncn(row),
+      claimant: row['claimants'],
+      respondent: row['respondent'],
+      notes: row['notes'],
+      published: row['is_published'],
+    }
+
+    # main main sub cat
+    if row['main_subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['main_subcategory_id'])
+      category = subcategory.category
+      d.category_decisions.where(category: category, subcategory: subcategory).first_or_initialize
     end
+    # map sec sub cat
+    if row['sec_subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['sec_subcategory_id'])
+      category = subcategory.category
+      d.category_decisions.where(category: category, subcategory: subcategory).first_or_initialize
+    end
+
+    # map dates
+    d.hearing_date     = read_date(row['hearing_datetime'],'%d/%m/%Y')      if row['hearing_datetime']
+    d.decision_date    = read_date(row['decision_datetime'],'%d/%m/%Y')     if row['decision_datetime']
+    d.created_at       = read_date(row['created_datetime'],'%d/%m/%Y')      if row['created_datetime']
+    d.publication_date = read_date(row['publication_datetime'],'%d/%m/%Y')  if row['publication_datetime']
+    d.updated_at       = read_date(row['last_updatedtime'],'%d/%m/%Y')      if row['last_updatedtime']
+
+    print d.new_record? ? '+' : '.'
+    d.save
+
   end
 
   def update_category(row)
@@ -178,50 +172,16 @@ class CSVImporter
     puts "Failed to import #{row['id']} - #{row['judge_name']}" unless j.save    
   end    
 
-  def create_aac_judgements(row)
-    # begin
-    #   d = AacDecision.find(row['judgement_id'])
-    #   d.judges << Judge.find(row['judge_id'].to_i)
-    # rescue Exception => e
-    #   puts e.message  
-    #   puts e.backtrace.inspect  
-    # end
+  def update_decision_judge(row)
+    judge = @tribunal.judges.find(row['commissioner_id'])
+    decision = @tribunal.all_decisions.find(row['judgement_id'])
+    decision.all_judges << judge
+    print '.'
   end
 
-  def judges_for(judgment_id)
-    judge_ids_for(judgment_id).inject([]) do |acc, jid|
-      if value = judge(jid)
-        acc << value
-      end
-      acc
-    end
+  def read_date(value, format=nil)
+    return nil unless value
+    format.nil? ? Date.parse(value.split(' ').first) : Date.strptime(value, format)
   end
 
-  def judge_ids_for(judgment_id)
-    @judge_ids_map ||= \
-    begin
-      Hash.new { [] }.tap do |map|
-        each_row('commissioner_judgment_map.csv') do |row|
-          map[row['judgment_id']] <<= row['commissioner_id']
-        end
-      end
-    end
-
-    @judge_ids_map[judgment_id]
-  end
-
-  def judge(judge_id)
-    @judge_ids ||= \
-    begin
-      {}.tap do |map|
-        each_row('commissioner.csv') do |row|
-          map[row['id']] = [row['prefix'], row['name'], row['postfix']].join(' ').strip
-        end
-      end
-    end
-
-    @judge_ids[judge_id]
-  end
 end
-
-

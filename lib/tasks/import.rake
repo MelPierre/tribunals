@@ -1,7 +1,7 @@
 require 'csv_importer'
 
 namespace :import do
-  task :all => [:judges, :subcategories, :decisions]
+  task :all => [:judges, :subcategories, :decisions, :decisions_judges]
 
 
   namespace :aac do
@@ -21,9 +21,9 @@ namespace :import do
       CSVImporter.new('data/aac', 'utaac').import_judges
     end
 
-    # task :decisions_judges_mapping => :environment do
-    #   CSVImporter.new('data/aac', 'utaac').import_decisions_judges_mapping
-    # end
+    task :decisions_judges => :environment do
+      CSVImporter.new('data/aac', 'utaac').update_decisions_judges
+    end
 
     task :process_docs => [:environment] do
       Tribunal.find_by_code('utaac').all_decisions.find_each do |d|
