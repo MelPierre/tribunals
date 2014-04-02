@@ -46,11 +46,11 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def update
-    @decision = self.class.scope.find(params[:id])
+    @decision = decisions_relation.find_by_file_number(params[:id])
     @decision.update_attributes!(decision_params)
-    redirect_to admin_ftt_decision_path
+    redirect_to admin_all_decision_path
   rescue
-    redirect_to edit_admin_ftt_decision_path(@decisions)
+    redirect_to edit_admin_all_decision_path(@decision)
   end
 
   def destroy

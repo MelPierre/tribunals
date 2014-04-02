@@ -27,9 +27,9 @@
   .row
     = form.input :upload_date, as: 'string', input_html: { maxlength: 10 }
   .row
-    = form.association :categories, input_html: { multiple: false}
+    = form.association :categories, input_html: { multiple: false}, collection: @tribunal.categories
   .row
-    = form.association :subcategories, input_html: { multiple: false}
+    = form.association :subcategories, input_html: { multiple: false}, collection: @tribunal.subcategories
   .row
     = form.input :notes
   .row
