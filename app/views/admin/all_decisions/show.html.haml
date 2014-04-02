@@ -10,6 +10,9 @@
 %div{:vocab => "http://schema.org", :typeof => "CreativeWork"}
   %header.page-header.group
     %h1= "Decision Number: #{display_file_number(@decision)}"
+    = link_to('Edit this decision', edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug), :class => 'button primary left')
+    = link_to('Add new UT decision', '', :class => 'button primary left')
+    = link_to('Delete decision', admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug), method: :delete, data: { confirm: "Are you sure want to delete this decision from the system?" } , class: 'button button-warning right')
     %ul.decision-details
       %li
         %span.label Tribunal
