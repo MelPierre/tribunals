@@ -14,8 +14,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     end
     @date_column_title = (@order_by == 'decision_date') ? 'Date of decision' : 'Date of update'
     @categories_title = 'Categories: '
-    @decisions = decisions_relation.ordered.paginate(:page => params[:page], :per_page => 30)
-    @decisions = @decisions.filtered(params[:search]) if params[:search].present?
+    @decisions = @tribunal.all_decisions.paginate(:page => params[:page], :per_page => 30)
+    # @decisions = @decisions.filtered(params[:search]) if params[:search].present?
   end
 
   def show
