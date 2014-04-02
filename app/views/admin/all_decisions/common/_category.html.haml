@@ -1,3 +1,3 @@
 .form-inputs
-  = form.association :categories, input_html: { multiple: false}
-  = form.association :subcategories, input_html: { multiple: false}
+  = form.association :categories, input_html: { multiple: false}, collection: @tribunal.categories
+  = form.association :subcategories, input_html: { multiple: false}, collection: @tribunal.subcategories
