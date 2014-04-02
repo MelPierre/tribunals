@@ -36,6 +36,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def new
+    @tribunal = current_tribunal
     @decision ||= decisions_relation.new
   end
 

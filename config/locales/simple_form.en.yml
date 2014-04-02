@@ -23,6 +23,8 @@ en:
         upload_date: Date of Upload
         publication_date: Date published
         category: Category
+        categories: Category
+        subcategories: Sub-Category
         subcategories: Sub-Category
       decision:
         <<: *ALL_DECISION

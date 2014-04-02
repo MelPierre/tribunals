@@ -1,43 +1,37 @@
 %header
   %h1 Edit decision
-= form_for(@decision, url: admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)) do |form|
+= simple_form_for(@decision, url: admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)) do |form|
   .row#case_title
     %label Case title
     %span
-  - if @decision.doc_file
+  - if @decision.doc_file.present? &&  @decision.doc_file.url.present?
     .row
       = link_to('doc file', @decision.doc_file.url, :class => 'doclink')
   .row
-    = form.label :doc_file
-    = form.file_field :doc_file
+    = form.association :tribunal
   .row
-    %span.label Tribunal
-    %span Upper Tribunal (Tax and Chancery Chamber)
+    = form.input :doc_file, as: 'file'
+
   / .row
   /   = form.label 'Judges:'
   /   .wrapper
   /     = form.text_field :judge_names
   .row
-    = form.label 'Appellant name:'
-    = form.text_field :claimant
+    = form.input :claimant, as: 'string'
   .row
-    = form.label 'Respondent name:'
-    = form.text_field :respondent
+    = form.input :respondent, as: 'string'
   .row
-    = form.label 'Date of decision:'
-    = form.date_select :decision_date, start_year: 2003, end_year: Date.today.year + 1
+    = form.input :decision_date, as: 'string', input_html: { maxlength: 10 }
   .row
-    = form.label 'Date added:'
-    = form.date_select :created_at, start_year: 2003, end_year: Date.today.year + 1
+    = form.input :created_at, as: 'string', input_html: { maxlength: 10 }
   .row
-    = form.label 'Date updated:'
-    = form.date_select :upload_date, start_year: 2003, end_year: Date.today.year + 1
+    = form.input :upload_date, as: 'string', input_html: { maxlength: 10 }
   .row
-    = form.label 'Category:'
-    = form.text_field :categories
+    = form.association :categories, input_html: { multiple: false}
   .row
-    = form.label 'Notes:'
-    = form.text_area :notes
+    = form.association :subcategories, input_html: { multiple: false}
+  .row
+    = form.input :notes
   .row
     = form.submit :class => 'button primary'
     %a.button{:href => admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)} Cancel
