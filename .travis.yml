@@ -6,7 +6,6 @@ before_install:
   - sudo apt-get install -qq libreoffice
 before_script:
   - psql -c 'create role tribunals login createdb;' -U postgres 
-# services: postgres
 addons:
   postgresql: 9.2
 script:

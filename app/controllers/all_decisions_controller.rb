@@ -8,7 +8,7 @@ class AllDecisionsController < ApplicationController
     @tribunal = Tribunal.find_by_code(params[:tribunal])
 
     @decisions = @tribunal.all_decisions.paginate(:page => params[:page], :per_page => 30)
-    # @decisions = @decisions.filtered(params[:search]) if params[:search].present?
+    @decisions = @decisions.filtered(params[:search]) if params[:search].present?
   end
 
   def show
