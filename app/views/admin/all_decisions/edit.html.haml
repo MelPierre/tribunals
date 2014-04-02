@@ -8,7 +8,7 @@
     .row
       = link_to('doc file', @decision.doc_file.url, :class => 'doclink')
   .row
-    = form.association :tribunal
+    = form.input :tribunal, input_html: { value: @tribunal.name, disabled: true}
   .row
     = form.input :doc_file, as: 'file'
 

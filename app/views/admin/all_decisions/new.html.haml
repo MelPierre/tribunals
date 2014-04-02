@@ -1,7 +1,8 @@
 %h2 Add decision
 = simple_form_for @decision, url: :admin_all_decisions, html: {multipart: true} do |form|
   .form-inputs
-    = form.association :tribunal
+    /= form.association :tribunal
+    = form.input :tribunal, input_html: { value: @tribunal.name, disabled: true}
     / = form.association :jurisdiction
     = form.input :doc_file, as: 'file'
 
