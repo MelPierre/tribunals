@@ -10,7 +10,7 @@
           = link_to(hilighted_metadata_result(params[:search][:query], link_label(decision), true), "/#{tribunal.code}/#{decision.to_param}")
         - else
           = link_to(link_label(decision), "/#{tribunal.code}/#{decision.to_param}")
-      %td.date= time_element(decision.send(@order_by))
+      %td.date= date_element(decision.send(@order_by))
     - if display_parties(decision)
       %tr{:class => group + (search_present() ? '' : ' last')}
         %td{:colspan => 2}

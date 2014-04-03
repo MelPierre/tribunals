@@ -3,6 +3,6 @@ class Subcategory < ActiveRecord::Base
   has_many :decisions, through: :category_decisions
 
   def self.list
-    order('name ASC').pluck("name AS subcategory")
+    order('subcategories.name ASC').pluck("subcategories.name AS subcategory")
   end
 end

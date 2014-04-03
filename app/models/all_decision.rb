@@ -8,8 +8,11 @@ class AllDecision < ActiveRecord::Base
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
+  before_save :set_neutral_citation_number
+  before_save :set_file_number
+
   def slug_candidates
-    if !file_number.blank?
+    if file_number.present?
       file_number
     else
       "decision-#{id}"
@@ -27,5 +30,28 @@ class AllDecision < ActiveRecord::Base
   scope :reported, ->{ where(reported: true) }
   scope :legacy_id, ->(legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
   scope :ordered, ->(order_by = "created_at") { order("#{order_by} DESC") }
+
+
+  protected
+  
+    def set_neutral_citation_number
+      begin
+        if neutral_citation_number.nil? || neutral_citation_number.blank?
+          values = other_metadata.with_indifferent_access.slice('ncn_year', 'ncn_code1','ncn_citation').values
+          values[0] = "[#{values[0]}]" if values[0]
+          self.neutral_citation_number = values.compact.join(' ')
+        end
+      rescue Exception => ex
+
+      end
+    end
+
+    def set_file_number
+      begin
+        self.file_number= other_metadata.with_indifferent_access.slice('file_no_1', 'file_no_2', 'file_no_3').values.compact.join('/') if file_number.nil? || file_number.blank?
+      rescue Exception => ex
+
+      end
+    end
 
 end

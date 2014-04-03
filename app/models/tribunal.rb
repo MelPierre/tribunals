@@ -4,6 +4,7 @@ class Tribunal < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :all_judges
   has_many :all_decisions
+  
   has_many :categories
   has_many :subcategories, through: :categories
 

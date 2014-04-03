@@ -88,14 +88,6 @@ class CSVImporter
 
   def update_decision(row)
     d = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
-
-    # new_decision = AllDecision.create!(
-    #     # doc_file: decision.doc_file,
-    #     # pdf_file: decision.pdf_file,
-    #     text: decision.text,
-    #     html: decision.html,
-    #     search_text: decision.search_text,
-    #   )
     
     # map meta information
     meta = {
@@ -115,9 +107,7 @@ class CSVImporter
 
     # map attributes
     d.attributes = {
-      file_number: row['file_no'],
       reported_number: row['reported_no'],
-      neutral_citation_number: compute_ncn(row),
       claimant: row['claimant'],
       respondent: row['respondent'],
       notes: row['notes'],
@@ -157,10 +147,14 @@ class CSVImporter
   end
 
   def update_subcategory(row)
-      sc = @tribunal.subcategories.where(legacy_id: row['id'], category_id: row['parent_num']).first_or_initialize
+    if c = @tribunal.categories.find_by_legacy_id(row['parent_num'])
+      sc = c.subcategories.where(legacy_id: row['id']).first_or_initialize
       sc.name = row['description']
       print sc.new_record? ? '+' : '.'
       puts "Failed to import #{row['id']} - #{row['description']}" unless sc.save
+    else
+      puts "Could not find category with id #{row['id']}"
+    end
   end
 
   def update_judge(row)

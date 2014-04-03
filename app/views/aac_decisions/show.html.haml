@@ -27,10 +27,10 @@
         %span= schema_time_element(@decision.decision_date)
       %li
         %span.label Date added:
-        %span= schema_time_element(@decision.created_at)
+        %span= schema_time_element(@decision.created_at.to_date)
       %li
         %span.label Date updated:
-        %span= schema_time_element(@decision.updated_at)
+        %span= schema_time_element(@decision.updated_at.to_date)
       %li
         %span.label Category:
         %span= display_categories(@decision)
