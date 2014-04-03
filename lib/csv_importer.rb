@@ -39,7 +39,7 @@ class CSVImporter
     puts "\nComplete!"
   end
 
-  def update_decisions_judges  
+  def update_decisions_judges
     each_row('judges_judgements_map.csv') { |row| update_decision_judge(row) }  
   end
 
@@ -87,7 +87,7 @@ class CSVImporter
   end
 
   def update_decision(row)
-    d = @tribunal.all_decisions.where('doc_file = ? or neutral_citation_number = ?', row['Doc_name'], compute_ncn(row)).first_or_initialize
+    d = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
 
     # new_decision = AllDecision.create!(
     #     # doc_file: decision.doc_file,
@@ -99,6 +99,7 @@ class CSVImporter
     
     # map meta information
     meta = {
+      legacy_id: row['judgment_id'],
       file_no_1: row['file_no_1'],
       file_no_2: row['file_no_2'],
       file_no_3: row['file_no_3'],
@@ -120,6 +121,7 @@ class CSVImporter
       respondent: row['respondent'],
       notes: row['notes'],
       published: row['is_published'],
+      other_metadata: meta
     }
 
     # main main sub cat
@@ -134,11 +136,11 @@ class CSVImporter
     end
 
     # map dates
-    d.hearing_date     = read_date(row['hearing_datetime'],'%d/%m/%Y')      if row['hearing_datetime']
-    d.decision_date    = read_date(row['decision_datetime'],'%d/%m/%Y')     if row['decision_datetime']
-    d.created_at       = read_date(row['created_datetime'],'%d/%m/%Y')      if row['created_datetime']
-    d.publication_date = read_date(row['publication_datetime'],'%d/%m/%Y')  if row['publication_datetime']
-    d.updated_at       = read_date(row['last_updatedtime'],'%d/%m/%Y')      if row['last_updatedtime']
+    d.hearing_date     = read_date(row['hearing_datetime'],'%m/%d/%Y')      if row['hearing_datetime']
+    d.decision_date    = read_date(row['decision_datetime'],'%m/%d/%Y')     if row['decision_datetime']
+    d.created_at       = read_date(row['created_datetime'],'%m/%d/%Y')      if row['created_datetime']
+    d.publication_date = read_date(row['publication_datetime'],'%m/%d/%Y')  if row['publication_datetime']
+    d.updated_at       = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
 
     print d.new_record? ? '+' : '.'
     d.save
@@ -173,9 +175,9 @@ class CSVImporter
   end    
 
   def update_decision_judge(row)
-    judge = @tribunal.judges.find(row['commissioner_id'])
-    decision = @tribunal.all_decisions.find(row['judgement_id'])
-    decision.all_judges << judge
+    judge = @tribunal.all_judges.find_by_legacy_id(row['commissioner_id'])
+    decision = @tribunal.all_decisions.legacy_id(row['judgment_id']).first
+    decision.all_judges << judge if decision && judge
     print '.'
   end
 

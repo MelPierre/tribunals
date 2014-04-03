@@ -1,10 +1,10 @@
 require 'csv_importer'
 
 namespace :import do
-  task :all => [:judges, :subcategories, :decisions, :decisions_judges]
-
 
   namespace :aac do
+    task :all => [:judges, :subcategories, :decisions, :decisions_judges]
+
     task :decisions => :environment do
       CSVImporter.new('data/aac', 'utaac').import_decisions
     end
