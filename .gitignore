@@ -17,7 +17,8 @@ capybara-*.html
 /tmp/*
 /db/*.sqlite3
 /public/system/*
-/public/all_decision/*
+/public/decision/*
+/public/*_decision/*
 /coverage/
 /spec/tmp/*
 **.orig
