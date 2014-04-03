@@ -17,7 +17,7 @@ en:
         doc_file: Doc File
         claimant: Appellant Name
         respondent: Respondent Name
-        judges: Respondent Name
+        all_judges: Judge Name
         file_number: Decision No
         decision: Date of Decision
         upload_date: Date of Upload

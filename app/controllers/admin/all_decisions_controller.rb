@@ -90,6 +90,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
                                             :file_number,
                                             :claimant,
                                             :respondent,
+                                            :all_judge_ids,
                                             :decision_date,
                                             :upload_date,
                                             :publication_date,

@@ -27,6 +27,9 @@
         %span.label Respondent name:
         %span= @decision.respondent
       %li
+        %span.label Judges:
+        %span= @decision.all_judges.pluck(:name).join(', ')
+      %li
         %span.label Date of decision:
         %span= schema_time_element(@decision.decision_date)
       %li
@@ -37,7 +40,7 @@
         %span= schema_time_element(@decision.publication_date)
       %li
         %span.label Category:
-        %span= display_categories(@decision)
+        %span= @decision.categories.pluck(:name).join(', ')
       %li
         %span.label Notes
         %span= @decision.notes
