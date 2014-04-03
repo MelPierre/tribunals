@@ -6,4 +6,17 @@ class Tribunal < ActiveRecord::Base
   has_many :all_decisions
   has_many :categories
   has_many :subcategories
+
+  class << self
+
+    def method_missing(m, *args, &block)
+      if tribunal = where(code: m.to_s.gsub('_','-')).first
+        tribunal
+      else
+        super
+      end
+    end
+  
+  end
+  
 end

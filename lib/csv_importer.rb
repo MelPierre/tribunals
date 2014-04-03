@@ -4,7 +4,7 @@ class CSVImporter
   def initialize(directory, code, logger=Rails.logger)
     @directory = directory
     @logger = logger
-    @tribunal = Tribunal.find_by_code(code)
+    @tribunal = Tribunal.send(code)
   end
   
   def each_row(fn, &block)
