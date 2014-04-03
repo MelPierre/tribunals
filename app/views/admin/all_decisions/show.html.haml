@@ -42,6 +42,9 @@
         %span.label Category:
         %span= @decision.categories.pluck(:name).join(', ')
       %li
+        %span.label SubCategories:
+        %span= @decision.subcategories.pluck(:name).join(', ')
+      %li
         %span.label Notes
         %span= @decision.notes
 
