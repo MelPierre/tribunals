@@ -1,6 +1,6 @@
 class CreateTribunalsUsers < ActiveRecord::Migration
   def change
-    create_table :tribunals_users, id: false do |t|
+    create_table :tribunals_users, id: false, force: true do |t|
       t.references :user
       t.references :tribunal
     end
