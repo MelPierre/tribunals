@@ -5,45 +5,45 @@
         %a{:href => "/"} Home
 %div{:vocab => "http://schema.org", :typeof => "CreativeWork"}
   %header.page-header.group
-    %h1= "Neutral Citation Number #{display_ncn(@aac_decision)}"
+    %h1= "Neutral Citation Number #{display_ncn(@decision)}"
     %ul.decision-details
       %li
         %span.label File No.:
-        %span= @aac_decision.file_number
+        %span= @decision.file_number
       %li
         %span.label Reported number:
-        %span= @aac_decision.reported_number
+        %span= @decision.reported_number
       %li
         %span.label Judges:
-        %span= judge_names(@aac_decision)
+        %span= judge_names(@decision)
       %li
         %span.label Appellant name:
-        %span= @aac_decision.claimant
+        %span= @decision.claimant
       %li
         %span.label Respondent name:
-        %span= @aac_decision.respondent
+        %span= @decision.respondent
       %li
         %span.label Date of decision:
-        %span= schema_time_element(@aac_decision.decision_date)
+        %span= schema_time_element(@decision.decision_date)
       %li
         %span.label Date added:
-        %span= schema_time_element(@aac_decision.created_datetime)
+        %span= schema_time_element(@decision.created_at)
       %li
         %span.label Date updated:
-        %span= schema_time_element(@aac_decision.last_updatedtime)
+        %span= schema_time_element(@decision.updated_at)
       %li
         %span.label Category:
-        %span= display_categories(@aac_decision)
+        %span= display_categories(@decision)
       %li
         %span.label Notes:
-        %span{:class => "notes"}= @aac_decision.notes
+        %span{:class => "notes"}= @decision.notes
 
-  = render "shared/doc_downloads", {:decision => @aac_decision}
+  = render "shared/doc_downloads", {:decision => @decision}
 
-  - if @aac_decision.html.blank?
+  - if @decision.html.blank?
     %h2 An HTML version of this decision is not currently available.
   - else
     .decision
       %h2 The decision
       .decision-inner
-        = @aac_decision.html.html_safe
+        = @decision.html.html_safe

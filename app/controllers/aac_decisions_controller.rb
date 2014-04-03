@@ -1,6 +1,8 @@
 class AacDecisionsController < ApplicationController
   before_filter :enable_varnish
 
+  respond_to :html, :json
+
   def index
     set_cache_control(decisions.maximum(:updated_at))
     @order_by = 'created_at'
@@ -11,20 +13,25 @@ class AacDecisionsController < ApplicationController
     end
     @date_column_title = (@order_by == 'created_at') ? 'Date added' : 'Date of decision'
     @categories_title = 'Categories: '
-    @decisions = decisions.ordered(@order_by).paginate(:page => params[:page], :per_page => 30)
+    @decisions = decisions.ordered(@order_by).paginate(page: params[:page], per_page: 30)
     @decisions = @decisions.filtered(params[:search]) if params[:search].present?    
   end
 
   def show
-    @aac_decision = decisions.find(params[:id])
-    set_cache_control(@aac_decision.updated_at)
+    @decision = decisions.find(params[:id])
+    set_cache_control(@decision.updated_at)
+
+    respond_with @decision
   end
 
-  def tribunal
-    Tribunal.utaac
-  end
+  protected
 
-  def decisions
-    tribunal.all_decisions
-  end
+    def tribunal
+      Tribunal.utaac
+    end
+    helper_method :tribunal
+
+    def decisions
+      tribunal.all_decisions
+    end
 end

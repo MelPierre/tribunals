@@ -4,12 +4,7 @@ module GenericHelper
     categories = []
 
     decision.subcategories.each do |subcat|
-      category = begin
-                   subcat.send("#{prefix}_category").name
-                 rescue NoMethodError
-                   nil
-                 end
-
+      category = subcat.category.name
       categories << join_display_strings([category, subcat.name], separator)
     end
 
