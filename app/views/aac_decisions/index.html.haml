@@ -17,9 +17,9 @@
       %fieldset
         %h2
           %label{:for => "search_query"} Enter your search terms
-        = text_field :search, :query, :value => params[:search][:query]
+        = text_field :search, :query, value: params[:search][:query]
         .buttons.cf
-          %button.button.primary.right{:type => "submit"} Search
+          %button.button.primary.right{type: "submit"} Search
       %fieldset#advanced_search
         %legend
           %h2 Refine your search

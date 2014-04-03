@@ -10,6 +10,6 @@ module AacDecisionsHelper
   end
 
   def link_label(aac_decision)
-    aac_decision.file_number || aac_decision.ncn || aac_decision.reported_number || "Unknown reference number"
+    aac_decision.file_number || aac_decision.neutral_citation_number || aac_decision.reported_number || "Unknown reference number"
   end
 end

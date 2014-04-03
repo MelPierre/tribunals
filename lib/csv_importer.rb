@@ -44,7 +44,7 @@ class CSVImporter
   end
 
   def compute_ncn(row)
-    "[#{row['ncn_year']}] #{row['ncn_code']} #{row['ncn_citation']}"
+    "[#{row['ncn_year']}] #{row['ncn_code1']} #{row['ncn_citation']}"
   end
 
   def update_judgment(decision, row)
@@ -112,28 +112,18 @@ class CSVImporter
       reported_no_3: row['reported_no_3'],
       keywords: row['keywords']
     }
+
     # map attributes
     d.attributes = {
-      file_number: row['file_number'],
-      reported_number: row['reported_number'],
+      file_number: row['file_no'],
+      reported_number: row['reported_no'],
       neutral_citation_number: compute_ncn(row),
-      claimant: row['claimants'],
+      claimant: row['claimant'],
       respondent: row['respondent'],
       notes: row['notes'],
       published: row['is_published'],
       other_metadata: meta
     }
-
-    # main main sub cat
-    if row['main_subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['main_subcategory_id'])
-      category = subcategory.category
-      d.category_decisions.where(category: category, subcategory: subcategory).first_or_initialize
-    end
-    # map sec sub cat
-    if row['sec_subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['sec_subcategory_id'])
-      category = subcategory.category
-      d.category_decisions.where(category: category, subcategory: subcategory).first_or_initialize
-    end
 
     # map dates
     d.hearing_date     = read_date(row['hearing_datetime'],'%m/%d/%Y')      if row['hearing_datetime']
@@ -145,6 +135,18 @@ class CSVImporter
     print d.new_record? ? '+' : '.'
     d.save
 
+    # main main sub cat
+    if row['subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['subcategory_id'])
+      category = subcategory.category
+      d.category_decisions.where(category_id: category.id, subcategory_id: subcategory.id).first_or_initialize.save!
+    end
+    # map sec sub cat
+    if row['sec_subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['sec_subcategory_id'])
+      category = subcategory.category
+      d.category_decisions.where(category_id: category.id, subcategory_id: subcategory.id).first_or_initialize.save!
+    end
+    d.save!
+
   end
 
   def update_category(row)
@@ -155,14 +157,10 @@ class CSVImporter
   end
 
   def update_subcategory(row)
-    if c = @tribunal.categories.find_by_legacy_id(row['parent_num'])
-      sc = c.subcategories.where(legacy_id: row['id']).first_or_initialize
+      sc = @tribunal.subcategories.where(legacy_id: row['id'], category_id: row['parent_num']).first_or_initialize
       sc.name = row['description']
       print sc.new_record? ? '+' : '.'
       puts "Failed to import #{row['id']} - #{row['description']}" unless sc.save
-    else
-      puts "Could not find category with id #{row['id']}"
-    end
   end
 
   def update_judge(row)

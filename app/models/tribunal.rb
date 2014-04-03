@@ -5,7 +5,7 @@ class Tribunal < ActiveRecord::Base
   has_many :all_judges
   has_many :all_decisions
   has_many :categories
-  has_many :subcategories
+  has_many :subcategories, through: :categories
 
   class << self
 
