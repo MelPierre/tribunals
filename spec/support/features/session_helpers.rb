@@ -42,10 +42,14 @@ module Features
       create(:all_judge, name: 'Iker Casillas', tribunal_id: tribunal.id)
       create(:all_judge, name: 'Rafael Nadal', tribunal_id: tribunal.id)
       create(:all_judge, name: 'Jose Mourinho', tribunal_id: tribunal.id)
+
       create(:category, name: 'VAT - Taxes' , tribunal_id: tribunal.id)
-      create(:category, name: 'Value Added Tax - Taxes' , tribunal_id: tribunal.id)
-      create(:subcategory, name:  'VAT - Taxes - Monthly', tribunal_id: tribunal.id)
-      create(:subcategory, name:  'VAT - Taxes - Yearly', tribunal_id: tribunal.id)
+      cat = create(:category, name: 'Value Added Tax - Taxes' , tribunal_id: tribunal.id)
+
+      create(:subcategory, name:  'VAT - Taxes - Monthly', category: cat)
+      create(:subcategory, name:  'VAT - Taxes - Yearly', category: cat)
+      # create(:subcategory, name:  'VAT - Taxes - Monthly', category_id: cat.id)
+      # create(:subcategory, name:  'VAT - Taxes - Yearly', category_id: cat.id)
     end
 
   end
