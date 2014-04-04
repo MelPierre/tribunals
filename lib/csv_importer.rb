@@ -1,4 +1,22 @@
 require 'csv'
+# Used for AAC, uses some but not all of the CSV data, expects the following CSV headings
+
+# judgements.csv
+# judgment_id,tribunal,chamber,chamber_group,hearing_datetime,decision_datetime,created_datetime,publication_datetime,last_updatedtime, 
+# file_no,file_no_1,file_no_2,file_no_3,reported_no,reported_no_1,reported_no_2,reported_no_3,neutral_citation_number,ncn_year,ncn_code1,
+# ncn_citation,ncn_code2,claimant,respondent,notes,is_published,subcategory_id,sec_subcategory_id,keywords,decision_type
+
+# judges.csv
+# id,prefix,surname,suffix
+
+# categories.csv
+# num,description
+
+# subcategories.csv
+# subcategory_id,category_id,num,subcategory_name,category_name
+
+# judges_judgements_map.csv
+# judgment_id,commissioner_id
 
 class CSVImporter
   def initialize(directory, code, logger=Rails.logger)
