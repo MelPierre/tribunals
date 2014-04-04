@@ -10,7 +10,9 @@ Tribunals::Application.routes.draw do
   resources :ftt_decisions, path: 'ftt-tax'
 
   resources :all_decisions, path: 'all'
-
+  # scope ':tribunal_code' do
+  #   resources :all_decisions, path: ''
+  # end
 
   # TODO: These redirect parts seem messy and maybe not the correct way to manage the requirement, need to review
   namespace :admin do
