@@ -32,4 +32,36 @@ namespace :import do
       end
     end
   end
+
+  namespace :ftt do
+    task all: [:judges, :subcategories, :decisions, :decisions_judges]
+
+    task decisions: :environment do
+      CSVImporter.new('data/ftt', 'ftt_tax').import_decisions
+    end
+
+    task categories: :environment do
+      CSVImporter.new('data/ftt', 'ftt_tax').import_categories
+    end
+
+    task subcategories: :categories do
+      CSVImporter.new('data/ftt', 'ftt_tax').import_subcategories
+    end
+
+    task judges: :environment do
+      CSVImporter.new('data/ftt', 'ftt_tax').import_judges
+    end
+
+    task decisions_judges: :environment do
+      CSVImporter.new('data/ftt', 'ftt_tax').update_decisions_judges
+    end
+
+    task process_docs: [:environment] do
+      Tribunal.ftt_tax.all_decisions.find_each do |d|
+        d.add_doc_file
+        d.process_doc
+      end
+    end
+  end
+  
 end

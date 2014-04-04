@@ -1,5 +1,5 @@
 require 'csv'
-# Used for AAC, uses some but not all of the CSV data, expects the following CSV headings
+# Used for #{@tribunal.code}, uses some but not all of the CSV data, expects the following CSV headings
 
 # judgements.csv
 # judgment_id,tribunal,chamber,chamber_group,hearing_datetime,decision_datetime,created_datetime,publication_datetime,last_updatedtime, 
@@ -8,6 +8,7 @@ require 'csv'
 
 # judges.csv
 # id,prefix,surname,suffix
+
 # categories.csv
 # num,description
 
@@ -33,25 +34,25 @@ class CSVImporter
   end
 
   def import_decisions
-    puts "Processing AAC decisions"   
+    puts "Processing #{@tribunal.code} decisions"   
     each_row('judgements.csv') {|row| update_decision(row) }
     puts "\nComplete!"
   end
 
   def import_categories
-    puts "Processing AAC categories"
+    puts "Processing #{@tribunal.code} categories"
     each_row('categories.csv') {|row| update_category(row) }
     puts "\nComplete!"
   end
 
   def import_subcategories
-    puts "Processing AAC subcategories"
+    puts "Processing #{@tribunal.code} subcategories"
     each_row('subcategories.csv') {|row| update_subcategory(row) }
     puts "\nComplete!"
   end
 
   def import_judges
-    puts "Processing AAC Judges"
+    puts "Processing #{@tribunal.code} Judges"
     each_row('judges.csv') {|row| update_judge(row) }
     puts "\nComplete!"
   end
