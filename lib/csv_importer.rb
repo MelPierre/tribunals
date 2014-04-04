@@ -50,6 +50,11 @@ class CSVImporter
   def update_decision(row)
     d = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
     
+    keywords = row.inject([]) do |acc, (k, v)|
+      acc << v if /keyword/ =~ k && v.present?
+      acc
+    end
+
     # map meta information
     meta = {
       legacy_id: row['judgment_id'],
@@ -63,7 +68,7 @@ class CSVImporter
       reported_no_1: row['reported_no_1'],
       reported_no_2: row['reported_no_2'],
       reported_no_3: row['reported_no_3'],
-      keywords: row['keywords']
+      keywords: keywords
     }
 
     # map attributes
@@ -86,10 +91,7 @@ class CSVImporter
     d.updated_at        = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
     d.promulgation_date = read_date(row['promulgated_datetime'],'%m/%d/%Y')  if row['promulgated_datetime']
 
-    d.keywords = row.inject([]) do |acc, (k, v)|
-      acc << v if /keyword/ =~ k && v.present?
-      acc
-    end
+
 
     print d.new_record? ? '+' : '.'
     d.save
