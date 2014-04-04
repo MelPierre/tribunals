@@ -16,40 +16,42 @@ describe AllDecision do
                                           subcategory_ids: [adsc.id])) }
 
     let!(:decision5) { create(:all_decision, all_decision_hash(tribunal_id: utaac.id, neutral_citation_number: '[2013] UKUT 456', text: 'little pete was a green boy', 
-                                          subcategory_ids: [adsc2.id])) }
+                                          subcategory_ids: [adsc.id, adsc2.id])) }
 
-    it "should filter on search text" do
-      AllDecision.filtered(query: "beautiful").should == [decision2, decision3]
+    it "should filter on body text" do
+      utaac.all_decisions.filtered(query: "beautiful").sort.should == [decision2, decision3]
     end
 
     it "should search metadata as well as body text" do
-      AllDecision.filtered(query: "gerald").should == [decision2, decision3]
+      utaac.all_decisions.filtered(query: "gerald").sort.should == [decision2, decision3]
     end
 
     it "should filter on search text and judge" do
-      AllDecision.filtered(query: "gerald", judge: 'Blake').should == [decision3]
+      utaac.all_decisions.filtered(query: "gerald", judge: 'Blake').should == [decision3]
+    end
+
+    it "should have the right number of categories" do
+      decision5.categories.uniq.count.should == 1
     end
 
     it "should filter on category" do
-      results = AllDecision.filtered(:category => "Benefits for children").sort
+      results = utaac.all_decisions.filtered(:category => "Benefits for children").sort
       results.count.should == 2
       results.should == [decision4, decision5]
     end
 
     it "should filter on subcategory" do
-      results = AllDecision.filtered(:subcategory => "Free Education").sort
+      results = utaac.all_decisions.filtered(:subcategory => "Free Education").sort
       results.count.should == 1
       results.should == [decision5]
     end
 
-    ##############################################
-    pending "should filter on search text and category" do
-      AllDecision.filtered(:query => "green", :category => "Benefits for children").sort.should == [decision4, decision5]
+    it "should filter on search text and category" do
+      utaac.all_decisions.filtered(:query => "green", :category => "Benefits for children").sort.should == [decision4, decision5]
     end
 
-
-    pending "should filter on search text and subcategory" do
-      AllDecision.filtered(:query => "[2013] UKUT 456", :subcategory => "Children's Income").should == [decision5]
+    it "should filter on search text and subcategory" do
+      utaac.all_decisions.filtered(:query => "green", :subcategory => "Free Education").should == [decision5]
     end    
   end
 end

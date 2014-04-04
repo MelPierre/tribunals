@@ -6,6 +6,6 @@ class CategoryDecision < ActiveRecord::Base
   before_save :assign_category
 
   def assign_category
-    self.category_id ||= Subcategory.find_by_id(self.subcategory_id).try(:category).try(:id)
+    self.category_id ||= (Subcategory.find(self.subcategory_id).try(:category_id) if self.subcategory_id)
   end
 end

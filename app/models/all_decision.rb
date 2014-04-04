@@ -37,6 +37,7 @@ class AllDecision < ActiveRecord::Base
     .by_category(filter_hash[:category])
     .by_subcategory(filter_hash[:subcategory])
     .search(filter_hash[:query])
+    .group('all_decisions.id')
   end
 
   def self.by_judge(judge_name)
