@@ -15,11 +15,11 @@
     = link_to('Delete decision', admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug), method: :delete, data: { confirm: "Are you sure want to delete this decision from the system?" } , class: 'button button-warning right')
     %ul.decision-details
       %li
-        %span.label Tribunal
-        %span Upper Tribunal (Tax and Chancery Chamber)
-      / %li
-      /  %span.label Judges:
-      /  %span= @decision.judge_names
+        %span.label Tribunal:
+        %span= @tribunal.name
+      %li
+        %span.label Judges:
+        %span= @decision.all_judges.pluck(:name).join(', ')
       %li
         %span.label Appellant name:
         %span= @decision.claimant
@@ -42,10 +42,10 @@
         %span.label Category:
         %span= @decision.categories.pluck(:name).join(', ')
       %li
-        %span.label SubCategories:
+        %span.label Sub-Category:
         %span= @decision.subcategories.pluck(:name).join(', ')
       %li
-        %span.label Notes
+        %span.label Notes:
         %span= @decision.notes
 
   = render "shared/doc_downloads", {:decision => @decision}

@@ -14,6 +14,7 @@ en:
 
     labels:
       all_decision: &ALL_DECISION
+        tribunal: Tribunal
         doc_file: Doc File
         claimant: Appellant Name
         respondent: Respondent Name
@@ -25,7 +26,8 @@ en:
         category: Category
         categories: Category
         subcategories: Sub-Category
-        subcategories: Sub-Category
+        subcategor: Sub-Category
+        notes: Notes
       decision:
         <<: *ALL_DECISION
 
