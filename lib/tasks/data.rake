@@ -73,8 +73,8 @@ namespace :data do
                       placeholder: "More detail about the case"
                     }
                   ],
-          sort_by: [{name: "date_of_decision", label: "Date of decision"}, {name: "date_of_hearing", label: "Date of hearing"}],
-          results_columns: [{name: "reference_id", label: "Reference number"}, {name: "date_of_decision", label: "Date of decision"}]
+          sort_by: [{name: "decision_date", label: "Date of decision"}, {name: "hearing_date", label: "Date of hearing"}],
+          results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
         },
       {
         name:'Administrative Appeals Chamber',
@@ -110,8 +110,8 @@ namespace :data do
                       placeholder: "More detail about the case"
                     }
                   ],
-                sort_by: [{name: "created_at", label: "Date added"}, {name: "date_of_decision", label: "Date of decision"}],
-                results_columns: [{name: "reference_id", label: "Reference number"}, {name: "date_of_decision", label: "Date of decision"}]
+                sort_by: [{name: "created_at", label: "Date added"}, {name: "decision_date", label: "Date of decision"}],
+                results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
       },
       {
         name:'Employment Appeals Tribunal', 

@@ -8,7 +8,6 @@ require 'csv'
 
 # judges.csv
 # id,prefix,surname,suffix
-
 # categories.csv
 # num,description
 

@@ -19,5 +19,7 @@ class Tribunal < ActiveRecord::Base
     end
   
   end
-  
+
+
+
 end

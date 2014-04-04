@@ -1,3 +1,12 @@
+def all_decision_hash(h={})
+  {
+    neutral_citation_number: '2013 UKUT 500 AAC',
+    doc_file: sample_doc_file,
+    decision_date: Date.today,
+    claimant: 'John Smith',
+    respondent: 'Partnerships in Care and Secrerary of State for Justice'
+  }.merge(h)
+end
 
 def decision_hash(h={})
   {
