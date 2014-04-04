@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe FttDecision do
+  pending
   describe "search" do
     before(:each) do
       @decision1 = FttDecision.create!(ftt_decision_hash(text: "Some searchable text is here"))
