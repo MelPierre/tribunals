@@ -1,4 +1,5 @@
 class AllDecision < ActiveRecord::Base
+  include Decisions
   include DecisionSearch
 
   before_save :update_search_text
@@ -26,15 +27,14 @@ class AllDecision < ActiveRecord::Base
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
-  scope :ftt, ->{ where(tribunal_id: Tribunal.ftt.id) } 
-  scope :utaac, ->{ where(tribunal_id: Tribunal.utaac.id) } 
-  scope :eat, ->{ where(tribunal_id: Tribunal.eat.id) } 
+  scope :ftt,       ->{ where(tribunal_id: Tribunal.ftt_tax.id) } 
+  scope :utaac,     ->{ where(tribunal_id: Tribunal.utaac.id) } 
+  scope :eat,       ->{ where(tribunal_id: Tribunal.eat.id) } 
 
-  scope :viewable, ->{ t = self.arel_table; where(t[:reported].eq(true).or(t[:promulgation_date].gteq(Date.new(2013, 6, 1)))) }
-  scope :reported, ->{ where(reported: true) }
-  scope :legacy_id, ->(legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
-  scope :ordered, ->(order_by = "created_at") { order("#{order_by} DESC") }
-
+  scope :viewable,  -> { t = self.arel_table; where(t[:reported].eq(true).or(t[:promulgation_date].gteq(Date.new(2013, 6, 1)))) }
+  scope :reported,  -> { where(reported: true) }
+  scope :legacy_id, -> (legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
+  scope :ordered,   -> ( order_by = "created_at") { order("#{order_by} DESC") }
 
   protected
   

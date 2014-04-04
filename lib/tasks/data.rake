@@ -10,8 +10,8 @@ namespace :data do
         title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal',
         filters: [
                     {
-                      name: "reported", 
-                      label: "Case status", 
+                      name: "reported",
+                      label: "Case status",
                       type: "radio",
                       options: [
                                   {
@@ -114,7 +114,7 @@ namespace :data do
                 results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
       },
       {
-        name:'Employment Appeals Tribunal', 
+        name:'Employment Appeals Tribunal',
         code:'eat',
         title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal',
         filters: [
@@ -154,7 +154,6 @@ namespace :data do
   end
 
   namespace :convert do
-
     desc "Convert All"
     task all: [:categories, :judges, :ftt, :utaac, :eat] do
       puts "Finished"
@@ -164,10 +163,10 @@ namespace :data do
     task categories: :environment do
       Subcategory.delete_all
       Category.delete_all
-      
+
       {"ftt-tax" => FttCategory, "utaac" => AacCategory, "eat" => EatCategory}.each do |k,v|
         tribunal = Tribunal.find_by_code(k)
-        v.find_each { |cat| 
+        v.find_each { |cat|
           new_cat = tribunal.categories.create(name: cat.name, legacy_id: cat.id)
           cat_key = case k
             when 'ftt-tax' then 'ftt'
@@ -177,7 +176,7 @@ namespace :data do
           cat.send("#{cat_key}_subcategories").each do |subcat|
             puts "Adding sub category #{subcat.name} to #{new_cat.name}"
             new_cat.subcategories.create(name: subcat.name, legacy_id: subcat.id)
-          end 
+          end
         }
       end
     end
@@ -187,10 +186,10 @@ namespace :data do
       AllJudge.delete_all
       {"ftt-tax" => FttJudge, "utaac" => Judge}.each do |k,v|
         tribunal = Tribunal.find_by_code(k)
-        v.find_each { |judge| 
+        v.find_each { |judge|
           puts "Converting #{k} judge  #{judge.name}"
 
-          tribunal.all_judges.create(name: judge.name, legacy_id: judge.id, 
+          tribunal.all_judges.create(name: judge.name, legacy_id: judge.id,
                                      created_at: judge.created_at, updated_at: judge.updated_at)
         }
       end
@@ -235,11 +234,11 @@ namespace :data do
 
         decision.ftt_judges.each do |judge|
           new_judge = ftt.all_judges.find_by_legacy_id(judge.id)
-          puts "Adding judge #{judge.name} to #{new_decision.file_number}"          
+          puts "Adding judge #{judge.name} to #{new_decision.file_number}"
           new_decision.all_judges << new_judge
         end
       end
-    end      
+    end
 
     desc "Convert decisions data to new format"
     task eat: :environment do
@@ -262,7 +261,7 @@ namespace :data do
                             decision_date: decision.decision_date,
                             upload_date: decision.upload_date,
                             file_number: decision.file_number,
-                            starred: decision.starred,                            
+                            starred: decision.starred,
                             other_metadata: {  filename: decision.filename,
                                                 uploaded_by: decision.uploaded_by
                                               },
@@ -334,7 +333,7 @@ namespace :data do
 
         decision.judges.each do |judge|
           new_judge = utaac.all_judges.find_by_legacy_id(judge.id)
-          puts "Adding judge #{judge.name} to #{new_decision.file_number}"          
+          puts "Adding judge #{judge.name} to #{new_decision.file_number}"
           new_decision.all_judges << new_judge
         end
 
