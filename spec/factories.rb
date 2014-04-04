@@ -11,4 +11,15 @@ FactoryGirl.define do
     sequence(:code) {|i| "tb#{i}" }
   end
   
+  factory :all_decision do
+  end
+
+  factory :all_judge do
+  end
+
+  factory :category do
+  end
+
+  factory :subcategory do
+  end
 end

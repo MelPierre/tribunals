@@ -1,0 +1,23 @@
+%header.page-header.group
+  %h1
+    %span Information
+    = @tribunal[:title]
+
+.pagination-row
+  .page-entries
+    = page_entries_info @decisions
+  = will_paginate @decisions
+
+.main.cf
+  = render "shared/all_sort_filter"
+  .col-narrow
+    = render "shared/all_decisions_search_form"
+  .col-wide
+    .decisions
+      = render "shared/all_decisions_table"
+
+.pagination-row.bottom
+  .page-entries
+    = page_entries_info @decisions
+  = will_paginate @decisions
+

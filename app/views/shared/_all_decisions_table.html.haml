@@ -1,32 +1,32 @@
 %table.decisions-table
   %tr.headings
-    %th Reference number
-    %th{:width => "23%"}
-      = @date_column_title
+  - @tribunal["results_columns"].each do |column|
+    %th= column["label"]
+
   - @decisions.each do |decision, group = cycle('even', 'odd')|
     %tr.first{:class => group}
       %td
         - if search_present()
-          = link_to(hilighted_metadata_result(params[:search][:query], link_label(decision), true), "/#{tribunal.code}/#{decision.to_param}")
+          = link_to(hilighted_metadata_result(params[:search][:query], all_link_label(decision), true), decision)
         - else
-          = link_to(link_label(decision), "/#{tribunal.code}/#{decision.to_param}")
-      %td.date= date_element(decision.send(@order_by))
-    - if display_parties(decision)
+          = link_to(all_link_label(decision), decision)
+      %td.date= time_element(decision.send(@order_by))
+    - if all_display_parties(decision)
       %tr{:class => group + (search_present() ? '' : ' last')}
         %td{:colspan => 2}
           Parties:
           - if search_present()
-            %strong= hilighted_metadata_result(params[:search][:query], display_parties(decision), true)
+            %strong= hilighted_metadata_result(params[:search][:query], all_display_parties(decision), true)
           - else
-            %strong= display_parties(decision)
-    - if display_categories(decision)
+            %strong= all_display_parties(decision)
+    - if all_display_categories(decision)
       %tr{:class => group + (search_present() ? '' : ' last')}
         %td{:colspan => 2}
           = @categories_title
           - if search_present()
-            %strong= hilighted_metadata_result(params[:search][:query], display_categories(decision), true)
+            %strong= hilighted_metadata_result(params[:search][:query], all_display_categories(decision), true)
           - else
-            %strong= display_categories(decision)
+            %strong= all_display_categories(decision)
     - if search_present()
       %tr.last{:class => group}
         %td{:colspan => 2}

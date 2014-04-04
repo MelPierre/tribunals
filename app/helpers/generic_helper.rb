@@ -3,13 +3,8 @@ module GenericHelper
     prefix = decision.class.name.split(/(?=[A-Z])/)[0].downcase
     categories = []
 
-    decision.send("#{prefix}_subcategories").each do |subcat|
-      category = begin
-                   subcat.send("#{prefix}_category").name
-                 rescue NoMethodError
-                   nil
-                 end
-
+    decision.subcategories.each do |subcat|
+      category = subcat.category.name
       categories << join_display_strings([category, subcat.name], separator)
     end
 
