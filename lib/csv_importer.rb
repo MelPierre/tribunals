@@ -47,45 +47,6 @@ class CSVImporter
     "[#{row['ncn_year']}] #{row['ncn_code1']} #{row['ncn_citation']}"
   end
 
-  def update_judgment(decision, row)
-    decision.promulgated_on = read_date(row['promulgated_datetime'])
-    decision.hearing_on = read_date(row['hearing_datetime'])
-    decision.created_at = Time.parse(row['created_datetime'])
-    decision.updated_at = Time.parse(row['last_updatetime'])
-    if (published_on = read_date(row['published_datetime'])).present?
-      decision.published_on = published_on
-    end
-
-    appeal_number = [row['file_no_1'], row['file_no_2'], row['file_no_3']].join('/')
-    if /\A[A-Z]{2}\/[0-9]{5}\/[0-9]{4}\Z/ =~ appeal_number
-      decision.appeal_number = appeal_number
-    end
-
-    decision.starred = row['is_starred'] == '1'
-    decision.country_guideline = row['is_countryguide'] == '1'
-
-    decision.claimant = row['claimant']
-    decision.keywords = row.inject([]) do |acc, (k, v)|
-      acc << v if /keyword/ =~ k && v.present?
-      acc
-    end
-    decision.case_notes = row['case_notes']
-    decision.judges = judges_for(row['id'])
-
-    pp decision.id, decision.changes
-
-    if !decision.valid? && decision.errors.keys == [:doc_file] || decision.errors.keys == [:judges]
-      decision.save!(validate: false)
-      return
-    end
-
-    decision.save!
-  end
-
-  def create_judgment(row)
-    puts "No new judgments should be created, skipping."
-  end
-
   def update_decision(row)
     d = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
     
@@ -112,15 +73,23 @@ class CSVImporter
       respondent: row['respondent'],
       notes: row['notes'],
       published: row['is_published'],
-      other_metadata: meta
+      other_metadata: meta,
+      starred: (row['is_starred'] == '1'),
+      country_guideline: (row['is_countryguide'] == '1')
     }
 
     # map dates
-    d.hearing_date     = read_date(row['hearing_datetime'],'%m/%d/%Y')      if row['hearing_datetime']
-    d.decision_date    = read_date(row['decision_datetime'],'%m/%d/%Y')     if row['decision_datetime']
-    d.created_at       = read_date(row['created_datetime'],'%m/%d/%Y')      if row['created_datetime']
-    d.publication_date = read_date(row['publication_datetime'],'%m/%d/%Y')  if row['publication_datetime']
-    d.updated_at       = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
+    d.hearing_date      = read_date(row['hearing_datetime'],'%m/%d/%Y')      if row['hearing_datetime']
+    d.decision_date     = read_date(row['decision_datetime'],'%m/%d/%Y')     if row['decision_datetime']
+    d.created_at        = read_date(row['created_datetime'],'%m/%d/%Y')      if row['created_datetime']
+    d.publication_date  = read_date(row['publication_datetime'],'%m/%d/%Y')  if row['publication_datetime']
+    d.updated_at        = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
+    d.promulgation_date = read_date(row['promulgated_datetime'],'%m/%d/%Y')  if row['promulgated_datetime']
+
+    d.keywords = row.inject([]) do |acc, (k, v)|
+      acc << v if /keyword/ =~ k && v.present?
+      acc
+    end
 
     print d.new_record? ? '+' : '.'
     d.save

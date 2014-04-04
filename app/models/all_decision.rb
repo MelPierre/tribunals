@@ -48,7 +48,8 @@ class AllDecision < ActiveRecord::Base
 
     def set_file_number
       begin
-        self.file_number= other_metadata.with_indifferent_access.slice('file_no_1', 'file_no_2', 'file_no_3').values.compact.join('/') if file_number.nil? || file_number.blank?
+        self.file_number ||= other_metadata.with_indifferent_access.slice('file_no_1', 'file_no_2', 'file_no_3').values.compact.join('/')
+        self.appeal_number = file_number if file_number =~ /\A[A-Z]{2}\/[0-9]{5}\/[0-9]{4}\Z/
       rescue Exception => ex
 
       end
