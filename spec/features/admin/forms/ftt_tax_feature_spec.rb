@@ -32,6 +32,15 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Notes: filling the notes for testing')
     end
 
+    scenario 'can delete ftt decision' do
+      add_decision
+      visit "/admin/ftt-tax/987789"
+      click_link('Delete decision')
+      visit "/admin/ftt-tax/987789"
+
+      expect(page).to have_content("Decision not found 987789")
+    end
+
     scenario 'can edit ftt decision' do
       add_decision
       visit "/admin/ftt-tax/987789/edit"

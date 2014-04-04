@@ -22,9 +22,12 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   def show
     @tribunal = current_tribunal
     @decision = decisions_relation.find_by_file_number(params[:id])
-    set_cache_control(@decision.updated_at)
-  rescue
-    redirect_to admin_all_decisions_path
+    if @decision.present?
+      set_cache_control(@decision.updated_at)
+    else
+       flash.keep[:notice] = "Decision not found #{params[:id]}"
+       redirect_to admin_all_decisions_path
+    end
   end
 
   def create
