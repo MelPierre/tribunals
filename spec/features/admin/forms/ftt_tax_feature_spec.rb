@@ -6,10 +6,6 @@ feature 'First Tier Tribunal Tax Chamber' do
 
   context 'as standard user' do
     before do
-      create(:all_judge, name: 'Iker Casillas', tribunal_id: tribunal.id)
-      create(:all_judge, name: 'Rafael Nadal', tribunal_id: tribunal.id)
-      create(:category, name: 'VAT - Taxes' , tribunal_id: tribunal.id)
-      create(:subcategory, name:  'VAT - Taxes - Monthly', tribunal_id: tribunal.id)
       visit '/admin'
       sign_in user
     end
@@ -20,6 +16,10 @@ feature 'First Tier Tribunal Tax Chamber' do
     end
 
     scenario 'can create a new ftt decision' do
+      create(:all_judge, name: 'Iker Casillas', tribunal_id: tribunal.id)
+      create(:all_judge, name: 'Rafael Nadal', tribunal_id: tribunal.id)
+      create(:category, name: 'VAT - Taxes' , tribunal_id: tribunal.id)
+      create(:subcategory, name:  'VAT - Taxes - Monthly', tribunal_id: tribunal.id)
       visit '/admin/ftt-tax/new'
       attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
       fill_in('Decision No', with: '987789')
