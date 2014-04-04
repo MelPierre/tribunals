@@ -54,7 +54,7 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Respondent name: Matthew Black')
       expect(page).to have_content('Judges: Jose Mourinho')
       expect(page).to have_content('Date of decision: 22 May 1981')
-      expect(page).to have_content('Date added: 04 Feb 1979')
+      expect(page).to have_content('Date added: 4 Feb 1979')
       expect(page).to have_content('Date updated: 17 Mar 1968')
       expect(page).to have_content('Category: Value Added Tax - Taxes')
       expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')

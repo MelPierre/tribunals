@@ -23,7 +23,6 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     @tribunal = current_tribunal
     @decision = decisions_relation.find_by_file_number(params[:id])
     set_cache_control(@decision.updated_at)
-    # render 'admin/all_decisions/show'
   rescue
     redirect_to admin_all_decisions_path
   end
@@ -49,9 +48,10 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def update
+    @tribunal = current_tribunal
     @decision = decisions_relation.find_by_file_number(params[:id])
     @decision.update_attributes!(decision_params)
-    redirect_to admin_all_decision_path
+    render action: 'show'
   rescue
     redirect_to edit_admin_all_decision_path(@decision)
   end
