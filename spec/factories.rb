@@ -16,4 +16,10 @@ FactoryGirl.define do
 
   factory :all_judge do
   end
+
+  factory :category do
+  end
+
+  factory :subcategory do
+  end
 end
