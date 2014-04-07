@@ -21,11 +21,11 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   def show
     @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
+    slug = params.fetch(:id).upcase
+    @decision = decisions_relation.find_by('upper(slug) = ?', slug)
     if @decision.present?
       set_cache_control(@decision.updated_at)
     else
-       flash.keep[:notice] = "Decision not found #{params[:id]}"
        redirect_to admin_all_decisions_path
     end
   end
@@ -47,20 +47,25 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   def edit
     @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
+    slug = params.fetch(:id).upcase
+    @decision = decisions_relation.find_by('upper(slug) = ?', slug)
   end
 
   def update
     @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
-    @decision.update_attributes!(decision_params)
-    render action: 'show'
-  rescue
-    redirect_to edit_admin_all_decision_path(@decision)
+    slug = params.fetch(:id).upcase
+    @decision = decisions_relation.find_by('upper(slug) = ?', slug)
+    update_status = @decision.update_attributes!(decision_params)
+    if update_status
+      redirect_to admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
+    else
+      render 'edit'
+    end
   end
 
   def destroy
-    @decision = decisions_relation.find_by_file_number(params[:id])
+    slug = params.fetch(:id).upcase
+    @decision = decisions_relation.find_by('upper(slug) = ?', slug)
     @decision.destroy
     redirect_to admin_all_decisions_path
   end
