@@ -22,6 +22,7 @@ Tribunals::Application.routes.draw do
 
     scope ':tribunal_code' do
       resources :judges, only: [:index]
+      resources :categories, only: [:index]
       resources :all_decisions, path: ''
     end
     # resources :decisions, path: 'utiac'

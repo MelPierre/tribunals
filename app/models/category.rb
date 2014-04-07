@@ -9,7 +9,7 @@ class Category < ActiveRecord::Base
 
   def as_json(options = {})
     super({
-      include: [:subcagegories]
+      include: [:subcategories]
     }.merge(options))
   end
   

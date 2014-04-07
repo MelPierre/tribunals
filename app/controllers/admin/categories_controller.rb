@@ -1,4 +1,4 @@
-class Admin::CategoriesController < Admin::ResitrictedController
+class Admin::CategoriesController < Admin::RestrictedController
 
   respond_to :json
 
