@@ -11,6 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require_tree ../vendor
+//= require bower/angular/angular
+//= require bower/angular-resource/angular-resource
 //= require moj
 //= require moj.autocomplete
 //= require decisions
@@ -18,3 +20,5 @@
 //= require main
 //= require jquery_ujs
 //= require feedbacks
+
+
