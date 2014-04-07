@@ -1,6 +1,5 @@
 class Admin::AllDecisionsController < Admin::RestrictedController
   before_filter -> { require_tribunal(params[:tribunal_code]) }
-  before_filter :set_view_path
 
   respond_to :html, :json
 
@@ -29,7 +28,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
       end
       format.json do
         @tribunal = current_tribunal
-        @decision = decisions_relation.find_by_file_number(params[:id])
+        @decision = decisions_relation.find_by('upper(slug) = ?', params[:id].upcase)
         respond_with @decision
       end
     end
@@ -58,7 +57,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
       end
       format.json do
         @tribunal = current_tribunal
-        @decision = decisions_relation.find_by_file_number(params[:id])
+        @decision = decisions_relation.find_by('upper(slug) = ?', params[:id].upcase)
         respond_with @decision
       end
     end
@@ -66,15 +65,19 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   def update
     @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
-    @decision.update_attributes!(decision_params)
-    render action: 'show'
-  rescue
-    redirect_to edit_admin_all_decision_path(@decision)
+    slug = params.fetch(:id).upcase
+    @decision = decisions_relation.find_by('upper(slug) = ?', slug)
+    update_status = @decision.update_attributes!(decision_params)
+    if update_status
+      redirect_to admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
+    else
+      render 'edit'
+    end
   end
 
   def destroy
-    @decision = decisions_relation.find_by_file_number(params[:id])
+    slug = params.fetch(:id).upcase
+    @decision = decisions_relation.find_by('upper(slug) = ?', slug)
     @decision.destroy
     redirect_to admin_all_decisions_path
   end
@@ -117,9 +120,5 @@ class Admin::AllDecisionsController < Admin::RestrictedController
                                             :notes
                                             )
 
-    end
-
-    def set_view_path
-      prepend_view_path "#{Rails.root}/app/views/admin/all_decisions"
     end
 end
