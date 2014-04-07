@@ -37,7 +37,7 @@ class AllDecision < ActiveRecord::Base
 
   def as_json(options = {})
     super ({
-      include: [:all_judges]
+      include: [:all_judges, :category_decisions]
     }.merge(options))
   end
 

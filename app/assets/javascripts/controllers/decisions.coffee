@@ -1,14 +1,13 @@
 angular.module('Tribunals')
   .controller 'DecisionsController', ['$scope', 'Api', ($scope, Api) ->
-
     $scope.judges = Api.Judge.query()
-
+    $scope.categories = Api.Category.query()
+    
     if gon.decision_id
        Api.Decision.get id: gon.decision_id, (data) ->
         $scope.decision = data 
     else
       $scope.decision = new Api.Decision()
-
 
     $scope.addJudge = ->
       if $scope.new_judge

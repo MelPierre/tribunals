@@ -6,4 +6,11 @@ class Category < ActiveRecord::Base
   def self.list
     order('name ASC').pluck("name AS category")
   end
+
+  def as_json(options = {})
+    super({
+      include: [:subcagegories]
+    }.merge(options))
+  end
+  
 end

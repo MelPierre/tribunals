@@ -1,4 +1,4 @@
-angular.module('Tribunals',['ngResource', 'ngSanitize', 'angucomplete'])
+angular.module('Tribunals',['ngResource', 'ngSanitize', 'ngQuickDate'])
   .config ($httpProvider) ->
     authToken = $('meta[name="csrf-token"]').attr('content')
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = authToken
