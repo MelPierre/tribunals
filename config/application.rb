@@ -54,6 +54,7 @@ module Tribunals
       gov-static/gov-fonts-ie8.css
       gov-static/gov-print.css
       moj-base.css
+      admin.css
       gov-static/gov-ie.js
       application-admin.js
       angular.js

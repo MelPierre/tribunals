@@ -34,6 +34,13 @@ class AllDecision < ActiveRecord::Base
   scope :legacy_id, ->(legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
   scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
 
+
+  def as_json(options = {})
+    super ({
+      include: [:all_judges]
+    }.merge(options))
+  end
+
   protected
 
     def set_neutral_citation_number

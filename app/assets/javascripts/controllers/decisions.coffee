@@ -1,11 +1,21 @@
 angular.module('Tribunals')
   .controller 'DecisionsController', ['$scope', 'Api', ($scope, Api) ->
-    console.log(gon)
+
+    $scope.judges = Api.Judge.query()
+
     if gon.decision_id
-      $scope.decision = Api.Decision.get(id: gon.decision_id)
-      console.log($scope.decision)
+       Api.Decision.get id: gon.decision_id, (data) ->
+        $scope.decision = data 
     else
       $scope.decision = new Api.Decision()
 
+
+    $scope.addJudge = ->
+      if $scope.new_judge
+        $scope.decision.all_judges.push $scope.new_judge
+        $scope.new_judge = null
+
+    $scope.removeJudge = (idx) ->
+      $scope.decision.all_judges.splice(idx, 1)
 
   ]

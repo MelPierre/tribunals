@@ -22,8 +22,13 @@
 
       / = form.input :judges, as: 'string'
       .input.select.optional.all_decision_all_judges
-        %label.select.optional.control-label{:for => "all_decision_all_judge_ids"} Judge Name
-        %select#all_decision_all_judge_ids.select.optional{:name => "all_decision[all_judge_ids]"}
+        %label.control-label New Judge
+        %select{ng: { model: 'new_judge', change: 'addJudge()', options: 'judge.name for judge in judges' } }
+      
+      .input.string{ ng: { repeat: 'judge in decision.all_judges' } }
+        %label &nbsp;
+        %input{ type: 'text', ng: { model: 'judge.name' } }
+        %button{ ng: { click: 'removeJudge($index)' } } Remove
         
     .form-inputs.decision_date
       .input.string.optional.all_decision_decision_date
