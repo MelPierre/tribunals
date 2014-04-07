@@ -1,5 +1,6 @@
-= form_tag decisions_path, :method => :get, :class => 'search_form' do
+= form_tag all_decisions_path, :method => :get, :class => 'search_form' do
   %fieldset
+    = hidden_field_tag :tribunal, params[:tribunal]
     %h2
       %label{:for => "search_query"} Enter your search terms
     = text_field :search, :query, :value => params[:search][:query]

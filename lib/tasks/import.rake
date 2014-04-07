@@ -1,35 +1,32 @@
 require 'csv_importer'
 
 namespace :import do
-  task :all => [:csv]
-
-  task :csv => :environment do
-    CSVImporter.new('data').run
-  end
 
   namespace :aac do
-    task :decisions => :environment do
-      CSVImporter.new('data/aac').import_decisions
+    task all: [:judges, :subcategories, :decisions, :decisions_judges]
+
+    task decisions: :environment do
+      CSVImporter.new('data/aac', 'utaac').import_decisions
     end
 
-    task :decision_categories => :environment do
-      CSVImporter.new('data/aac').import_categories
+    task categories: :environment do
+      CSVImporter.new('data/aac', 'utaac').import_categories
     end
 
-    task :decision_subcategories => :environment do
-      CSVImporter.new('data/aac').import_subcategories
+    task subcategories: :categories do
+      CSVImporter.new('data/aac', 'utaac').import_subcategories
     end
 
-    task :judges => :environment do
-      CSVImporter.new('data/aac').import_judges
+    task judges: :environment do
+      CSVImporter.new('data/aac', 'utaac').import_judges
     end
 
-    task :decisions_judges_mapping => :environment do
-      CSVImporter.new('data/aac').import_decisions_judges_mapping
+    task decisions_judges: :environment do
+      CSVImporter.new('data/aac', 'utaac').update_decisions_judges
     end
 
-    task :process_docs => [:environment] do
-      AacDecision.find_each do |d|
+    task process_docs: [:environment] do
+      Tribunal.utaac.all_decisions.find_each do |d|
         d.add_doc_file
         d.process_doc
       end

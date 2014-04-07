@@ -24,4 +24,7 @@ FactoryGirl.define do
     sequence(:code) {|i| "tb#{i}" }
   end
 
+  factory :all_decision do
+  end
+
 end

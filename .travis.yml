@@ -5,10 +5,9 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libreoffice
 before_script:
-  - psql -c 'create role tribunals login createdb;' -U postgres 
+  - psql -c 'create role tribunals login createdb;' -U postgres
 addons:
-  postgresql: 9.2
-services: postgres
+  postgresql: 9.3
 script:
   - bundle exec rake db:create
   - bundle exec rake db:migrate
@@ -20,3 +19,5 @@ notifications:
     format: html
     template:
       - '%{message} (<a href="%{build_url}">details</a>/<a href="%{compare_url}">changes</a>) - build #%{build_number}, branch <a href="https://github.com/%{repository}/tree/%{branch}">%{branch}</a>; of %{repository}'
+addons:
+  postgresql: 9.3

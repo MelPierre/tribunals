@@ -1,4 +1,4 @@
-module DecisionSearch
+module Concerns::Decision::Search
   extend ActiveSupport::Concern
   
   module ClassMethods

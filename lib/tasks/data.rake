@@ -73,8 +73,8 @@ namespace :data do
                       placeholder: "More detail about the case"
                     }
                   ],
-          sort_by: [{name: "date_of_decision", label: "Date of decision"}, {name: "date_of_hearing", label: "Date of hearing"}],
-          results_columns: [{name: "reference_id", label: "Reference number"}, {name: "date_of_decision", label: "Date of decision"}]
+          sort_by: [{name: "decision_date", label: "Date of decision"}, {name: "hearing_date", label: "Date of hearing"}],
+          results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
         },
       {
         name:'Administrative Appeals Chamber',
@@ -110,8 +110,8 @@ namespace :data do
                       placeholder: "More detail about the case"
                     }
                   ],
-                sort_by: [{name: "created_at", label: "Date added"}, {name: "date_of_decision", label: "Date of decision"}],
-                results_columns: [{name: "reference_id", label: "Reference number"}, {name: "date_of_decision", label: "Date of decision"}]
+                sort_by: [{name: "created_at", label: "Date added"}, {name: "decision_date", label: "Date of decision"}],
+                results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
       },
       {
         name:'Employment Appeals Tribunal',
@@ -288,37 +288,38 @@ namespace :data do
       AacDecision.find_each do |decision|
         puts "Converting UTAAC decision  #{decision.file_number}"
         new_decision = AllDecision.create!(
-                            tribunal_id: utaac.id,
-                            claimant: decision.claimant,
-                            respondent: decision.respondent,
-                            # doc_file: decision.doc_file,
-                            # pdf_file: decision.pdf_file,
-                            text: decision.text,
-                            html: decision.html,
-                            search_text: decision.search_text,
-                            slug: decision.slug,
-                            notes: decision.notes,
-                            hearing_date: decision.hearing_date,
-                            decision_date: decision.decision_date,
-                            publication_date: decision.publication_date,
-                            file_number: decision.file_number,
-                            neutral_citation_number: decision.ncn,
-                            reported_number: decision.reported_number,
-                            published: decision.is_published,
-                            other_metadata: {  file_no_1: decision.file_no_1,
-                                                file_no_2: decision.file_no_2,
-                                                file_no_3: decision.file_no_3,
-                                                ncn_citation: decision.ncn_citation,
-                                                ncn_code1: decision.ncn_code1,
-                                                ncn_code2: decision.ncn_code2,
-                                                ncn_year: decision.ncn_year,
-                                                reported_no_1: decision.reported_no_1,
-                                                reported_no_2: decision.reported_no_2,
-                                                reported_no_3: decision.reported_no_3,
-                                                keywords: decision.keywords
-                                              },
-                            created_at: decision.created_at,
-                            updated_at: decision.updated_at
+          tribunal_id: utaac.id,
+          claimant: decision.claimant,
+          respondent: decision.respondent,
+          # doc_file: decision.doc_file,
+          # pdf_file: decision.pdf_file,
+          text: decision.text,
+          html: decision.html,
+          search_text: decision.search_text,
+          slug: decision.slug,
+          notes: decision.notes,
+          hearing_date: decision.hearing_date,
+          decision_date: decision.decision_date,
+          publication_date: decision.publication_date,
+          file_number: decision.file_number,
+          neutral_citation_number: decision.ncn,
+          reported_number: decision.reported_number,
+          published: decision.is_published,
+          other_metadata: {
+            file_no_1: decision.file_no_1,
+            file_no_2: decision.file_no_2,
+            file_no_3: decision.file_no_3,
+            ncn_citation: decision.ncn_citation,
+            ncn_code1: decision.ncn_code1,
+            ncn_code2: decision.ncn_code2,
+            ncn_year: decision.ncn_year,
+            reported_no_1: decision.reported_no_1,
+            reported_no_2: decision.reported_no_2,
+            reported_no_3: decision.reported_no_3,
+            keywords: decision.keywords
+          },
+          created_at: decision.created_at,
+          updated_at: decision.updated_at
         )
 
         decision.aac_subcategories.each do |subcat|

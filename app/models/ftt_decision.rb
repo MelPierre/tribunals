@@ -1,7 +1,7 @@
 require 'doc_processor'
 
 class FttDecision < ActiveRecord::Base
-  include DecisionSearch
+  include Concerns::Decision::Search
 
   before_save :update_search_text
 

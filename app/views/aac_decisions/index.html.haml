@@ -17,25 +17,25 @@
       %fieldset
         %h2
           %label{:for => "search_query"} Enter your search terms
-        = text_field :search, :query, :value => params[:search][:query]
+        = text_field :search, :query, value: params[:search][:query]
         .buttons.cf
-          %button.button.primary.right{:type => "submit"} Search
+          %button.button.primary.right{type: "submit"} Search
       %fieldset#advanced_search
         %legend
           %h2 Refine your search
         %h3
           %label Name of judge
-        = select :search, :judge, options_for_select([[]] + Judge.list, params[:search][:judge]), {}, {:placeholder => "Show cases this judge heard only"}
+        = select :search, :judge, options_for_select([[]] + AllJudge.list, params[:search][:judge]), {}, {:placeholder => "Show cases this judge heard only"}
         %h3
           %label Name of party
         = text_field :search, :party, :value => params[:search][:party], :placeholder => "Show cases brought by this party"
         -# TODO: Make categories and subcategories lists dependent on each other
         %h3
           %label Category
-        = select :search, :category, options_for_select([[]] + AacCategory.list, params[:search][:category]), {}, {:placeholder => "What the case is about"}
+        = select :search, :category, options_for_select([[]] + Tribunal.utaac.categories.list, params[:search][:category]), {}, {:placeholder => "What the case is about"}
         %h3
           %label Sub-category
-        = select :search, :subcategory, options_for_select([[]] + AacSubcategory.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
+        = select :search, :subcategory, options_for_select([[]] + Tribunal.utaac.subcategories.list, params[:search][:subcategory]), {}, {:placeholder => "More detail about the case"}
         .buttons.cf
           %button.button.secondary.left{:type => "reset"} Clear
           %button.button.primary.right{:type => "submit"} Refine search
