@@ -1,25 +1,26 @@
-%div{ng: { controller: 'DecisionsController'} }
+%div{ ng: { controller: 'DecisionsController'} }
   %form#edit_all_decision_7410.simple_form.edit_all_decision
     #case_title.row
       %label Case title
       %span
-    .row
-      .input.string.optional.all_decision_tribunal
+    .form-inputs
+      .input.string
         %label.string.optional.control-label{for: 'all_decision_tribunal'} Tribunal
-        %input#all_decision_tribunal.string.optional{:disabled => "disabled", :name => "all_decision[tribunal]", :type => "text", :value => "First Tier Tribunal"}/
-    .form-inputs
-      .input.string.optional.all_decision_file_number
-        %label.string.optional.control-label{:for => "all_decision_file_number"} Decision No
+        %input.string{ type: 'text', disabled: 'disabled', value: 'First Tier Tribunal'}
+
+      .input.string
+        %label.control-label Decision No
         %input.string{ type: 'text', ng: { model: 'decision.file_number' } }
-    .form-inputs
-      .input.string.optional.all_decision_claimant
-        %label.string.optional.control-label{:for => "all_decision_claimant"} Appellant Name
-        %input#all_decision_claimant.string.optional{:name => "all_decision[claimant]", :type => "text", :value => "Danny Hawkins"}/
-      .input.string.optional.all_decision_respondent
-        %label.string.optional.control-label{:for => "all_decision_respondent"} Respondent Name
-        %input#all_decision_respondent.string.optional{:name => "all_decision[respondent]", :type => "text", :value => "David Hernandez"}/
+
+      .input.string
+        %label.control-label Appellant Name
+        %input.string{ type: 'text', ng: { model: 'decision.appellant' } }
+      
+      .input.string
+        %label.control-label Respondent Name
+        %input.string{ type: 'text', ng: { model: 'decision.respondent' } }
+
       / = form.input :judges, as: 'string'
-    .form-inputs
       .input.select.optional.all_decision_all_judges
         %label.select.optional.control-label{:for => "all_decision_all_judge_ids"} Judge Name
         %select#all_decision_all_judge_ids.select.optional{:name => "all_decision[all_judge_ids]"}
