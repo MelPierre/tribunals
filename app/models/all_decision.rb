@@ -1,8 +1,7 @@
 class AllDecision < ActiveRecord::Base
   include Concerns::Decision::Search
-
-  before_save :update_search_text
-
+  
+  # associations
   has_many :category_decisions
   has_many :subcategories, through: :category_decisions
   has_many :categories, through: :category_decisions
@@ -12,6 +11,8 @@ class AllDecision < ActiveRecord::Base
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
+  # callbacks
+  before_save :update_search_text
   before_save :set_neutral_citation_number
   before_save :set_file_number
 
@@ -26,13 +27,13 @@ class AllDecision < ActiveRecord::Base
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
-  scope :ftt, ->{ where(tribunal_id: Tribunal.ftt_tax.id) }
-  scope :utaac, ->{ where(tribunal_id: Tribunal.utaac.id) }
-  scope :eat, ->{ where(tribunal_id: Tribunal.eat.id) }
-  scope :viewable, ->{ t = self.arel_table; where(t[:reported].eq(true).or(t[:promulgation_date].gteq(Date.new(2013, 6, 1)))) }
-  scope :reported, ->{ where(reported: true) }
-  scope :legacy_id, ->(legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
-  scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
+  scope :ftt,       -> { where(tribunal_id: Tribunal.ftt_tax.id) }
+  scope :utaac,     -> { where(tribunal_id: Tribunal.utaac.id) }
+  scope :eat,       -> { where(tribunal_id: Tribunal.eat.id) }
+  scope :viewable,  -> { t = self.arel_table; where(t[:reported].eq(true).or(t[:promulgation_date].gteq(Date.new(2013, 6, 1)))) }
+  scope :reported,  -> { where(reported: true) }
+  scope :legacy_id, -> (legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
+  scope :ordered,   -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
 
 
   def as_json(options = {})
