@@ -1,6 +1,5 @@
 class Admin::AllDecisionsController < Admin::RestrictedController
   before_filter -> { require_tribunal(params[:tribunal_code]) }
-  before_filter :set_view_path
 
   helper_method :current_tribunal, :tribunal_form_view_path, :tribunal_common_view_path
 
@@ -26,7 +25,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     if @decision.present?
       set_cache_control(@decision.updated_at)
     else
-       redirect_to admin_all_decisions_path
+      flash.keep[:notice] = "Decision not found #{params[:id]}"
+      redirect_to admin_all_decisions_path
     end
   end
 
@@ -108,9 +108,5 @@ class Admin::AllDecisionsController < Admin::RestrictedController
                                             :notes
                                             )
 
-    end
-
-    def set_view_path
-      prepend_view_path "#{Rails.root}/app/views/admin/all_decisions"
     end
 end
