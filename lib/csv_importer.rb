@@ -10,10 +10,10 @@ require 'csv'
 # id,prefix,surname,suffix
 
 # categories.csv
-# num,description
+# id,description
 
 # subcategories.csv
-# subcategory_id,category_id,num,subcategory_name,category_name
+# id,category_id,num,subcategory_name,category_name
 
 # judges_judgements_map.csv
 # judgment_id,commissioner_id
@@ -129,14 +129,14 @@ class CSVImporter
   end
 
   def update_category(row)
-    c = @tribunal.categories.where(legacy_id: row['num']).first_or_initialize
+    c = @tribunal.categories.where(legacy_id: row['id']).first_or_initialize
     c.name = row['description']
     print c.new_record? ? '+' : '.'
     puts "Failed to import #{row['num']} - #{row['description']}" unless c.save
   end
 
   def update_subcategory(row)
-    if c = @tribunal.categories.find_by_legacy_id(row['parent_num'])
+    if c = @tribunal.categories.find_by_legacy_id(row['category_id'])
       sc = c.subcategories.where(legacy_id: row['id']).first_or_initialize
       sc.name = row['description']
       print sc.new_record? ? '+' : '.'
