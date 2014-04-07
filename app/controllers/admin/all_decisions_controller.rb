@@ -2,6 +2,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   before_filter -> { require_tribunal(params[:tribunal_code]) }
   before_filter :set_view_path
 
+  respond_to :html, :json
+
   helper_method :current_tribunal, :tribunal_form_view_path, :tribunal_common_view_path
 
   def index
@@ -20,13 +22,24 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def show
-    @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
-    if @decision.present?
-      set_cache_control(@decision.updated_at)
-    else
-       flash.keep[:notice] = "Decision not found #{params[:id]}"
-       redirect_to admin_all_decisions_path
+    # @tribunal = current_tribunal
+    # @decision = decisions_relation.find_by_file_number(params[:id])
+    # if @decision.present?
+    #   set_cache_control(@decision.updated_at)
+    # else
+    #    flash.keep[:notice] = "Decision not found #{params[:id]}"
+    #    redirect_to admin_all_decisions_path
+    # end
+    respond_with do |format|
+      format.html do
+        gon.decision_id = params[:id]
+        gon.tribunal_id = current_tribunal.code
+      end
+      format.json do
+        @tribunal = current_tribunal
+        @decision = decisions_relation.find_by_file_number(params[:id])
+        respond_with @decision
+      end
     end
   end
 
@@ -46,8 +59,17 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def edit
-    @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
+    respond_with do |format|
+      format.html do
+        gon.decision_id = params[:id]
+        gon.tribunal_id = current_tribunal.code
+      end
+      format.json do
+        @tribunal = current_tribunal
+        @decision = decisions_relation.find_by_file_number(params[:id])
+        respond_with @decision
+      end
+    end
   end
 
   def update

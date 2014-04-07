@@ -1,16 +1,394 @@
-%header
-  %h1 Edit decision
-= simple_form_for(@decision, url: admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)) do |form|
-  .row#case_title
-    %label Case title
-    %span
-  - if @decision.doc_file.present? &&  @decision.doc_file.url.present?
+%div{ng: { controller: 'DecisionsController'} }
+  %form#edit_all_decision_7410.simple_form.edit_all_decision
+    #case_title.row
+      %label Case title
+      %span
     .row
-      = link_to('doc file', @decision.doc_file.url, :class => 'doclink')
-  .row
-    = form.input :tribunal, input_html: { value: @tribunal.name, disabled: true}
+      .input.string.optional.all_decision_tribunal
+        %label.string.optional.control-label{for: 'all_decision_tribunal'} Tribunal
+        %input#all_decision_tribunal.string.optional{:disabled => "disabled", :name => "all_decision[tribunal]", :type => "text", :value => "First Tier Tribunal"}/
+    .form-inputs
+      .input.string.optional.all_decision_file_number
+        %label.string.optional.control-label{:for => "all_decision_file_number"} Decision No
+        %input.string{ type: 'text', ng: { model: 'decision.file_number' } }
+    .form-inputs
+      .input.string.optional.all_decision_claimant
+        %label.string.optional.control-label{:for => "all_decision_claimant"} Appellant Name
+        %input#all_decision_claimant.string.optional{:name => "all_decision[claimant]", :type => "text", :value => "Danny Hawkins"}/
+      .input.string.optional.all_decision_respondent
+        %label.string.optional.control-label{:for => "all_decision_respondent"} Respondent Name
+        %input#all_decision_respondent.string.optional{:name => "all_decision[respondent]", :type => "text", :value => "David Hernandez"}/
+      / = form.input :judges, as: 'string'
+    .form-inputs
+      .input.select.optional.all_decision_all_judges
+        %label.select.optional.control-label{:for => "all_decision_all_judge_ids"} Judge Name
+        %select#all_decision_all_judge_ids.select.optional{:name => "all_decision[all_judge_ids]"}
+        
+    .form-inputs.decision_date
+      .input.string.optional.all_decision_decision_date
+        %label.string.optional.control-label{:for => "all_decision_decision_date"} Decision date
+        %input#all_decision_decision_date.string.optional{:maxlength => "10", :name => "all_decision[decision_date]", :placeholder => "DD/MM/YYYY", :size => "10", :type => "text", :value => "2013-01-31"}/
+      .input.string.optional.all_decision_upload_date
+        %label.string.optional.control-label{:for => "all_decision_upload_date"} Date of Upload
+        %input#all_decision_upload_date.string.optional{:maxlength => "10", :name => "all_decision[upload_date]", :placeholder => "DD/MM/YYYY", :size => "10", :type => "text"}/
+      .input.string.optional.all_decision_publication_date
+        %label.string.optional.control-label{:for => "all_decision_publication_date"} Date published
+        %input#all_decision_publication_date.string.optional{:maxlength => "10", :name => "all_decision[publication_date]", :placeholder => "DD/MM/YYYY", :size => "10", :type => "text"}/
+    .form-inputs
+      .input.select.optional.all_decision_categories
+        %label.select.optional.control-label{:for => "all_decision_category_ids"} Category
+        %select#all_decision_category_ids.select.optional{:name => "all_decision[category_ids]"}
+          %option{:value => ""}
+          %option{:value => "1"} AGGREGATES LEVY
+          %option{:value => "2"} AIR PASSENGER DUTY
+          %option{:value => "3"} BUREAUX DE CHANGE
+          %option{:selected => "selected", :value => "4"} CAPITAL GAINS TAX/TAXATION OF CHARGEABLE GAINS
+          %option{:value => "5"} CLIMATE CHANGE LEVY
+          %option{:value => "6"} COMMUNITY INVESTMENT TAX CREDIT
+          %option{:value => "7"} CUSTOMS DUTY
+          %option{:value => "8"} EXCISE DEALER (R.E.D.S)
+          %option{:value => "9"} EXCISE DRAWBACK
+          %option{:value => "10"} EXCISE DUTY APPEALS
+          %option{:value => "11"} EXCISE DUTY - BEER
+          %option{:value => "12"} EXCISE DUTY - BETTING AND GAMING
+          %option{:value => "13"} EXCISE DUTY CIVIL PENALTY (see also EXCISE HYDROCARBON OIL [DUTY])
+          %option{:value => "14"} EXCISE DUTY SUSPENSION
+          %option{:value => "15"} EXCISE DUTY HYDROCARBON OIL - (See also EXCISE RESTORATION OF VEHICLE)
+          %option{:value => "16"} EXCISE DUTY RED DIESEL (see EXCISE HYDROCARBON OIL)
+          %option{:value => "17"} EXCISE DUTY RESTORATION OF GOODS (see also EXCISE APPEAL)
+          %option{:value => "18"} EXCISE DUTY RESTORATION OF VEHICLE (see also EXCISE APPEAL)
+          %option{:value => "19"} EXCISE DUTY TOBACCO
+          %option{:value => "20"} EXCISE DUTY WINE
+          %option{:value => "21"} EXCISE TRANSIT PROCEDURE
+          %option{:value => "22"} EXCISE WAREHOUSE
+          %option{:value => "23"} INCOME TAX/CORPORATION TAX
+          %option{:value => "24"} INHERITANCE TAX
+          %option{:value => "25"} INSURANCE PREMIUM TAX
+          %option{:value => "26"} LANDFILL TAX
+          %option{:selected => "selected", :value => "27"} NATIONAL INSURANCE CONTRIBUTIONS
+          %option{:value => "28"} PETROLEUM REVENUE TAX
+          %option{:value => "29"} PROCEDURE
+          %option{:value => "30"} STAMP DUTY
+          %option{:value => "31"} VAT - ACQUISITIONS OF GOODS
+          %option{:value => "32"} VAT - ADMINISTRATION
+          %option{:value => "33"} VAT - ANTIQUES AND WORKS OF ART
+          %option{:value => "34"} VAT - APPEALS
+          %option{:value => "35"} VAT - ASSESSMENTS
+          %option{:value => "36"} VAT - AVOIDANCE
+          %option{:value => "37"} VAT - BUILDERS
+          %option{:value => "38"} VAT - BUSINESS
+          %option{:value => "39"} VAT - CAPITAL GOODS
+          %option{:value => "40"} VAT - CARS
+          %option{:value => "41"} VAT - CONSIDERATION
+          %option{:value => "42"} VAT - EXEMPT SUPPLIES
+          %option{:value => "43"} VAT - EXEMPTION  - PARTIAL
+          %option{:value => "44"} VAT - HUMAN RIGHTS
+          %option{:value => "45"} VAT - INPUT TAX
+          %option{:value => "46"} VAT - INTEREST
+          %option{:value => "47"} VAT - INVOICES
+          %option{:value => "48"} VAT - PENALTIES
+          %option{:value => "49"} VAT - REDUCED RATES
+          %option{:value => "50"} VAT - REGISTRATION
+          %option{:value => "51"} VAT - REPAYMENTS
+          %option{:value => "52"} VAT - SECURITY- REQUIREMENT FOR
+          %option{:value => "53"} VAT - SPECIAL SCHEMES
+          %option{:value => "54"} VAT - SUPPLY
+          %option{:value => "55"} VAT - ZERO-RATING
+          %option{:value => "56"} VAT - OTHER
+          %option{:value => "57"} Reference to Europe
+      .input.select.optional.all_decision_subcategories
+        %label.select.optional.control-label{:for => "all_decision_subcategory_ids"} Sub-Category
+        %select#all_decision_subcategory_ids.select.optional{:name => "all_decision[subcategory_ids]"}
+          %option{:value => ""}
+          %option{:value => "1"} Aggregates Levy
+          %option{:value => "2"} Air Passenger Duty
+          %option{:value => "3"} Bureaux de Change
+          %option{:value => "4"} Computation
+          %option{:value => "5"} Disposal
+          %option{:value => "6"} Exemptions and reliefs
+          %option{:value => "7"} Groups of companies
+          %option{:selected => "selected", :value => "8"} Human rights
+          %option{:value => "9"} Trusts
+          %option{:value => "10"} Other
+          %option{:value => "11"} Climate change levy
+          %option{:value => "12"} Community investment tax credit
+          %option{:value => "13"} Classification - nomenclature
+          %option{:value => "14"} Common Customs Tariff
+          %option{:value => "15"} Customs debt - place of
+          %option{:value => "16"} Entry in accounts
+          %option{:value => "17"} Free circulation, release for
+          %option{:value => "18"} Origin, certificates of
+          %option{:value => "19"} Preferential treatment
+          %option{:value => "20"} Quota
+          %option{:value => "21"} Reliefs
+          %option{:value => "22"} Remission
+          %option{:value => "23"} Repayment
+          %option{:value => "24"} Special situation
+          %option{:value => "25"} Transit
+          %option{:value => "26"} Warehousing
+          %option{:value => "27"} Other
+          %option{:value => "28"} Excise dealer (r.e.d.s)
+          %option{:value => "29"} Excise drawback
+          %option{:value => "30"} Costs
+          %option{:value => "31"} Human Rights
+          %option{:value => "32"} Jurisdiction
+          %option{:value => "33"} Practice and Procedure
+          %option{:value => "34"} Time to appeal
+          %option{:value => "35"} Other
+          %option{:value => "36"} Assessment
+          %option{:value => "37"} Exemption
+          %option{:value => "38"} Other
+          %option{:value => "39"} Assessment
+          %option{:value => "40"} Late return
+          %option{:value => "41"} Licence
+          %option{:value => "42"} Pool betting
+          %option{:value => "43"} Other
+          %option{:value => "44"} Assessment
+          %option{:value => "45"} Evasion
+          %option{:value => "46"} Reasonable Excuse
+          %option{:value => "47"} Other
+          %option{:value => "48"} Excise duty suspension
+          %option{:value => "49"} Assessment
+          %option{:value => "50"} Civil Penalty
+          %option{:value => "51"} Exception vehicle
+          %option{:value => "52"} Heating fuel
+          %option{:value => "53"} Horticultural produce
+          %option{:value => "54"} Restoration of vehicle
+          %option{:value => "55"} Other
+          %option{:value => "56"} Excise duty red diesel
+          %option{:value => "57"} Concealment
+          %option{:value => "58"} Conditions
+          %option{:value => "59"} Dismissed on facts
+          %option{:value => "60"} Friends and family
+          %option{:value => "61"} Jurisdiction
+          %option{:value => "62"} Own use
+          %option{:value => "63"} Packed or found with
+          %option{:value => "64"} New Review on facts
+          %option{:value => "65"} Other
+          %option{:value => "66"} Commercial vehicle
+          %option{:value => "67"} Company car
+          %option{:value => "68"} Conditions
+          %option{:value => "69"} Dismissed on facts
+          %option{:value => "70"} Friends and family
+          %option{:value => "71"} Hardship
+          %option{:value => "72"} Hire purchase
+          %option{:value => "73"} Jurisdiction
+          %option{:value => "74"} Own use
+          %option{:value => "75"} Owner not user
+          %option{:value => "76"} Proportionality
+          %option{:value => "77"} Review Directed
+          %option{:value => "78"} Other
+          %option{:value => "79"} Hand rolling
+          %option{:value => "80"} Postal imports
+          %option{:value => "81"} Other
+          %option{:value => "82"} Excise duty wine
+          %option{:value => "83"} Excise transit procedure
+          %option{:value => "84"} Assessment
+          %option{:value => "85"} Approval
+          %option{:value => "86"} Duty deferment
+          %option{:value => "87"} Sale within Bond
+          %option{:value => "88"} Warehousekeeper's liability
+          %option{:value => "89"} Other
+          %option{:value => "90"} Anti-avoidance
+          %option{:value => "91"} Appeal
+          %option{:value => "92"} Assessment/self-assessment
+          %option{:value => "93"} Capital allowances
+          %option{:value => "94"} Close company
+          %option{:value => "95"} Double taxation
+          %option{:value => "96"} Employment income
+          %option{:value => "97"} European law
+          %option{:value => "98"} Exemptions and reliefs
+          %option{:value => "99"} Groups of companies
+          %option{:value => "100"} Human rights
+          %option{:value => "101"} Income from land
+          %option{:value => "102"} Insurance companies
+          %option{:value => "103"} Losses
+          %option{:value => "104"} Management expenses
+          %option{:value => "105"} Partnership
+          %option{:value => "106"} Penalty
+          %option{:value => "107"} Pension scheme
+          %option{:value => "108"} Personal service companies (IR 35)
+          %option{:value => "109"} Proceeds of Crime Act
+          %option{:value => "110"} Profits
+          %option{:value => "111"} Sub-contractors in the construction industry
+          %option{:value => "112"} Other
+          %option{:value => "113"} Business/agricultural reliefs
+          %option{:value => "114"} Domicile
+          %option{:value => "115"} Gifts
+          %option{:value => "116"} Human rights
+          %option{:value => "117"} Trusts
+          %option{:value => "118"} Other
+          %option{:value => "119"} Insurance premium tax
+          %option{:value => "120"} Landfill tax
+          %option{:value => "121"} Exemptions and reliefs
+          %option{:value => "122"} Liability
+          %option{:value => "123"} Other
+          %option{:value => "124"} Expenditure
+          %option{:value => "125"} Hearings in private
+          %option{:value => "126"} Other
+          %option{:value => "127"} Conveyance
+          %option{:value => "128"} Exemptions and reliefs
+          %option{:value => "129"} Land tax
+          %option{:value => "130"} Lease
+          %option{:value => "131"} Reserve tax
+          %option{:value => "132"} Other
+          %option{:value => "133"} Charge to tax
+          %option{:value => "134"} Place of acquisition
+          %option{:value => "135"} Registration
+          %option{:value => "136"} Time of acquisition
+          %option{:value => "137"} Other
+          %option{:value => "138"} Accounting and payment
+          %option{:value => "139"} Annual accounting
+          %option{:value => "140"} Bad debt relief
+          %option{:value => "141"} Cash accounting
+          %option{:value => "142"} Collection and enforcement
+          %option{:value => "143"} Powers of Customs and Excise
+          %option{:value => "144"} Records
+          %option{:value => "145"} Other
+          %option{:value => "146"} Vat - antiques and works of art
+          %option{:value => "147"} Applications generally
+          %option{:value => "148"} Conditions for appeal
+          %option{:value => "149"} Costs
+          %option{:value => "150"} Determination of appeal
+          %option{:value => "151"} Entertainment of appeal
+          %option{:value => "152"} Extension of time
+          %option{:value => "153"} Hardship
+          %option{:value => "154"} Other
+          %option{:value => "155"} Best judgment
+          %option{:value => "156"} Further and supplementary
+          %option{:value => "157"} Global
+          %option{:value => "158"} Making
+          %option{:value => "159"} Notification
+          %option{:value => "160"} Time limits
+          %option{:value => "161"} Other
+          %option{:value => "162"} Abuse of rights
+          %option{:value => "163"} Economic activity
+          %option{:value => "164"} Other
+          %option{:value => "165"} Do -it-yourself
+          %option{:value => "166"} Other
+          %option{:value => "167"} Acquisition as going concern
+          %option{:value => "168"} Artificial separation
+          %option{:value => "169"} Assets
+          %option{:value => "170"} Other
+          %option{:value => "171"} Vat - capital goods
+          %option{:value => "172"} Company cars
+          %option{:value => "173"} Imports
+          %option{:value => "174"} Input tax
+          %option{:value => "175"} Motoring expenses
+          %option{:value => "176"} Other
+          %option{:value => "177"} Discounts
+          %option{:value => "178"} Token stamps
+          %option{:value => "179"} Vouchers
+          %option{:value => "180"} Other
+          %option{:value => "181"} Banking
+          %option{:value => "182"} Betting, Gaming and Lotteries
+          %option{:value => "183"} Buildings
+          %option{:value => "184"} Burial and cremation
+          %option{:value => "185"} Charities
+          %option{:value => "186"} Credit transactions
+          %option{:value => "187"} Credit cards
+          %option{:value => "188"} Cultural services
+          %option{:value => "189"} Education
+          %option{:value => "190"} Finance
+          %option{:value => "191"} Health and welfare
+          %option{:value => "192"} Insurance
+          %option{:value => "193"} Land
+          %option{:value => "194"} Postal services
+          %option{:value => "195"} Professional bodies
+          %option{:value => "196"} Sport and physical education
+          %option{:value => "197"} Trade unions
+          %option{:value => "198"} Other
+          %option{:value => "199"} Vat exemption partial
+          %option{:value => "200"} Criminal charge
+          %option{:value => "201"} Right to fair trial
+          %option{:value => "202"} Other
+          %option{:value => "203"} Apportionment
+          %option{:value => "204"} Attribution
+          %option{:value => "205"} Business entertainment
+          %option{:value => "206"} Business purposes
+          %option{:value => "207"} Capital items
+          %option{:value => "208"} Cars
+          %option{:value => "209"} Evidence for claim
+          %option{:value => "210"} Fuel for private use
+          %option{:value => "211"} Partial exemption
+          %option{:value => "212"} Pre-registration purchases
+          %option{:value => "213"} Second-hand goods
+          %option{:value => "214"} Self-supplies
+          %option{:value => "215"} Time limits
+          %option{:value => "216"} Other
+          %option{:value => "217"} Default interest
+          %option{:value => "218"} On overpaid tax
+          %option{:value => "219"} Other
+          %option{:value => "220"} Contents
+          %option{:value => "221"} Other
+          %option{:value => "222"} Default surcharge
+          %option{:value => "223"} Evasion
+          %option{:value => "224"} Late registration
+          %option{:value => "225"} Misdeclaration
+          %option{:value => "226"} Mitigation
+          %option{:value => "227"} Reasonable excuse
+          %option{:value => "228"} Other
+          %option{:value => "229"} Children's car seats
+          %option{:value => "230"} Dwellings
+          %option{:value => "231"} Fuel
+          %option{:value => "232"} Heating equipment and appliances
+          %option{:value => "233"} Security goods
+          %option{:value => "234"} Other
+          %option{:value => "235"} Cancellation of
+          %option{:value => "236"} Companies, groups and divisions
+          %option{:value => "237"} Compulsory
+          %option{:value => "238"} Exemption from
+          %option{:value => "239"} Late
+          %option{:value => "240"} Liability for
+          %option{:value => "241"} Partnerships, of
+          %option{:value => "242"} Other
+          %option{:value => "243"} Vat - repayments
+          %option{:value => "244"} Vat - security- requirement for
+          %option{:value => "245"} Farmers
+          %option{:value => "246"} Investment gold
+          %option{:value => "247"} Retailers
+          %option{:value => "248"} Second-hand goods
+          %option{:value => "249"} Travel agents
+          %option{:value => "250"} Tour operators
+          %option{:value => "251"} Other
+          %option{:value => "252"} Continuous
+          %option{:value => "253"} Deemed
+          %option{:value => "254"} Place of
+          %option{:value => "255"} Time of
+          %option{:value => "256"} Pre-registration
+          %option{:value => "257"} Self-supplies
+          %option{:value => "258"} Single or multiple
+          %option{:value => "259"} Other
+          %option{:value => "260"} Books etc
+          %option{:value => "261"} Building work
+          %option{:value => "262"} Caravans and houseboats
+          %option{:value => "263"} Charities
+          %option{:value => "264"} Clothing and footwear
+          %option{:value => "265"} Drugs, medicines, aids for the handicapped
+          %option{:value => "266"} Exports
+          %option{:value => "267"} Food, etc
+          %option{:value => "268"} Fuel and power
+          %option{:value => "269"} Gold
+          %option{:value => "270"} Imports
+          %option{:value => "271"} International services
+          %option{:value => "272"} Magazines
+          %option{:value => "273"} Medicinal products
+          %option{:value => "274"} Newspapers
+          %option{:value => "275"} Protected buildings
+          %option{:value => "276"} Sewerage services and water
+          %option{:value => "277"} Talking books for the blind
+          %option{:value => "278"} Transport
+          %option{:value => "279"} Other
+          %option{:value => "280"} Vat - other
+          %option{:value => "281"} Reference to Europe
+          %option{:value => "282"} Annex
+          %option{:value => "283"} Annex
+    .form-inputs
+      .input.text.optional.all_decision_notes
+        %label.text.optional.control-label{:for => "all_decision_notes"} Notes
+        %textarea#all_decision_notes.text.optional{:name => "all_decision[notes]"}
+    .row
+      %input.button.primary{:name => "commit", :type => "submit", :value => "Update All decision"}/
+      %a.button{:href => "/admin/ftt-tax/decision123"} Cancel
 
-  = render tribunal_form_view_path, form: form, common_view_path: tribunal_common_view_path
-  .row
-    = form.submit :class => 'button primary'
-    %a.button{:href => admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)} Cancel
+

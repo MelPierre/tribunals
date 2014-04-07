@@ -17,6 +17,7 @@ gem 'devise_invitable'
 # Forms
 gem 'simple_form'
 
+gem 'gon'
 # For speeding up Postgres array parsing
 gem 'pg_array_parser'
 
@@ -50,6 +51,7 @@ end
 
 group :assets do
   gem 'sass-rails'
+  gem 'coffee-script'
 end
 
 gem 'pdf-reader'

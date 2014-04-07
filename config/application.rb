@@ -56,6 +56,7 @@ module Tribunals
       moj-base.css
       gov-static/gov-ie.js
       application-admin.js
+      angular.js
     )
   end
 end
