@@ -26,17 +26,16 @@ class AllDecision < ActiveRecord::Base
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
-  scope :ftt, ->{ where(tribunal_id: Tribunal.ftt_tax.id) } 
-  scope :utaac, ->{ where(tribunal_id: Tribunal.utaac.id) } 
-  scope :eat, ->{ where(tribunal_id: Tribunal.eat.id) } 
-
+  scope :ftt, ->{ where(tribunal_id: Tribunal.ftt_tax.id) }
+  scope :utaac, ->{ where(tribunal_id: Tribunal.utaac.id) }
+  scope :eat, ->{ where(tribunal_id: Tribunal.eat.id) }
   scope :viewable, ->{ t = self.arel_table; where(t[:reported].eq(true).or(t[:promulgation_date].gteq(Date.new(2013, 6, 1)))) }
   scope :reported, ->{ where(reported: true) }
   scope :legacy_id, ->(legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
   scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
 
   protected
-  
+
     def set_neutral_citation_number
       begin
         if neutral_citation_number.nil? || neutral_citation_number.blank?
@@ -106,7 +105,7 @@ class AllDecision < ActiveRecord::Base
 
   def update_search_text
     #TODO Make sure all fields are included
-    self.search_text = [subcategory_names, category_names, judge_names, neutral_citation_number, file_number, 
+    self.search_text = [subcategory_names, category_names, judge_names, neutral_citation_number, file_number,
                           reported_number, claimant, respondent, notes, text]
                         .join(' ')
 

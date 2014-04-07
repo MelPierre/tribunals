@@ -73,17 +73,19 @@ feature 'User Authentication' do
 
   context 'with super admin access' do
     let!(:user) { create(:user, admin: true) }
-    
+
     before do
       visit '/admin'
     end
 
     scenario 'User can sign in' do
+      pending('WIP')
       sign_in user
       expect(page).to have_content('Administrator view')
     end
 
     scenario 'User can access all tribunals' do
+      pending('WIP')
       sign_in user
       visit '/admin/eat'
 

@@ -17,6 +17,8 @@ capybara-*.html
 /tmp/*
 /db/*.sqlite3
 /public/system/*
+/public/decision/*
+/public/*_decision/*
 /coverage/
 /spec/tmp/*
 **.orig
@@ -39,3 +41,4 @@ Icon
 public/uploads
 tmp
 data/*
+npm-debug.log
