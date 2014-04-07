@@ -22,14 +22,6 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def show
-    # @tribunal = current_tribunal
-    # @decision = decisions_relation.find_by_file_number(params[:id])
-    # if @decision.present?
-    #   set_cache_control(@decision.updated_at)
-    # else
-    #    flash.keep[:notice] = "Decision not found #{params[:id]}"
-    #    redirect_to admin_all_decisions_path
-    # end
     respond_with do |format|
       format.html do
         gon.decision_id = params[:id]
