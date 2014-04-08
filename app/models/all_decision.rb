@@ -148,7 +148,7 @@ class AllDecision < ActiveRecord::Base
   def update_search_text
     #TODO Make sure all fields are included
     self.search_text = [subcategory_names, category_names, judge_names, neutral_citation_number, file_number,
-                          reported_number, claimant, respondent, notes, text]
+                          reported_number, appeal_number, country, case_name, claimant, respondent, other_metadata, notes, text]
                         .join(' ')
 
   end

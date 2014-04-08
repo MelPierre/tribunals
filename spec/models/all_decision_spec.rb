@@ -22,9 +22,77 @@ describe AllDecision do
       tribunal.all_decisions.filtered(query: "beautiful").sort.should == [decision2, decision3]
     end
 
+
     it "should search metadata as well as body text" do
       tribunal.all_decisions.filtered(query: "gerald").sort.should == [decision2, decision3]
     end
+
+    context "metadata" do
+      let!(:decisionClaimant) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, claimant:'Rohan')) }
+      let!(:decisionRespondent) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, respondent:'Susana')) }
+      let!(:decisionNotes) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, notes:'notesTest1')) }
+      let!(:decisionNCN) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, neutral_citation_number:'21EBAI12/yy/yy67')) }
+      let!(:decisionFile_number) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, file_number:'123456')) }
+      let!(:decisionReported_number) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, reported_number:'654321')) }
+      let!(:decisionAppeal_number) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, appeal_number:'987654')) }
+      let!(:decisionCountry) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, country:'India')) }
+      let!(:decisionCase_name) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, case_name:'BourneCase')) }
+      let!(:decisionOther_metadata) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, 
+                                                                              other_metadata:{"file_no_1"=>"CIS", 
+                                                                                              "file_no_2"=>"486", 
+                                                                                              "file_no_3"=>"2013", 
+                                                                                              "ncn_citation"=>"406", 
+                                                                                              "ncn_code1"=>"UKIT", 
+                                                                                              "ncn_code2"=>"AAC", 
+                                                                                              "ncn_year"=>"2013", 
+                                                                                              "keywords"=>"hello world pink dots yellow sun"
+                                                                                              } )) }
+
+      it "should search claimant" do
+        tribunal.all_decisions.filtered(query: "Rohan").sort.should == [decisionClaimant]
+      end
+
+      it "should search respondent" do
+        tribunal.all_decisions.filtered(query: "Susana").sort.should == [decisionRespondent]
+      end
+
+      it "should search notes" do
+        tribunal.all_decisions.filtered(query: "notesTest1").sort.should == [decisionNotes]
+      end
+
+      it "should search neutral_citation_number" do
+        tribunal.all_decisions.filtered(query: "21EBAI12/yy/yy67").sort.should == [decisionNCN]
+      end
+
+      pending "should search neutral_citation_number with a partial match" do
+        tribunal.all_decisions.filtered(query: "21EBAI12/yy/yy67").sort.should == [decisionNCN]
+      end
+      
+      it "should search file_number" do
+        tribunal.all_decisions.filtered(query: "123456").sort.should == [decisionFile_number]
+      end
+
+      it "should search reported_number" do
+        tribunal.all_decisions.filtered(query: "654321").sort.should == [decisionReported_number]
+      end
+
+      it "should search appeal_number" do
+        tribunal.all_decisions.filtered(query: "987654").sort.should == [decisionAppeal_number]
+      end
+
+      it "should search country" do
+        tribunal.all_decisions.filtered(query: "India").sort.should == [decisionCountry]
+      end
+
+      it "should search case_name" do
+        tribunal.all_decisions.filtered(query: "BourneCase").sort.should == [decisionCase_name]
+      end        
+
+      it "should search other metadata" do
+        tribunal.all_decisions.filtered(query: "UKIT").sort.should == [decisionOther_metadata]
+      end 
+    end
+
 
     it "should filter on search text and judge" do
       tribunal.all_decisions.filtered(query: "gerald", judge: 'Blake').should == [decision3]
