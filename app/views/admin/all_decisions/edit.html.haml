@@ -1,0 +1,90 @@
+/ %header
+/   %h1 Edit decision
+/ = simple_form_for(@decision, url: admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)) do |form|
+/   .row#case_title
+/     %label Case title
+/     %span
+/   - if @decision.doc_file.present? &&  @decision.doc_file.url.present?
+/     .row
+/       = link_to('doc file', @decision.doc_file.url, :class => 'doclink')
+/   .row
+/     = form.input :tribunal, input_html: { value: @tribunal.name, disabled: true}
+
+/   = render tribunal_form_view_path, form: form, common_view_path: tribunal_common_view_path
+/   .row
+/     = form.submit :class => 'button primary'
+/     %a.button{:href => admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)} Cancel
+
+
+%div{ ng: { controller: 'DecisionsController'} }
+  %form#edit_all_decision_7410.simple_form.edit_all_decision
+    #case_title.row
+      %label Case title
+      %span
+    .form-inputs
+      .input.string
+        %label.string.optional.control-label{for: 'all_decision_tribunal'} Tribunal
+        %input.string{ type: 'text', disabled: 'disabled', value: 'First Tier Tribunal'}
+
+      .input.string
+        %label.control-label Decision No
+        %input.string{ type: 'text', ng: { model: 'decision.file_number' } }
+
+      .input.string
+        %label.control-label Appellant Name
+        %input.string{ type: 'text', ng: { model: 'decision.appellant' } }
+      
+      .input.string
+        %label.control-label Respondent Name
+        %input.string{ type: 'text', ng: { model: 'decision.respondent' } }
+
+      / = form.input :judges, as: 'string'
+      .input.select
+        %label.control-label New Judge
+        %select{ ng: { model: 'new_judge', change: 'addJudge()', options: 'judge.name for judge in judges' } }
+      
+      .input.string{ ng: { repeat: 'judge in decision.all_judges' } }
+        %label &nbsp;
+        %input{ type: 'text', ng: { model: 'judge.name' } }
+        %a{ ng: { click: 'removeJudge($index)' } } Remove
+      
+      .input.string
+        %label Decision date
+        %quick-datepicker{ ng: { model: 'decision.decision_date' }, date: { format: 'd/M/yyyy'}, disable: { timepicker: 'true' } }
+
+      .input.string
+        %label Date of Upload
+        %quick-datepicker{ ng: { model: 'decision.upload_date' }, date: { format: 'd/M/yyyy'}, disable: { timepicker: 'true' } }
+
+      .input.string
+        %label Date published
+        %quick-datepicker{ ng: { model: 'decision.publication_date' }, date: { format: 'd/M/yyyy'}, disable: { timepicker: 'true' } }
+        
+      .form-inputs{ ng: { repeat: 'category_decision in decision.category_decisions' } }
+  
+        .input.select
+          %label Category
+          %select{ ng: { model: 'category_decision.category', options: 'category.name for category in categories'  } }
+
+        .input.select
+          %label Sub-Category
+          %select{ ng: { model: 'category_decision.subcategory', options: 'category.name for category in category_decision.category.subcategories' } }
+
+        .input.string
+          %label &nbsp;
+          %a{ ng: { click: 'removeCategory($index)' } } Remove Category
+
+      .input.string
+        %label &nbsp;
+        %a{ ng: { click: 'addCategory()' } } Add Category
+          
+    .form-inputs
+      .input.text.optional.all_decision_notes
+        %label Notes
+        %textarea.text{ ng: { model: 'notes' } }
+    .form-actions
+      %input.button.primary{name: 'commit', type: 'submit',value: 'Update All decision'}
+      %a{href: "/admin/ftt-tax/decision123"} Cancel
+
+
+
