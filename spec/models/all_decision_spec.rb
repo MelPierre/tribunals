@@ -13,7 +13,7 @@ describe AllDecision do
     let!(:adsc2) { create(:subcategory, name: "Free Education", category_id: adc.id) }
 
     let!(:decision4) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, claimant: 'Green', 
-                                          subcategory_ids: [adsc.id])) }
+                                          subcategory_ids: [adsc.id], country: "Albania")) }
 
     let!(:decision5) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, neutral_citation_number: '[2013] UKUT 456', text: 'little pete was a green boy', 
                                           subcategory_ids: [adsc.id, adsc2.id])) }
@@ -67,6 +67,42 @@ describe AllDecision do
         results.count.should == 1
         results.should == [decision7]
       end
-    end  
+    end
+
+    it "should returns no results if filter does not match" do
+      results = tribunal.all_decisions.filtered(party: "Espanistang").sort
+      results.count.should == 0
+    end
+
+    it "should filter on country" do
+      results = tribunal.all_decisions.filtered(country: "Albania").sort
+      results.count.should == 1
+      results.should == [decision4]     
+    end
+    
+    context "reported" do
+      let!(:decision8) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, claimant: 'Green', 
+                                          subcategory_ids: [adsc.id], reported: true)) }
+      let!(:decision9) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, claimant: 'Jose', 
+                                          subcategory_ids: [adsc.id], reported: false)) }
+
+      it "should filter on reported true" do
+        results = tribunal.all_decisions.filtered(reported: "true").sort
+        results.count.should == 1
+        results.should == [decision8]     
+      end
+
+      it "should filter on reported false" do
+        results = tribunal.all_decisions.filtered(reported: "false").sort
+        results.count.should == 1
+        results.should == [decision9]     
+      end
+
+      it "should filter on reported all" do
+        results = tribunal.all_decisions.filtered(reported: "all").sort
+        results.count.should == 2
+        results.should == [decision8, decision9]     
+      end      
+    end
   end
 end

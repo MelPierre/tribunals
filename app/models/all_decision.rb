@@ -62,11 +62,25 @@ class AllDecision < ActiveRecord::Base
 
   def self.filtered(filter_hash)
     by_judge(filter_hash[:judge])
+    .by_reported(filter_hash[:reported])
     .by_party(filter_hash[:party])
+    .by_country(filter_hash[:country])
     .by_category(filter_hash[:category])
     .by_subcategory(filter_hash[:subcategory])
     .search(filter_hash[:query])
     .group('all_decisions.id')
+  end
+
+  def self.by_reported(reported)
+    if reported.present? 
+      if reported == "all"
+        where("reported IS NOT NULL")
+      else
+        where("reported = ?", reported)
+      end
+    else
+      where("")
+    end
   end
 
   def self.by_judge(judge_name)
@@ -84,6 +98,15 @@ class AllDecision < ActiveRecord::Base
       where("")
     end
   end
+
+  def self.by_country(country)
+    if country.present?
+      where("? = country", country)
+    else
+      where("")
+    end
+  end
+
 
   def self.by_category(category_name)
     if category_name.present?
