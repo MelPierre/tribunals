@@ -2,7 +2,6 @@ require 'ukit_utils'
 
 class Decision < ActiveRecord::Base
   include Concerns::Decision::Search
-  include Concerns::Decision::DocProcessors
 
   before_save :update_search_text
 

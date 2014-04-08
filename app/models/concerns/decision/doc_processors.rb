@@ -38,7 +38,7 @@ module Concerns::Decision::DocProcessors
 
         self.html = self.html.gsub(citation_pattern) do |citation|
           normalised_citation = citation.gsub(/\s+0+([1-9])/, ' \1')
-          decision = cache[normalised_citation] || Decision.find_by(appeal_number: normalised_citation) || (next citation)
+          decision = cache[normalised_citation] || AllDecision.find_by(appeal_number: normalised_citation) || (next citation)
           decision_url = Tribunals::Application.routes.url_helpers.decision_path(decision)
           "<a href='"+decision_url+"'>"+citation+"</a>"
         end
