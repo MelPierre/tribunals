@@ -62,6 +62,7 @@ class AllDecision < ActiveRecord::Base
 
   def self.filtered(filter_hash)
     by_judge(filter_hash[:judge])
+    .by_party(filter_hash[:party])
     .by_category(filter_hash[:category])
     .by_subcategory(filter_hash[:subcategory])
     .search(filter_hash[:query])
@@ -71,6 +72,14 @@ class AllDecision < ActiveRecord::Base
   def self.by_judge(judge_name)
     if judge_name.present?
       joins(:all_judges).where("? = all_judges.name", judge_name)
+    else
+      where("")
+    end
+  end
+
+  def self.by_party(party_name)
+    if party_name.present?
+      where("? = claimant OR ? = respondent", party_name, party_name)
     else
       where("")
     end
