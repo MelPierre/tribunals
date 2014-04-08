@@ -11,3 +11,6 @@ class CategoryDecision < ActiveRecord::Base
     self.subcategory = nil unless category.subcategories.include?(subcategory)
   end
 end
+
+
+
