@@ -74,12 +74,31 @@ describe AllDecision do
       results.count.should == 0
     end
 
-    it "should filter on country" do
-      results = tribunal.all_decisions.filtered(country: "Albania").sort
-      results.count.should == 1
-      results.should == [decision4]     
+    context "country" do
+      let!(:decision10) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, claimant: 'Green', 
+                                          subcategory_ids: [adsc.id], country_guideline: true)) }
+      let!(:decision11) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, claimant: 'Green', 
+                                          subcategory_ids: [adsc.id], country_guideline: false)) }
+
+      it "should filter on country" do
+        results = tribunal.all_decisions.filtered(country: "Albania").sort
+        results.count.should == 1
+        results.should == [decision4]     
+      end
+
+      it "should filter on country_guideline true" do
+        results = tribunal.all_decisions.filtered(country_guideline: "true").sort
+        results.count.should == 1
+        results.should == [decision10]     
+      end
+
+      it "should filter on country_guideline false" do
+        results = tribunal.all_decisions.filtered(country_guideline: "false").sort
+        results.count.should == 1
+        results.should == [decision11]     
+      end
     end
-    
+
     context "reported" do
       let!(:decision8) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, claimant: 'Green', 
                                           subcategory_ids: [adsc.id], reported: true)) }

@@ -67,8 +67,17 @@ class AllDecision < ActiveRecord::Base
     .by_country(filter_hash[:country])
     .by_category(filter_hash[:category])
     .by_subcategory(filter_hash[:subcategory])
+    .by_country_guideline(filter_hash[:country_guideline])
     .search(filter_hash[:query])
     .group('all_decisions.id')
+  end
+
+  def self.by_country_guideline(country_guideline)
+    if country_guideline.present?       
+      where("country_guideline = ?", country_guideline)
+    else
+      where("")
+    end
   end
 
   def self.by_reported(reported)
