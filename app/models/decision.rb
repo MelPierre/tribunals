@@ -2,7 +2,7 @@ require 'ukit_utils'
 
 class Decision < ActiveRecord::Base
   include Concerns::Decision::Search
-  
+
   before_save :update_search_text
 
   mount_uploader :doc_file, DocFileUploader

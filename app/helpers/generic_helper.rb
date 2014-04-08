@@ -2,7 +2,6 @@ module GenericHelper
   def display_categories(decision, separator = " / ")
     prefix = decision.class.name.split(/(?=[A-Z])/)[0].downcase
     categories = []
-
     decision.subcategories.each do |subcat|
       category = subcat.category.name
       categories << join_display_strings([category, subcat.name], separator)
