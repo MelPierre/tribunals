@@ -62,10 +62,34 @@ class AllDecision < ActiveRecord::Base
 
   def self.filtered(filter_hash)
     by_judge(filter_hash[:judge])
+    .by_reported(filter_hash[:reported])
+    .by_party(filter_hash[:party])
+    .by_country(filter_hash[:country])
     .by_category(filter_hash[:category])
     .by_subcategory(filter_hash[:subcategory])
+    .by_country_guideline(filter_hash[:country_guideline])
     .search(filter_hash[:query])
     .group('all_decisions.id')
+  end
+
+  def self.by_country_guideline(country_guideline)
+    if country_guideline.present?       
+      where("country_guideline = ?", country_guideline)
+    else
+      where("")
+    end
+  end
+
+  def self.by_reported(reported)
+    if reported.present? 
+      if reported == "all"
+        where("reported IS NOT NULL")
+      else
+        where("reported = ?", reported)
+      end
+    else
+      where("")
+    end
   end
 
   def self.by_judge(judge_name)
@@ -75,6 +99,23 @@ class AllDecision < ActiveRecord::Base
       where("")
     end
   end
+
+  def self.by_party(party_name)
+    if party_name.present?
+      where("? = claimant OR ? = respondent", party_name, party_name)
+    else
+      where("")
+    end
+  end
+
+  def self.by_country(country)
+    if country.present?
+      where("? = country", country)
+    else
+      where("")
+    end
+  end
+
 
   def self.by_category(category_name)
     if category_name.present?
@@ -107,7 +148,7 @@ class AllDecision < ActiveRecord::Base
   def update_search_text
     #TODO Make sure all fields are included
     self.search_text = [subcategory_names, category_names, judge_names, neutral_citation_number, file_number,
-                          reported_number, claimant, respondent, notes, text]
+                          reported_number, appeal_number, country, case_name, claimant, respondent, other_metadata, notes, text]
                         .join(' ')
 
   end
