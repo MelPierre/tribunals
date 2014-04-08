@@ -1,4 +1,4 @@
-= simple_form_for [:admin,@user] do |f|
+= simple_form_for @user, url: admin_user_path(params[:tribunal_code], @user) do |f|
   .form-inputs
     = f.input :name
     = f.input :email

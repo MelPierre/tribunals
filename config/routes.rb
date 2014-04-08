@@ -18,9 +18,8 @@ Tribunals::Application.routes.draw do
     #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
     get '/', to: redirect('/admin/utiac'), as: :decisions
 
-    resources :users
-
     scope ':tribunal_code' do
+      resources :users
       resources :judges, only: [:index]
       resources :categories, only: [:index]
       resources :all_decisions, path: ''
