@@ -1,4 +1,4 @@
-module Decisions
+module Concerns::Decision::DocProcessors
   extend ActiveSupport::Concern
   included do
     has_many :import_errors
