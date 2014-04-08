@@ -28,7 +28,7 @@
       .input.string{ ng: { repeat: 'judge in decision.all_judges' } }
         %label &nbsp;
         %input{ type: 'text', ng: { model: 'judge.name' } }
-        %button{ ng: { click: 'removeJudge($index)' } } Remove
+        %a{ ng: { click: 'removeJudge($index)' } } Remove
       
       .input.string
         %label Decision date
@@ -42,7 +42,7 @@
         %label Date published
         %quick-datepicker{ ng: { model: 'decision.publication_date' }, date: { format: 'd/M/yyyy'}, disable: { timepicker: 'true' } }
         
-      .input.string{ ng: { repeat: 'category_decision in decision.category_decisions' } }
+      .form-inputs{ ng: { repeat: 'category_decision in decision.category_decisions' } }
   
         .input.select
           %label Category
@@ -52,6 +52,13 @@
           %label Sub-Category
           %select{ ng: { model: 'category_decision.subcategory', options: 'category.name for category in category_decision.category.subcategories' } }
 
+        .input.string
+          %label &nbsp;
+          %a{ ng: { click: 'removeCategory($index)' } } Remove Category
+
+      .input.string
+        %label &nbsp;
+        %a{ ng: { click: 'addCategory()' } } Add Category
           
     .form-inputs
       .input.text.optional.all_decision_notes
@@ -60,5 +67,6 @@
     .form-actions
       %input.button.primary{name: 'commit', type: 'submit',value: 'Update All decision'}
       %a{href: "/admin/ftt-tax/decision123"} Cancel
+
 
 
