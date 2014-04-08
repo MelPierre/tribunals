@@ -10,6 +10,10 @@ class AllDecision < ActiveRecord::Base
   has_and_belongs_to_many :all_judges, join_table: :decisions_judges
   belongs_to :tribunal
 
+  accepts_nested_attributes_for :all_judges
+  accepts_nested_attributes_for :category_decisions, allow_destroy: true, reject_if: :reject_categories
+
+
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
@@ -36,6 +40,10 @@ class AllDecision < ActiveRecord::Base
   scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
 
   protected
+
+    def reject_categories(attrs)
+      attrs[:category_id].blank?
+    end
 
     def set_neutral_citation_number
       begin

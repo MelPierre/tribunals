@@ -49,6 +49,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     @tribunal = current_tribunal
     slug = params.fetch(:id).upcase
     @decision = decisions_relation.find_by('upper(slug) = ?', slug)
+    @decision.category_decisions.build
+
   end
 
   def update
@@ -57,7 +59,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     @decision = decisions_relation.find_by('upper(slug) = ?', slug)
     update_status = @decision.update_attributes!(decision_params)
     if update_status
-      redirect_to admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
+      redirect_to edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
     else
       render 'edit'
     end
@@ -105,7 +107,10 @@ class Admin::AllDecisionsController < Admin::RestrictedController
                                             :publication_date,
                                             :category_ids,
                                             :subcategory_ids,
-                                            :notes
+                                            :notes,
+                                            category_decisions_attributes: [:id, :category_id, :subcategory_id, :_destroy]
+                                            
+
                                             )
 
     end
