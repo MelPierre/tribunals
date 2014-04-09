@@ -166,12 +166,18 @@ class AllDecision < ActiveRecord::Base
   end
 
   def set_slug
+    if self.file_number.blank?     
+      self.slug = self.id.to_s
+      return 
+    end
+
     file_number_slug = self.file_number.gsub("/","-").upcase
     decision_by_slug = AllDecision.find_by_slug(file_number_slug)
-    if  decision_by_slug && (decision_by_slug.id != self.id)
+    if decision_by_slug && (decision_by_slug.id != self.id)
       self.slug = "#{file_number_slug}_#{self.id}"
     else      
       self.slug = file_number_slug
     end
   end
+
 end
