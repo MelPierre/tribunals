@@ -50,7 +50,11 @@ feature 'First Tier Tribunal Tax Chamber' do
       select('Value Added Tax - Taxes', from: 'Add category')
       click_button 'Update All decision'
 
-      select('VAT - Taxes - Yearly', from: 'Subcategory')
+      category = Category.find_by_name('Value Added Tax - Taxes')
+
+      within ".category-#{category.id}" do 
+        select('VAT - Taxes - Yearly', from: 'Subcategory')
+      end
       click_button 'Update All decision'
 
       visit '/admin/ftt-tax/987789'
