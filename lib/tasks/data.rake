@@ -7,7 +7,7 @@ namespace :data do
       {
         name:'Immigration and Aslyum Chamber',
         code:'utiac',
-        # title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal',
+        title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal',
         filters: [
                     {
                       name: "reported",
@@ -42,7 +42,7 @@ namespace :data do
       {
         name:'First Tier Tribunal',
         code:'ftt-tax',
-        # title: 'Tax: First-tier Tribunal judgments',
+        title: 'Tax: First-tier Tribunal judgments',
         filters: [
                     {
                       name: "judge",
@@ -79,7 +79,7 @@ namespace :data do
       {
         name:'Administrative Appeals Chamber',
         code:'utaac',
-        # title: 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal',
+        title: 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal',
         filters: [
                     {
                       name: "judge",
@@ -116,7 +116,7 @@ namespace :data do
       {
         name:'Employment Appeals Tribunal',
         code:'eat',
-        # title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal',
+        title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal',
         filters: [
                     {
                       name: "judge",
