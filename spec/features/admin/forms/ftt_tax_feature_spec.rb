@@ -28,8 +28,37 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Date added: 31 Jan 1978')
       expect(page).to have_content('Date updated: 14 Feb 1967')
       expect(page).to have_content('Category: VAT - Taxes')
-      expect(page).to have_content('Sub-Category: VAT - Taxes - Monthly')
       expect(page).to have_content('Notes: filling the notes for testing')
+
+
+      visit '/admin/ftt-tax/987789/edit'
+
+      select 'VAT - Taxes - Monthly', from: 'Subcategory'
+      click_button 'Update All decision'
+
+      visit '/admin/ftt-tax/987789'
+
+      expect(page).to have_content('Sub-Category: VAT - Taxes - Monthly')
+    end
+
+    scenario 'add category to decision' do
+      add_decision
+
+      visit '/admin/ftt-tax/987789/edit'
+
+      select('Value Added Tax - Taxes', from: 'Add category')
+      click_button 'Update All decision'
+
+      category = Category.find_by_name('Value Added Tax - Taxes')
+
+      within ".category-#{category.id}" do 
+        select('VAT - Taxes - Yearly', from: 'Subcategory')
+      end
+      click_button 'Update All decision'
+
+      visit '/admin/ftt-tax/987789'
+
+      expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
     end
 
     scenario 'can delete ftt decision' do
@@ -48,15 +77,16 @@ feature 'First Tier Tribunal Tax Chamber' do
       fill_in('Decision No', with: 'EDIT987789')
       fill_in('Appellant Name', with: 'John Smith')
       fill_in('Respondent Name', with: 'Matthew Black')
-      select('Jose Mourinho', from: 'Judge Name')
+      select('Jose Mourinho', from: 'New judge')
       fill_in('Decision date', with: '22/05/1981')
       fill_in('Date of Upload', with: '04/02/1979')
       fill_in('Date published', with: '17/03/1968')
       select('Value Added Tax - Taxes', from: 'Category')
-      select('VAT - Taxes - Yearly', from: 'Sub-Category')
       fill_in('Notes', with: 'Decision already reached')
 
       click_button('Update All decision')
+
+      visit "/admin/ftt-tax/987789"
 
       expect(page).to have_content('Decision Number: EDIT987789')
       expect(page).to have_content('Appellant name: John Smith')
@@ -66,8 +96,17 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Date added: 4 Feb 1979')
       expect(page).to have_content('Date updated: 17 Mar 1968')
       expect(page).to have_content('Category: Value Added Tax - Taxes')
-      expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
       expect(page).to have_content('Notes: Decision already reached')
+
+      visit "/admin/ftt-tax/987789/edit"
+
+      select 'VAT - Taxes - Yearly', from: 'Subcategory'
+      click_button 'Update All decision'
+
+      visit "/admin/ftt-tax/987789"
+      
+      expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
+
     end
   end
 end

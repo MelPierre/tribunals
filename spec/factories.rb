@@ -23,7 +23,7 @@ FactoryGirl.define do
     sequence(:name) {|i| "Tribunal#{i}" }
     sequence(:code) {|i| "tb#{i}" }
   end
-  
+
   factory :all_decision do
   end
 

@@ -1,6 +1,8 @@
 class AllDecision < ActiveRecord::Base
-  include Decisions
   include Concerns::Decision::Search
+  include Concerns::Decision::DocProcessors
+
+  attr_accessor :new_judge_id
 
   before_save :update_search_text
 
@@ -10,11 +12,15 @@ class AllDecision < ActiveRecord::Base
   has_and_belongs_to_many :all_judges, join_table: :decisions_judges
   belongs_to :tribunal
 
+  accepts_nested_attributes_for :all_judges, allow_destroy: true, reject_if: :reject_judges
+  accepts_nested_attributes_for :category_decisions, allow_destroy: true, reject_if: :reject_categories
+
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
   before_save :set_neutral_citation_number
   before_save :set_file_number
+  before_save :add_new_judge
 
   def slug_candidates
     if file_number.present?
@@ -37,7 +43,21 @@ class AllDecision < ActiveRecord::Base
   scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
 
   protected
-  
+
+    def reject_categories(attrs)
+      attrs[:category_id].blank?
+    end
+
+    def reject_judges(attrs)
+      attrs[:id].blank?
+    end
+
+    def add_new_judge
+      if new_judge_id.present? && judge = AllJudge.find(new_judge_id)
+        self.all_judges << judge unless all_judges.include?(judge)
+      end
+    end
+
     def set_neutral_citation_number
       begin
         if neutral_citation_number.nil? || neutral_citation_number.blank?
@@ -61,10 +81,34 @@ class AllDecision < ActiveRecord::Base
 
   def self.filtered(filter_hash)
     by_judge(filter_hash[:judge])
+    .by_reported(filter_hash[:reported])
+    .by_party(filter_hash[:party])
+    .by_country(filter_hash[:country])
     .by_category(filter_hash[:category])
     .by_subcategory(filter_hash[:subcategory])
+    .by_country_guideline(filter_hash[:country_guideline])
     .search(filter_hash[:query])
     .group('all_decisions.id')
+  end
+
+  def self.by_country_guideline(country_guideline)
+    if country_guideline.present?       
+      where("country_guideline = ?", country_guideline)
+    else
+      where("")
+    end
+  end
+
+  def self.by_reported(reported)
+    if reported.present? 
+      if reported == "all"
+        where("reported IS NOT NULL")
+      else
+        where("reported = ?", reported)
+      end
+    else
+      where("")
+    end
   end
 
   def self.by_judge(judge_name)
@@ -74,6 +118,23 @@ class AllDecision < ActiveRecord::Base
       where("")
     end
   end
+
+  def self.by_party(party_name)
+    if party_name.present?
+      where("? = claimant OR ? = respondent", party_name, party_name)
+    else
+      where("")
+    end
+  end
+
+  def self.by_country(country)
+    if country.present?
+      where("? = country", country)
+    else
+      where("")
+    end
+  end
+
 
   def self.by_category(category_name)
     if category_name.present?
@@ -105,8 +166,8 @@ class AllDecision < ActiveRecord::Base
 
   def update_search_text
     #TODO Make sure all fields are included
-    self.search_text = [subcategory_names, category_names, judge_names, neutral_citation_number, file_number, 
-                          reported_number, claimant, respondent, notes, text]
+    self.search_text = [subcategory_names, category_names, judge_names, neutral_citation_number, file_number,
+                          reported_number, appeal_number, country, case_name, claimant, respondent, other_metadata, notes, text]
                         .join(' ')
 
   end

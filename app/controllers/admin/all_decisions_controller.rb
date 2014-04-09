@@ -1,12 +1,11 @@
 class Admin::AllDecisionsController < Admin::RestrictedController
   before_filter -> { require_tribunal(params[:tribunal_code]) }
-  before_filter :set_view_path
+  before_filter :load_decision, only: [:show, :edit, :update, :destroy]
 
   helper_method :current_tribunal, :tribunal_form_view_path, :tribunal_common_view_path
 
   def index
     set_cache_control(decisions_relation.maximum(:updated_at))
-    @tribunal = current_tribunal
     @order_by = 'decision_date'
     @sort_options = [["Date of decision", "decision_date"], ["Date of update", "last_updatedtime"]]
     params[:search] ||= {}
@@ -15,18 +14,16 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     end
     @date_column_title = (@order_by == 'decision_date') ? 'Date of decision' : 'Date of update'
     @categories_title = 'Categories: '
-    @decisions = @tribunal.all_decisions.paginate(:page => params[:page], :per_page => 30)
+    @decisions = @tribunal.all_decisions.paginate(page: params[:page], per_page: 30)
     # @decisions = @decisions.filtered(params[:search]) if params[:search].present?
   end
 
   def show
-    @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
     if @decision.present?
       set_cache_control(@decision.updated_at)
     else
-       flash.keep[:notice] = "Decision not found #{params[:id]}"
-       redirect_to admin_all_decisions_path
+      flash.keep[:notice] = "Decision not found #{params[:id]}"
+      redirect_to admin_all_decisions_path
     end
   end
 
@@ -41,26 +38,23 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def new
-    @tribunal = current_tribunal
-    @decision ||= decisions_relation.new
+    @decision = decisions_relation.new
+    @decision.category_decisions.build
   end
 
   def edit
-    @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
+    @decision.category_decisions.build
   end
 
   def update
-    @tribunal = current_tribunal
-    @decision = decisions_relation.find_by_file_number(params[:id])
-    @decision.update_attributes!(decision_params)
-    render action: 'show'
-  rescue
-    redirect_to edit_admin_all_decision_path(@decision)
+    if @decision.update_attributes(decision_params)
+      redirect_to edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
+    else
+      render 'edit'
+    end
   end
 
   def destroy
-    @decision = decisions_relation.find_by_file_number(params[:id])
     @decision.destroy
     redirect_to admin_all_decisions_path
   end
@@ -68,7 +62,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   protected
 
     def current_tribunal
-      @current_tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
+      @tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
     end
 
     def tribunal_view_path
@@ -87,25 +81,29 @@ class Admin::AllDecisionsController < Admin::RestrictedController
       current_tribunal.all_decisions
     end
 
-  private
-    def decision_params
-      params.require(:all_decision).permit( :doc_file,
-                                            :tribunal_id,
-                                            :file_number,
-                                            :claimant,
-                                            :respondent,
-                                            :all_judge_ids,
-                                            :decision_date,
-                                            :upload_date,
-                                            :publication_date,
-                                            :category_ids,
-                                            :subcategory_ids,
-                                            :notes
-                                            )
-
+    def load_decision
+      slug = params.fetch(:id).upcase
+      @decision = decisions_relation.find_by('upper(slug) = ?', slug)
     end
 
-    def set_view_path
-      prepend_view_path "#{Rails.root}/app/views/admin/all_decisions"
+  private
+    def decision_params
+      params.require(:all_decision).permit( 
+        :doc_file,
+        :tribunal_id,
+        :file_number,
+        :claimant,
+        :respondent,
+        :all_judge_ids,
+        :decision_date,
+        :upload_date,
+        :publication_date,
+        :category_ids,
+        :subcategory_ids,
+        :notes,
+        :new_judge_id,
+        all_judges_attributes: [:id, :_destroy],
+        category_decisions_attributes: [:id, :category_id, :subcategory_id, :_destroy]
+      )
     end
 end

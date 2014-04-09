@@ -305,16 +305,16 @@ namespace :data do
           neutral_citation_number: decision.ncn,
           reported_number: decision.reported_number,
           published: decision.is_published,
-          other_metadata: {  
+          other_metadata: {
             file_no_1: decision.file_no_1,
             file_no_2: decision.file_no_2,
             file_no_3: decision.file_no_3,
-            ncn_citation: decision.ncn_citation, 
-            ncn_code1: decision.ncn_code1, 
-            ncn_code2: decision.ncn_code2, 
-            ncn_year: decision.ncn_year, 
-            reported_no_1: decision.reported_no_1, 
-            reported_no_2: decision.reported_no_2, 
+            ncn_citation: decision.ncn_citation,
+            ncn_code1: decision.ncn_code1,
+            ncn_code2: decision.ncn_code2,
+            ncn_year: decision.ncn_year,
+            reported_no_1: decision.reported_no_1,
+            reported_no_2: decision.reported_no_2,
             reported_no_3: decision.reported_no_3,
             keywords: decision.keywords
           },
