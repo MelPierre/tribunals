@@ -2,9 +2,6 @@ require 'ukit_utils'
 
 class Decision < ActiveRecord::Base
   include Concerns::Decision::Search
-
-  attr_accessor :new_judge_id
-
   before_save :update_search_text
 
   mount_uploader :doc_file, DocFileUploader
