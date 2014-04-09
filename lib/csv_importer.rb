@@ -15,7 +15,7 @@ require 'csv'
 # subcategories.csv
 # id,category_id,num,subcategory_name,category_name
 
-# judges_judgements_map.csv
+# judges_judgements_map.csv (judgement id is decision.legacy_id and commissioner_id is all_judge.legacy_id)
 # judgment_id,commissioner_id
 
 class CSVImporter
@@ -108,8 +108,6 @@ class CSVImporter
     d.publication_date  = read_date(row['publication_datetime'],'%m/%d/%Y')  if row['publication_datetime']
     d.updated_at        = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
     d.promulgation_date = read_date(row['promulgated_datetime'],'%m/%d/%Y')  if row['promulgated_datetime']
-
-
 
     print d.new_record? ? '+' : '.'
     d.save

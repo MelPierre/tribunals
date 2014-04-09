@@ -59,8 +59,6 @@ class AllDecision < ActiveRecord::Base
       end
     end
 
-  scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
-
   def self.filtered(filter_hash)
     by_judge(filter_hash[:judge])
     .by_category(filter_hash[:category])
