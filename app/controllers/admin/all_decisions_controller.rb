@@ -19,8 +19,6 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def show
-    slug = params.fetch(:id).upcase
-    @decision = decisions_relation.find_by('upper(slug) = ?', slug)
     if @decision.present?
       set_cache_control(@decision.updated_at)
     else
@@ -40,8 +38,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def new
-    @tribunal = current_tribunal
-    @decision ||= decisions_relation.new
+    @decision = decisions_relation.new
+    @decision.category_decisions.build
   end
 
   def edit
