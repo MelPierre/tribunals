@@ -3,17 +3,6 @@
 
 form.simple_form {
 
-  .form-inputs{
-    ul.input-list{
-      display: block;
-      margin-left: 160px;
-      border:1px solid red;
-      li{
-        border: 1px solid green;
-      }
-    }
-  }
-
   .form-actions {
     @extend .clearfix;
     margin-top: 1em;
