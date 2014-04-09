@@ -67,4 +67,9 @@ namespace :maintenance do
       end
     end
   end
+
+  task :update_slugs => :environment do
+    AllDecision.all.map(&:save)
+  end
+
 end

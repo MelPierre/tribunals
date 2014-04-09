@@ -10,19 +10,11 @@ class AllDecision < ActiveRecord::Base
   has_and_belongs_to_many :all_judges, join_table: :decisions_judges
   belongs_to :tribunal
 
-  extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :finders]
+  validates_uniqueness_of :slug
 
-  before_save :set_neutral_citation_number
-  before_save :set_file_number
-
-  def slug_candidates
-    if file_number.present?
-      file_number
-    else
-      "decision-#{id}"
-    end
-  end
+  # before_save :set_neutral_citation_number
+  # before_save :set_file_number
+  before_save :set_slug
 
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
@@ -151,5 +143,15 @@ class AllDecision < ActiveRecord::Base
                           reported_number, appeal_number, country, case_name, claimant, respondent, other_metadata, notes, text]
                         .join(' ')
 
+  end
+
+  def set_slug
+    file_number_slug = self.file_number.gsub("/","-").upcase
+    decision_by_slug = AllDecision.find_by_slug(file_number_slug)
+    if  decision_by_slug && (decision_by_slug.id != self.id)
+      self.slug = "#{file_number_slug}_#{self.id}"
+    else      
+      self.slug = file_number_slug
+    end
   end
 end
