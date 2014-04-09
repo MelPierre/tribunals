@@ -1,156 +1,9 @@
 namespace :data do
+  seeds = YAML.load_file("#{Bundler.root}/config/seeds/tribunals.yml")
   desc 'Seed tribunals'
-
   task seed_tribunals: :environment do
     Tribunal.delete_all
-    Tribunal.create([
-      {
-        name:'Immigration and Aslyum Chamber',
-        code:'utiac',
-        title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal',
-        filters: [
-                    {
-                      name: "reported",
-                      label: "Case status",
-                      type: "radio",
-                      options: [
-                                  {
-                                    label: "All",
-                                    value: "all",
-                                    checked: true
-                                  },
-                                  {
-                                    label: "Reported",
-                                    value:"reported"
-                                  },
-                                  {
-                                    label: "Unreported",
-                                    value:"unreported"
-                                  }
-                                ]
-                    },
-                    {
-                      name: "country",
-                      label: "Country",
-                      type: "text",
-                      predictive: true
-                    }
-                  ],
-          sort_by: [],
-          results_columns: []
-        },
-      {
-        name:'First Tier Tribunal',
-        code:'ftt-tax',
-        title: 'Tax: First-tier Tribunal judgments',
-        filters: [
-                    {
-                      name: "judge",
-                      label: "Name of judge",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases this judge heard only"
-                    },
-                    {
-                      name: "party",
-                      label: "Name of party",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases brought by this party"
-                    },
-                    {
-                      name: "category",
-                      label: "Topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "What the case is about"
-                    },
-                    {
-                      name: "subcategory",
-                      label: "Sub-topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "More detail about the case"
-                    }
-                  ],
-          sort_by: [{name: "decision_date", label: "Date of decision"}, {name: "hearing_date", label: "Date of hearing"}],
-          results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
-        },
-      {
-        name:'Administrative Appeals Chamber',
-        code:'utaac',
-        title: 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal',
-        filters: [
-                    {
-                      name: "judge",
-                      label: "Name of judge",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases this judge heard only"
-                    },
-                    {
-                      name: "party",
-                      label: "Name of party",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases brought by this party"
-                    },
-                    {
-                      name: "category",
-                      label: "Topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "What the case is about"
-                    },
-                    {
-                      name: "subcategory",
-                      label: "Sub-topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "More detail about the case"
-                    }
-                  ],
-                sort_by: [{name: "created_at", label: "Date added"}, {name: "decision_date", label: "Date of decision"}],
-                results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
-      },
-      {
-        name:'Employment Appeals Tribunal',
-        code:'eat',
-        title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal',
-        filters: [
-                    {
-                      name: "judge",
-                      label: "Name of judge",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases this judge heard only"
-                    },
-                    {
-                      name: "party",
-                      label: "Name of party",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases brought by this party"
-                    },
-                    {
-                      name: "category",
-                      label: "Topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "What the case is about"
-                    },
-                    {
-                      name: "subcategory",
-                      label: "Sub-topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "More detail about the case"
-                    }
-                  ],
-          sort_by: [],
-          results_columns: []
-        }
-    ])
+    Tribunal.create(seeds)
   end
 
   namespace :convert do
@@ -305,16 +158,16 @@ namespace :data do
           neutral_citation_number: decision.ncn,
           reported_number: decision.reported_number,
           published: decision.is_published,
-          other_metadata: {  
+          other_metadata: {
             file_no_1: decision.file_no_1,
             file_no_2: decision.file_no_2,
             file_no_3: decision.file_no_3,
-            ncn_citation: decision.ncn_citation, 
-            ncn_code1: decision.ncn_code1, 
-            ncn_code2: decision.ncn_code2, 
-            ncn_year: decision.ncn_year, 
-            reported_no_1: decision.reported_no_1, 
-            reported_no_2: decision.reported_no_2, 
+            ncn_citation: decision.ncn_citation,
+            ncn_code1: decision.ncn_code1,
+            ncn_code2: decision.ncn_code2,
+            ncn_year: decision.ncn_year,
+            reported_no_1: decision.reported_no_1,
+            reported_no_2: decision.reported_no_2,
             reported_no_3: decision.reported_no_3,
             keywords: decision.keywords
           },
