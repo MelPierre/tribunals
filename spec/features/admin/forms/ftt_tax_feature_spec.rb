@@ -34,7 +34,6 @@ feature 'First Tier Tribunal Tax Chamber' do
       visit '/admin/ftt-tax/987789/edit'
 
       select 'VAT - Taxes - Monthly', from: 'Subcategory'
-      save_and_open_page
       click_button 'Update All decision'
 
       visit '/admin/ftt-tax/987789'
