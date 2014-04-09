@@ -1,3 +1,7 @@
-.form-inputs
-  = form.association :categories, input_html: { multiple: false}, collection: @tribunal.categories
-  = form.association :subcategories, input_html: { multiple: false}, collection: @tribunal.subcategories
+= form.simple_fields_for :category_decisions do |cform|
+  .form-inputs.panel{class: "category-#{cform.object.category_id}"}
+    = cform.input :category_id, collection: current_tribunal.categories, label: cform.object.new_record? ? 'Add category' : 'Category'
+    - if cform.object.category
+      = cform.association :subcategory, collection: cform.object.category.subcategories 
+
+    = cform.input :_destroy, as: :boolean, label: 'Remove' unless cform.object.new_record?

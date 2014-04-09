@@ -1,16 +1,18 @@
 %header
   %h1 Edit decision
-= simple_form_for(@decision, url: admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)) do |form|
+= simple_form_for(@decision, url: admin_all_decision_path(tribunal_code: current_tribunal.code, id: @decision)) do |form|
   .row#case_title
-    %label Case title
+    %label= all_link_label(@decision)
     %span
   - if @decision.doc_file.present? &&  @decision.doc_file.url.present?
     .row
-      = link_to('doc file', @decision.doc_file.url, :class => 'doclink')
+      = link_to('doc file', @decision.doc_file.url, class: 'doclink')
   .row
-    = form.input :tribunal, input_html: { value: @tribunal.name, disabled: true}
+    = form.input :tribunal, input_html: { value: current_tribunal.name, disabled: true }
 
   = render tribunal_form_view_path, form: form, common_view_path: tribunal_common_view_path
-  .row
-    = form.submit :class => 'button primary'
-    %a.button{:href => admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)} Cancel
+  
+  .form-actions
+    = form.submit class: 'button primary' 
+
+    %a{ href: admin_all_decision_path(tribunal_code: current_tribunal.code, id: @decision.slug) } Cancel

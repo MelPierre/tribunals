@@ -2,6 +2,8 @@ class AllDecision < ActiveRecord::Base
   include Concerns::Decision::Search
   include Concerns::Decision::DocProcessors
 
+  attr_accessor :new_judge_id
+
   before_save :update_search_text
 
   has_many :category_decisions
@@ -10,11 +12,15 @@ class AllDecision < ActiveRecord::Base
   has_and_belongs_to_many :all_judges, join_table: :decisions_judges
   belongs_to :tribunal
 
+  accepts_nested_attributes_for :all_judges, allow_destroy: true, reject_if: :reject_judges
+  accepts_nested_attributes_for :category_decisions, allow_destroy: true, reject_if: :reject_categories
+
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
   before_save :set_neutral_citation_number
   before_save :set_file_number
+  before_save :add_new_judge
 
   def slug_candidates
     if file_number.present?
@@ -36,6 +42,20 @@ class AllDecision < ActiveRecord::Base
   scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
 
   protected
+
+    def reject_categories(attrs)
+      attrs[:category_id].blank?
+    end
+
+    def reject_judges(attrs)
+      attrs[:id].blank?
+    end
+
+    def add_new_judge
+      if new_judge_id.present? && judge = AllJudge.find(new_judge_id)
+        self.all_judges << judge unless all_judges.include?(judge)
+      end
+    end
 
     def set_neutral_citation_number
       begin
