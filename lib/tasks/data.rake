@@ -1,9 +1,9 @@
 namespace :data do
-  seeds = YAML.load_file("#{Bundler.root}/config/seeds/tribunals.yml")
+
   desc 'Seed tribunals'
   task seed_tribunals: :environment do
     Tribunal.delete_all
-    Tribunal.create(seeds)
+    Tribunal.create(YAML.load_file("#{Bundler.root}/config/seeds/tribunals.yml"))
   end
 
   namespace :convert do
