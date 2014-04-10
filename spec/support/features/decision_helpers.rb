@@ -19,6 +19,25 @@ module Features
       click_button('Add decision')
     end
 
+    def add_eat_decision(file_number)
+      create_seed
+      visit '/admin/eat/new'
+      attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
+      fill_in('Decision No', with: file_number)
+      fill_in('Appellant Name', with: 'Jonh Smith')
+      fill_in('Respondent Name', with: 'Matt Black')
+      select('Rafael Nadal', from: 'New judge')
+      fill_in('Decision date', with: '21/01/1980')
+      fill_in('Date of Upload', with: '31/01/1978')
+      fill_in('Date published', with: '14/02/1967')
+      select('VAT - Taxes', from: 'Add category')
+      #select('VAT - Taxes - Monthly', from: 'Sub-Category')
+      fill_in('Notes', with: 'filling the notes for testing')
+
+      click_button('Add decision')
+    end
+
+
     def create_seed
       create(:all_judge, name: 'Iker Casillas', tribunal_id: tribunal.id)
       create(:all_judge, name: 'Rafael Nadal', tribunal_id: tribunal.id)
