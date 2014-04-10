@@ -18,6 +18,6 @@ module Features
       click_link 'Log out'
       expect(page).to have_content('Signed out successfully')
     end
-    
+
   end
 end

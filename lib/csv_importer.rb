@@ -1,5 +1,5 @@
 require 'csv'
-# Used for AAC, uses some but not all of the CSV data, expects the following CSV headings
+# Used for #{@tribunal.code}, uses some but not all of the CSV data, expects the following CSV headings
 
 # judgements.csv
 # judgment_id,tribunal,chamber,chamber_group,hearing_datetime,decision_datetime,created_datetime,publication_datetime,last_updatedtime, 
@@ -8,13 +8,14 @@ require 'csv'
 
 # judges.csv
 # id,prefix,surname,suffix
+
 # categories.csv
-# num,description
+# id,description
 
 # subcategories.csv
-# subcategory_id,category_id,num,subcategory_name,category_name
+# id,category_id,num,subcategory_name,category_name
 
-# judges_judgements_map.csv
+# judges_judgements_map.csv (judgement id is decision.legacy_id and commissioner_id is all_judge.legacy_id)
 # judgment_id,commissioner_id
 
 class CSVImporter
@@ -33,25 +34,25 @@ class CSVImporter
   end
 
   def import_decisions
-    puts "Processing AAC decisions"   
+    puts "Processing #{@tribunal.code} decisions"   
     each_row('judgements.csv') {|row| update_decision(row) }
     puts "\nComplete!"
   end
 
   def import_categories
-    puts "Processing AAC categories"
+    puts "Processing #{@tribunal.code} categories"
     each_row('categories.csv') {|row| update_category(row) }
     puts "\nComplete!"
   end
 
   def import_subcategories
-    puts "Processing AAC subcategories"
+    puts "Processing #{@tribunal.code} subcategories"
     each_row('subcategories.csv') {|row| update_subcategory(row) }
     puts "\nComplete!"
   end
 
   def import_judges
-    puts "Processing AAC Judges"
+    puts "Processing #{@tribunal.code} Judges"
     each_row('judges.csv') {|row| update_judge(row) }
     puts "\nComplete!"
   end
@@ -108,8 +109,6 @@ class CSVImporter
     d.updated_at        = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
     d.promulgation_date = read_date(row['promulgated_datetime'],'%m/%d/%Y')  if row['promulgated_datetime']
 
-
-
     print d.new_record? ? '+' : '.'
     d.save
 
@@ -128,14 +127,14 @@ class CSVImporter
   end
 
   def update_category(row)
-    c = @tribunal.categories.where(legacy_id: row['num']).first_or_initialize
+    c = @tribunal.categories.where(legacy_id: row['id']).first_or_initialize
     c.name = row['description']
     print c.new_record? ? '+' : '.'
     puts "Failed to import #{row['num']} - #{row['description']}" unless c.save
   end
 
   def update_subcategory(row)
-    if c = @tribunal.categories.find_by_legacy_id(row['parent_num'])
+    if c = @tribunal.categories.find_by_legacy_id(row['category_id'])
       sc = c.subcategories.where(legacy_id: row['id']).first_or_initialize
       sc.name = row['description']
       print sc.new_record? ? '+' : '.'
