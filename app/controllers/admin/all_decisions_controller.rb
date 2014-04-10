@@ -1,6 +1,6 @@
 class Admin::AllDecisionsController < Admin::RestrictedController
   before_filter -> { require_tribunal(params[:tribunal_code]) }
-  before_filter :load_decision, only: [:show, :edit, :update, :destroy]
+  before_filter :load_decision, only: [:show, :edit, :destroy]
 
   helper_method :current_tribunal, :tribunal_form_view_path, :tribunal_common_view_path
 
@@ -47,6 +47,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def update
+    @decision = decisions_relation.find(params[:id])
     if @decision.update_attributes(decision_params)
       redirect_to edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
     else
@@ -84,7 +85,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     def load_decision
       slug = params.fetch(:id).upcase
       @decision = decisions_relation.find_by('upper(slug) = ?', slug)
-    end
+    end 
 
   private
     def decision_params

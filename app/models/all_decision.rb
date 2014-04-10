@@ -4,7 +4,6 @@ class AllDecision < ActiveRecord::Base
 
   attr_accessor :new_judge_id
 
-  before_save :update_search_text
 
   has_many :category_decisions
   has_many :subcategories, through: :category_decisions
@@ -12,23 +11,16 @@ class AllDecision < ActiveRecord::Base
   has_and_belongs_to_many :all_judges, join_table: :decisions_judges
   belongs_to :tribunal
 
+  validates_uniqueness_of :slug
+
   accepts_nested_attributes_for :all_judges, allow_destroy: true, reject_if: :reject_judges
   accepts_nested_attributes_for :category_decisions, allow_destroy: true, reject_if: :reject_categories
 
-  extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :finders]
-
+  before_save :update_search_text
+  before_save :set_slug
   before_save :set_neutral_citation_number
   before_save :set_file_number
   before_save :add_new_judge
-
-  def slug_candidates
-    if file_number.present?
-      file_number
-    else
-      "decision-#{id}"
-    end
-  end
 
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
@@ -172,4 +164,20 @@ class AllDecision < ActiveRecord::Base
                         .join(' ')
 
   end
+
+  def set_slug
+    if self.file_number.blank?     
+      self.slug = self.id.to_s
+      return 
+    end
+
+    file_number_slug = self.file_number.gsub("/","-").upcase
+    decision_by_slug = AllDecision.find_by_slug(file_number_slug)
+    if decision_by_slug && (decision_by_slug.id != self.id)
+      self.slug = "#{file_number_slug}_#{self.id}"
+    else      
+      self.slug = file_number_slug
+    end
+  end
+
 end
