@@ -12,6 +12,7 @@ task seed_tribunals: :environment do
         name:'First Tier Tribunal',
         code:'ftt-tax',
         title: 'Tax: First-tier Tribunal judgments'
+      },
       {
         name:'Administrative Appeals Chamber',
         code:'utaac',
