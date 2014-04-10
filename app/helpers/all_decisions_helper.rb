@@ -73,4 +73,5 @@ module AllDecisionsHelper
     s << '</div>'
     raw s
   end
-end
+
+  end

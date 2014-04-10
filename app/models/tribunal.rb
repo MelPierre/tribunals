@@ -21,6 +21,15 @@ class Tribunal < ActiveRecord::Base
     config[:results_columns]
   end
 
+  def form_fields
+    config[:form_fields]
+  end
+
+  def label_for(field)
+    form_fields[field]
+  end
+
+
   class << self
 
     def method_missing(m, *args, &block)

@@ -24,7 +24,7 @@ feature 'Employment Appeals Tribunal' do
       expect(page).to have_content('Appellant name: Jonh Smith')
       expect(page).to have_content('Respondent name: Matt Black')
       expect(page).to have_content('Judges: Rafael Nadal')
-      expect(page).to have_content('Date of decision: 21 Jan 1980')
+      expect(page).to have_content('Date of hearing: 21 Jan 1980')
       expect(page).to have_content('Date added: 31 Jan 1978')
       expect(page).to have_content('Date updated: 14 Feb 1967')
       expect(page).to have_content('Category: VAT - Taxes')

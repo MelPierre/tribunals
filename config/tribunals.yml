@@ -108,4 +108,13 @@ eat:
     predictive: true
     placeholder: 'More detail about the case'
   sort_by:
-  results_columns:
+  form_fields:
+    file_number: 'EAT number'
+    starred: 'Starred judgement'
+    claimant: 'Appellant Name'
+    respondent: 'Respondent Name'
+    all_judge: 'Judge Name'
+    hearing_date: 'Date of hearing'
+    upload_date: 'Date of upload'
+    category: 'Topic'
+    subcategory: 'Sub-topic'
