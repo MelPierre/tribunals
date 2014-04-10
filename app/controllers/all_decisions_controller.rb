@@ -1,5 +1,6 @@
 class AllDecisionsController < ApplicationController
   before_filter :enable_varnish
+  before_filter :load_decision, only: [:show]
 
   # def index
   #   set_cache_control(AllDecision.maximum(:updated_at))
@@ -21,22 +22,30 @@ class AllDecisionsController < ApplicationController
     end
     @date_column_title = (@order_by == 'decision_date') ? 'Date of decision' : 'Date of update'
     @categories_title = 'Categories: '
-    @decisions = tribunal.all_decisions.paginate(page: params[:page], per_page: 30)
+    @decisions = current_tribunal.all_decisions.paginate(page: params[:page], per_page: 30)
     # @decisions = @decisions.filtered(params[:search]) if params[:search].present?
   end
 
   def show
-    @decision = AllDecision.find(params[:id])
-    set_cache_control(@decision.updated_at)
+    if @decision.present?
+      set_cache_control(@decision.updated_at)
+    else
+      flash.keep[:notice] = "Decision not found #{params[:id]}"
+      redirect_to admin_all_decisions_path
+    end
   end
 
-
   protected
-    def tribunal
+    def current_tribunal
       @tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
     end
 
+    def decisions_relation
+      current_tribunal.all_decisions
+    end
 
-
-
+    def load_decision
+      slug = params.fetch(:id).upcase
+      @decision = decisions_relation.find_by('upper(slug) = ?', slug)
+    end 
 end
