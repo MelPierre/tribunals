@@ -8,6 +8,19 @@ class Tribunal < ActiveRecord::Base
   has_many :categories
   has_many :subcategories, through: :categories
 
+
+  def filters
+    config[:filters]
+  end
+
+  def sort_by
+    config[:sort_by]
+  end
+
+  def results_columns
+    config[:results_columns]
+  end
+
   class << self
 
     def method_missing(m, *args, &block)
@@ -19,6 +32,12 @@ class Tribunal < ActiveRecord::Base
     end
   
   end
+
+  protected
+
+    def config
+      @config ||= YAML.load_file(Rails.root.join('config/tribunals.yml')).with_indifferent_access[code]
+    end
 
 
 

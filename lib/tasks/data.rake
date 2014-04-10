@@ -1,9 +1,28 @@
 namespace :data do
 
-  desc 'Seed tribunals'
-  task seed_tribunals: :environment do
+task seed_tribunals: :environment do
     Tribunal.delete_all
-    Tribunal.create(YAML.load_file("#{Bundler.root}/config/seeds/tribunals.yml"))
+    Tribunal.create([
+      {
+        name:'Immigration and Aslyum Chamber',
+        code:'utiac',
+        title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal'
+      },
+      {
+        name:'First Tier Tribunal',
+        code:'ftt-tax',
+        title: 'Tax: First-tier Tribunal judgments'
+      {
+        name:'Administrative Appeals Chamber',
+        code:'utaac',
+        title: 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal'
+      },
+      {
+        name:'Employment Appeals Tribunal',
+        code:'eat',
+        title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal'
+      }
+    ])
   end
 
   namespace :convert do
