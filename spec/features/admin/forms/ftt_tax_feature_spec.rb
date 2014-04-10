@@ -12,7 +12,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
     scenario 'have access to ftt index page' do
       visit '/admin/ftt-tax'
-      expect(page).to have_content('Tax: First-tier Tribunal judgments')
+      expect(page).to have_content('First Tier Tribunal')
     end
 
     scenario 'can create a new ftt decision' do
