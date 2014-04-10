@@ -3,7 +3,7 @@ require 'spec_helper'
 feature 'User Authentication' do
 
   context 'with standard access to tribunal utiac' do
-    let!(:tribunal) { create(:tribunal,name: 'utiac', code: 'utiac') }
+    let!(:tribunal) { create(:tribunal, name: 'utiac', code: 'utiac') }
     let!(:user) { create(:user, tribunals: [tribunal]) }
 
     before do
