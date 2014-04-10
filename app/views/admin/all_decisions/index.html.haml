@@ -1,14 +1,14 @@
 %header.page-header.group
   %h1
     %span Information
-    Tax: First-tier Tribunal judgments
+    = @tribunal[:name]
 
 .pagination-row
   .page-entries
     = page_entries_info @decisions
   = will_paginate @decisions
 
-= form_tag ftt_decisions_path, method: :get, class: 'search_form' do
+= form_tag admin_all_decisions_path, method: :get, class: 'search_form' do
   .main.cf
     = render "shared/sort_filter"
     .col-narrow
