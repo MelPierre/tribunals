@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'First Tier Tribunal Tax Chamber' do
-  let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'First Tier Tribunal')}
+  let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'Tax: First-tier Tribunal judgments')}
   let(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'as standard user' do
