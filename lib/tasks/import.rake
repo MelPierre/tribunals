@@ -80,4 +80,11 @@ namespace :import do
     end
   end
 
+  namespace :eat do
+
+    desc "Import eat decisions data (this also Adds the judges to the judges table)"
+    task decisions: :environment do
+      CSVImporter.new('data/eat', 'eat').import_decisions
+    end
+  end
 end
