@@ -2,7 +2,7 @@ require 'csv'
 # Used for #{@tribunal.code}, uses some but not all of the CSV data, expects the following CSV headings
 
 # judgements.csv
-# judgment_id,tribunal,chamber,chamber_group,hearing_datetime,decision_datetime,created_datetime,publication_datetime,last_updatedtime, 
+# judgment_id,tribunal,chamber,chamber_group,hearing_datetime,decision_datetime,created_datetime,publication_datetime,last_updatedtime,
 # file_no,file_no_1,file_no_2,file_no_3,reported_no,reported_no_1,reported_no_2,reported_no_3,neutral_citation_number,ncn_year,ncn_code1,
 # ncn_citation,ncn_code2,claimant,respondent,notes,is_published,subcategory_id,sec_subcategory_id,keywords,decision_type
 
@@ -24,17 +24,17 @@ class CSVImporter
     @logger = logger
     @tribunal = Tribunal.send(code)
   end
-  
+
   def each_row(fn, &block)
     CSV.foreach(filename(fn), headers: :first_row, &block)
   end
-  
+
   def filename(fn)
     File.join(@directory, fn)
   end
 
   def import_decisions
-    puts "Processing #{@tribunal.code} decisions"   
+    puts "Processing #{@tribunal.code} decisions"
     each_row('judgements.csv') {|row| update_decision(row) }
     puts "\nComplete!"
   end
@@ -58,7 +58,7 @@ class CSVImporter
   end
 
   def update_decisions_judges
-    each_row('judges_judgements_map.csv') { |row| update_decision_judge(row) }  
+    each_row('judges_judgements_map.csv') { |row| update_decision_judge(row) }
   end
 
   def compute_ncn(row)
@@ -66,8 +66,8 @@ class CSVImporter
   end
 
   def update_decision(row)
-    d = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
-    
+    decision = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
+
     keywords = row.inject([]) do |acc, (k, v)|
       acc << v if /keyword/ =~ k && v.present?
       acc
@@ -90,7 +90,7 @@ class CSVImporter
     }
 
     # map attributes
-    d.attributes = {
+    decision.attributes = {
       reported_number: row['reported_no'],
       claimant: row['claimant'],
       respondent: row['respondent'],
@@ -102,28 +102,35 @@ class CSVImporter
     }
 
     # map dates
-    d.hearing_date      = read_date(row['hearing_datetime'],'%m/%d/%Y')      if row['hearing_datetime']
-    d.decision_date     = read_date(row['decision_datetime'],'%m/%d/%Y')     if row['decision_datetime']
-    d.created_at        = read_date(row['created_datetime'],'%m/%d/%Y')      if row['created_datetime']
-    d.publication_date  = read_date(row['publication_datetime'],'%m/%d/%Y')  if row['publication_datetime']
-    d.updated_at        = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
-    d.promulgation_date = read_date(row['promulgated_datetime'],'%m/%d/%Y')  if row['promulgated_datetime']
+    decision.hearing_date      = read_date(row['hearing_datetime'],'%m/%d/%Y')      if row['hearing_datetime']
+    decision.decision_date     = read_date(row['decision_datetime'],'%m/%d/%Y')     if row['decision_datetime']
+    decision.created_at        = read_date(row['created_datetime'],'%m/%d/%Y')      if row['created_datetime']
+    decision.publication_date  = read_date(row['publication_datetime'],'%m/%d/%Y')  if row['publication_datetime']
+    decision.updated_at        = read_date(row['last_updatedtime'],'%m/%d/%Y')      if row['last_updatedtime']
+    decision.promulgation_date = read_date(row['promulgated_datetime'],'%m/%d/%Y')  if row['promulgated_datetime']
 
-    print d.new_record? ? '+' : '.'
-    d.save
+    print decision.new_record? ? '+' : '.'
+    decision.save
 
     # main main sub cat
     if row['subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['subcategory_id'])
       category = subcategory.category
-      d.category_decisions.where(category_id: category.id, subcategory_id: subcategory.id).first_or_initialize.save!
+      decision.category_decisions.where(category_id: category.id, subcategory_id: subcategory.id).first_or_initialize.save!
     end
     # map sec sub cat
     if row['sec_subcategory_id'] && subcategory = @tribunal.subcategories.find_by_legacy_id(row['sec_subcategory_id'])
       category = subcategory.category
-      d.category_decisions.where(category_id: category.id, subcategory_id: subcategory.id).first_or_initialize.save!
+      decision.category_decisions.where(category_id: category.id, subcategory_id: subcategory.id).first_or_initialize.save!
     end
-    d.save!
 
+    if row.has_key?('judges')
+      judge = AllJudge.where(name: row.fetch('judges')).first_or_initialize
+      if judge.present?
+        decision.all_judges.push(judge)
+      end
+    end
+    decision.save!
+    decision
   end
 
   def update_category(row)
@@ -150,8 +157,8 @@ class CSVImporter
     j = @tribunal.all_judges.where(legacy_id: row['id']).first_or_initialize
     j.name = row['judge_name']
     print j.new_record? ? '+' : '.'
-    puts "Failed to import #{row['id']} - #{row['judge_name']}" unless j.save    
-  end    
+    puts "Failed to import #{row['id']} - #{row['judge_name']}" unless j.save
+  end
 
   def update_decision_judge(row)
     judge = @tribunal.all_judges.find_by_legacy_id(row['commissioner_id'])
