@@ -86,7 +86,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
       click_button('Update All decision')
 
-      visit "/admin/ftt-tax/987789"
+      visit "/admin/ftt-tax/EDIT987789"
 
       expect(page).to have_content('Decision Number: EDIT987789')
       expect(page).to have_content('Appellant name: John Smith')
@@ -98,12 +98,12 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Category: Value Added Tax - Taxes')
       expect(page).to have_content('Notes: Decision already reached')
 
-      visit "/admin/ftt-tax/987789/edit"
+      visit "/admin/ftt-tax/EDIT987789/edit"
 
       select 'VAT - Taxes - Yearly', from: 'Subcategory'
       click_button 'Update All decision'
 
-      visit "/admin/ftt-tax/987789"
+      visit "/admin/ftt-tax/EDIT987789"
       
       expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
 
