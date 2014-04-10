@@ -124,3 +124,15 @@ Tips
 ----
 
 * On OS X, having LibreOffice open whilst processing docs will fail the processing
+
+Deployment notes
+---------------
+
+### 1. db:migrate
+
+### 2. data:seed_tribunals
+Will create the current tribunals
+
+### 3. data:convert:all
+Will convert all old format data to new format data
+
