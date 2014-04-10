@@ -16,7 +16,7 @@ class Tribunal < ActiveRecord::Base
   def sort_by
     config[:sort_by]
   end
-
+ 
   def results_columns
     config[:results_columns]
   end
@@ -38,7 +38,5 @@ class Tribunal < ActiveRecord::Base
     def config
       @config ||= YAML.load_file(Rails.root.join('config/tribunals.yml')).with_indifferent_access[code]
     end
-
-
 
 end
