@@ -24,7 +24,7 @@ class AacDecisionsController < ApplicationController
   protected
 
     def tribunal
-      Tribunal.ftt_tax
+      Tribunal.utaac
     end
     helper_method :tribunal
 
