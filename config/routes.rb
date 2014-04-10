@@ -1,16 +1,20 @@
 Tribunals::Application.routes.draw do
 
   get '/', to: redirect('/utiac'), as: :root
-  get '/utiac/decisions/:id', to:  redirect{|params, request| "/utiac/#{params[:id]}" }
-  get '/utiac/decisions', to:  redirect('/utiac')
 
-  resources :decisions, path: 'utiac'
-  resources :aac_decisions, path: 'utaac'
-  resources :eat_decisions, path: 'eat'
-  resources :ftt_decisions, path: 'ftt-tax'
+  # get '/utiac/decisions/:id', to:  redirect{|params, request| "/utiac/#{params[:id]}" }
+  # get '/utiac/decisions', to:  redirect('/utiac')
 
-  resources :all_decisions, path: 'all'
+  # resources :decisions, path: 'utiac'
+  # resources :aac_decisions, path: 'utaac'
+  # resources :eat_decisions, path: 'eat'
+  # resources :ftt_decisions, path: 'ftt-tax'
 
+  # resources :all_decisions, path: 'all'
+
+  scope ':tribunal_code' do
+    resources :all_decisions, path: ''
+  end
 
   # TODO: These redirect parts seem messy and maybe not the correct way to manage the requirement, need to review
   namespace :admin do
