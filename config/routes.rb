@@ -7,14 +7,13 @@ Tribunals::Application.routes.draw do
   get '/utiac/decisions', to:  redirect('/utiac')
   
   resources :decisions, path: 'utiac'
-
-  resources :all_decisions, path: 'ftt-tax', tribunal_code: 'ftt-tax'
-  resources :all_decisions, path: 'eat', tribunal_code: 'eat'
-  resources :all_decisions, path: 'utaac', tribunal_code: 'utaac'
+  # resources :all_decisions, path: 'ftt-tax', tribunal_code: 'ftt-tax'
+  # resources :all_decisions, path: 'eat', tribunal_code: 'eat'
+  # resources :all_decisions, path: 'utaac', tribunal_code: 'utaac'
 
   #TODO: Refactor separate resource routes above into scope 
-  scope ':tribunal_code' do
-    # resources :all_decisions, path: '', tribunal_code: :tribunal_code
+  scope ':tribunal_code',tribunal_code: /utiac|utaac|ftt-tax|eat/  do
+    resources :all_decisions, path: ''
   end
 
 
@@ -24,7 +23,10 @@ Tribunals::Application.routes.draw do
     #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
     get '/', to: redirect('/admin/utiac'), as: :decisions
 
-    scope ':tribunal_code' do
+    scope ':tribunal_code', tribunal_code: /utiac|utaac|ftt-tax|eat/ do
+      resources :categories do
+        resources :subcategories
+      end
       resources :all_decisions, path: ''
     end
     resources :users
