@@ -66,6 +66,7 @@ class CSVImporter
   end
 
   def update_decision(row)
+
     decision = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
 
     keywords = row.inject([]) do |acc, (k, v)|
@@ -73,6 +74,10 @@ class CSVImporter
       acc
     end
 
+    if @tribunal.code == 'eat'
+      row['file_no_1'],row['file_no_2'],row['file_no_3'] =
+      split_file_no(row['file_no_1'])
+    end
     # map meta information
     meta = {
       legacy_id: row['judgment_id'],
@@ -172,7 +177,13 @@ class CSVImporter
     format.nil? ? Date.parse(value.split(' ').first) : Date.strptime(value, format)
   end
 
-  def sanitize(file_number)
-    file_number.gsub(/\//, '').strip if file_number.present?
+  def sanitize(data)
+    data.gsub(/\//, '').strip if data.present?
   end
+
+  def split_file_no(file_number)
+    file_number.split('/')
+  end
+
+
 end
