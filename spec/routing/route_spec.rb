@@ -57,4 +57,5 @@ describe Tribunals::Application.routes do
       expect(get: '/admin/ftt-tax/categories/1/subcategories').to route_to(controller: 'admin/subcategories', action: 'index', tribunal_code: 'ftt-tax', category_id: '1')
     end
   end
+
 end
