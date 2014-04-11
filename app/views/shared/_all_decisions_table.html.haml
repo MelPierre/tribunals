@@ -9,7 +9,7 @@
         - if search_present()
           = link_to(hilighted_metadata_result(params[:search][:query], all_link_label(decision), true), decision)
         - else
-          = link_to(all_link_label(decision), all_decision_path(decision))
+          = link_to(all_link_label(decision), all_decision_path(decision, tribunal_code: params[:tribunal_code]))
       %td.date= time_element(decision.send(@order_by))
     - if all_display_parties(decision)
       %tr{:class => group + (search_present() ? '' : ' last')}
