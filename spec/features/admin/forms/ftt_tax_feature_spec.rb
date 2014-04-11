@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'First Tier Tribunal Tax Chamber' do
-  let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'First Tier Tribunal')}
+  let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'First Tier Tribunal', title: 'Tax: First-tier Tribunal judgments')}
   let(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'as standard user' do
@@ -51,7 +51,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
       category = Category.find_by_name('Value Added Tax - Taxes')
 
-      within ".category-#{category.id}" do 
+      within ".category-#{category.id}" do
         select('VAT - Taxes - Yearly', from: 'Subcategory')
       end
       click_button 'Update All decision'
@@ -104,9 +104,8 @@ feature 'First Tier Tribunal Tax Chamber' do
       click_button 'Update All decision'
 
       visit "/admin/ftt-tax/EDIT987789"
-      
-      expect(page).to have_content('Sub-Categories: VAT - Taxes - Yearly')
 
+      expect(page).to have_content('Sub-Categories: VAT - Taxes - Yearly')
     end
   end
 end
