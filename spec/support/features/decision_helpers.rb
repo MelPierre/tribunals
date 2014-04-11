@@ -44,7 +44,7 @@ module Features
       fill_in('ncn-box-1', with: 'UKUT')
       fill_in('ncn-box-2', with: '000')
       fill_in('ncn-box-3', with: 'AAC')
-      check('I have not got an NCN number')
+      uncheck('I have not got an NCN number')
 
       fill_in('file_number-1', with: '0001')
       fill_in('file_number-2', with: '0002')
@@ -59,9 +59,9 @@ module Features
 
       select('VAT - Taxes', from: 'Category')
       select('VAT - Taxes - Monthly', from: 'Sub-category')
-      fill_in('Notes', with: 'filling the notes for testing')
+      fill_in('Notes', with: 'Filling the notes for testing')
 
-      fill_in('Related decision', with: "http://google.com")
+      fill_in('Related decisions', with: "http://google.com")
 
       click_button('Add decision')
     end
