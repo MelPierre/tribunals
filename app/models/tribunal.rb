@@ -25,10 +25,13 @@ class Tribunal < ActiveRecord::Base
     config[:form_fields]
   end
 
+  def display_fields
+    config[:display_fields]
+  end
+
   def label_for(field)
     form_fields[field]
   end
-
 
   class << self
 

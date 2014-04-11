@@ -25,20 +25,19 @@ feature 'Employment Appeals Tribunal' do
       expect(page).to have_content('Respondent name: Matt Black')
       expect(page).to have_content('Judges: Rafael Nadal')
       expect(page).to have_content('Date of hearing: 21 Jan 1980')
-      expect(page).to have_content('Date added: 31 Jan 1978')
-      expect(page).to have_content('Date updated: 14 Feb 1967')
-      expect(page).to have_content('Category: VAT - Taxes')
+      expect(page).to have_content('Date of upload: 31 Jan 1978')
+      expect(page).to have_content('Topics: VAT - Taxes')
       expect(page).to have_content('Notes: filling the notes for testing')
 
 
       visit '/admin/eat/EAT99901/edit'
 
-      select 'VAT - Taxes - Monthly', from: 'Subcategory'
+      select 'VAT - Taxes - Monthly', from: 'Sub-topic'
       click_button 'Update All decision'
 
       visit '/admin/eat/EAT99901'
 
-      expect(page).to have_content('Sub-Category: VAT - Taxes - Monthly')
+      expect(page).to have_content('Sub-topics: VAT - Taxes - Monthly')
     end
 
     # scenario 'add category to decision' do
@@ -75,8 +74,8 @@ feature 'Employment Appeals Tribunal' do
     #   visit "/admin/eat/987789/edit"
 
     #   fill_in('Decision No', with: 'EDIT987789')
-    #   fill_in('Appellant Name', with: 'John Smith')
-    #   fill_in('Respondent Name', with: 'Matthew Black')
+    #   fill_in('Appellant name', with: 'John Smith')
+    #   fill_in('Respondent name', with: 'Matthew Black')
     #   select('Jose Mourinho', from: 'New judge')
     #   fill_in('Decision date', with: '22/05/1981')
     #   fill_in('Date of Upload', with: '04/02/1979')
