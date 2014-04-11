@@ -1,0 +1,5 @@
+%ul.decision-details
+  - current_tribunal.display_fields.each do |k, v| 
+    %li
+      %span.label= "#{v}:"
+      %span= format_field(k, @decision.send(k))

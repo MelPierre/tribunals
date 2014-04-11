@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'First Tier Tribunal Tax Chamber' do
-  let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'Tax: First-tier Tribunal judgments')}
+  let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'First Tier Tribunal')}
   let(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'as standard user' do
@@ -12,7 +12,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
     scenario 'have access to ftt index page' do
       visit '/admin/ftt-tax'
-      expect(page).to have_content('Tax: First-tier Tribunal judgments')
+      expect(page).to have_content('First Tier Tribunal')
     end
 
     scenario 'can create a new ftt decision' do
@@ -25,9 +25,9 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Respondent name: Matt Black')
       expect(page).to have_content('Judges: Rafael Nadal')
       expect(page).to have_content('Date of decision: 21 Jan 1980')
-      expect(page).to have_content('Date added: 31 Jan 1978')
-      expect(page).to have_content('Date updated: 14 Feb 1967')
-      expect(page).to have_content('Category: VAT - Taxes')
+      expect(page).to have_content('Date of Upload: 31 Jan 1978')
+      expect(page).to have_content('Date published: 14 Feb 1967')
+      expect(page).to have_content('Categories: VAT - Taxes')
       expect(page).to have_content('Notes: filling the notes for testing')
 
 
@@ -38,7 +38,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
       visit '/admin/ftt-tax/987789'
 
-      expect(page).to have_content('Sub-Category: VAT - Taxes - Monthly')
+      expect(page).to have_content('Sub-Categories: VAT - Taxes - Monthly')
     end
 
     scenario 'add category to decision' do
@@ -58,7 +58,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
       visit '/admin/ftt-tax/987789'
 
-      expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
+      expect(page).to have_content('Sub-Categories: VAT - Taxes - Yearly')
     end
 
     scenario 'can delete ftt decision' do
@@ -75,8 +75,8 @@ feature 'First Tier Tribunal Tax Chamber' do
       visit "/admin/ftt-tax/987789/edit"
 
       fill_in('Decision No', with: 'EDIT987789')
-      fill_in('Appellant Name', with: 'John Smith')
-      fill_in('Respondent Name', with: 'Matthew Black')
+      fill_in('Appellant name', with: 'John Smith')
+      fill_in('Respondent name', with: 'Matthew Black')
       select('Jose Mourinho', from: 'New judge')
       fill_in('Decision date', with: '22/05/1981')
       fill_in('Date of Upload', with: '04/02/1979')
@@ -93,9 +93,9 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Respondent name: Matthew Black')
       expect(page).to have_content('Judges: Jose Mourinho')
       expect(page).to have_content('Date of decision: 22 May 1981')
-      expect(page).to have_content('Date added: 4 Feb 1979')
-      expect(page).to have_content('Date updated: 17 Mar 1968')
-      expect(page).to have_content('Category: Value Added Tax - Taxes')
+      expect(page).to have_content('Date of Upload: 4 Feb 1979')
+      expect(page).to have_content('Date published: 17 Mar 1968')
+      expect(page).to have_content('Categories: Value Added Tax - Taxes')
       expect(page).to have_content('Notes: Decision already reached')
 
       visit "/admin/ftt-tax/EDIT987789/edit"
@@ -105,7 +105,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
       visit "/admin/ftt-tax/EDIT987789"
       
-      expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
+      expect(page).to have_content('Sub-Categories: VAT - Taxes - Yearly')
 
     end
   end

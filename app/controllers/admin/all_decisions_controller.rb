@@ -99,6 +99,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
         :decision_date,
         :upload_date,
         :publication_date,
+        :hearing_date,
         :category_ids,
         :subcategory_ids,
         :notes,
