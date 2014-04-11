@@ -16,7 +16,7 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
     end
 
     scenario 'can create a new utaac decision' do
-      # add_decision
+      add_utaac_decision
 
       # visit '/admin/ftt-tax/987789'
 
