@@ -1,7 +1,10 @@
 require 'spec_helper'
 
-feature 'First Tier Tribunal Tax Chamber' do
-  let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'First Tier Tribunal')}
+feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal' do
+  let(:tribunal){ create(:tribunal,
+    code: 'utaac',
+    name: 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal')
+  }
   let(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'as standard user' do
@@ -10,9 +13,9 @@ feature 'First Tier Tribunal Tax Chamber' do
       sign_in user
     end
 
-    scenario 'have access to ftt index page' do
-      visit '/admin/utacc'
-      expect(page).to have_content('Upper Tribunal')
+    scenario 'have access to utacc index page' do
+      visit '/admin/utaac'
+      expect(page).to have_content('Administrative appeals chamber: decisions on appeals to the Upper Tribunal')
     end
   end
 end
