@@ -40,72 +40,57 @@ feature 'Employment Appeals Tribunal' do
       expect(page).to have_content('Sub-topics: VAT - Taxes - Monthly')
     end
 
-    # scenario 'add category to decision' do
-    #   add_decision
+    scenario 'add category to decision' do
+      add_eat_decision('EAT99901')
 
-    #   visit '/admin/eat/987789/edit'
+      visit '/admin/eat/EAT99901/edit'
 
-    #   select('Value Added Tax - Taxes', from: 'Add category')
-    #   click_button 'Update All decision'
+      select('Value Added Tax - Taxes', from: 'Add topic')
+      click_button 'Update All decision'
 
-    #   category = Category.find_by_name('Value Added Tax - Taxes')
+      category = Category.find_by_name('Value Added Tax - Taxes')
 
-    #   within ".category-#{category.id}" do 
-    #     select('VAT - Taxes - Yearly', from: 'Subcategory')
-    #   end
-    #   click_button 'Update All decision'
+      within ".category-#{category.id}" do 
+        select('VAT - Taxes - Yearly', from: 'Sub-topic')
+      end
+      click_button 'Update All decision'
 
-    #   visit '/admin/eat/987789'
+      visit '/admin/eat/EAT99901'
 
-    #   expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
-    # end
+      expect(page).to have_content('Sub-topics: VAT - Taxes - Yearly')
+    end
 
-    # scenario 'can delete eat decision' do
-    #   add_decision
-    #   visit "/admin/eat/987789"
-    #   click_link('Delete decision')
-    #   visit "/admin/eat/987789"
+    scenario 'can delete eat decision' do
+      add_eat_decision('EAT99901')
+      visit "/admin/eat/EAT99901"
+      click_link('Delete decision')
+      visit "/admin/eat/EAT99901"
 
-    #   expect(page).to have_content("Decision not found 987789")
-    # end
+      expect(page).to have_content("Decision not found EAT99901")
+    end
 
-    # scenario 'can edit eat decision' do
-    #   add_decision
-    #   visit "/admin/eat/987789/edit"
+    scenario 'can edit eat decision' do
+      add_eat_decision('EAT99901')
+      visit "/admin/eat/EAT99901/edit"
 
-    #   fill_in('Decision No', with: 'EDIT987789')
-    #   fill_in('Appellant name', with: 'John Smith')
-    #   fill_in('Respondent name', with: 'Matthew Black')
-    #   select('Jose Mourinho', from: 'New judge')
-    #   fill_in('Decision date', with: '22/05/1981')
-    #   fill_in('Date of Upload', with: '04/02/1979')
-    #   fill_in('Date published', with: '17/03/1968')
-    #   select('Value Added Tax - Taxes', from: 'Category')
-    #   fill_in('Notes', with: 'Decision already reached')
+      fill_in('EAT number', with: 'EDIT987789')
+      select('Rafael Nadal', from: 'New judge')
+      fill_in('Date of hearing', with: '22/05/1981')
+      fill_in('Date of upload', with: '04/02/1979')
+      fill_in('Notes', with: 'Decision already reached')
 
-    #   click_button('Update All decision')
+      click_button('Update All decision')
 
-    #   visit "/admin/eat/EDIT987789"
+      visit "/admin/eat/EDIT987789"
 
-    #   expect(page).to have_content('Decision Number: EDIT987789')
-    #   expect(page).to have_content('Appellant name: John Smith')
-    #   expect(page).to have_content('Respondent name: Matthew Black')
-    #   expect(page).to have_content('Judges: Jose Mourinho')
-    #   expect(page).to have_content('Date of decision: 22 May 1981')
-    #   expect(page).to have_content('Date added: 4 Feb 1979')
-    #   expect(page).to have_content('Date updated: 17 Mar 1968')
-    #   expect(page).to have_content('Category: Value Added Tax - Taxes')
-    #   expect(page).to have_content('Notes: Decision already reached')
 
-    #   visit "/admin/eat/EDIT987789/edit"
-
-    #   select 'VAT - Taxes - Yearly', from: 'Subcategory'
-    #   click_button 'Update All decision'
-
-    #   visit "/admin/eat/EDIT987789"
-      
-    #   expect(page).to have_content('Sub-Category: VAT - Taxes - Yearly')
-
-    # end
+      expect(page).to have_content('Decision Number: EDIT987789')
+      expect(page).to have_content('Appellant name: Jonh Smith')
+      expect(page).to have_content('Respondent name: Matt Black')
+      expect(page).to have_content('Judges: Rafael Nadal')
+      expect(page).to have_content('Date of hearing: 22 May 1981')
+      expect(page).to have_content('Date of upload: 4 Feb 1979')
+      expect(page).to have_content('Notes: Decision already reached')
+    end
   end
 end
