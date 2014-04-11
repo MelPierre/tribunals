@@ -124,7 +124,7 @@ class CSVImporter
     end
 
     if row.has_key?('judges')
-      judge = AllJudge.where(name: row.fetch('judges')).first_or_initialize
+      judge = AllJudge.where(name: row.fetch('judges')).first_or_create
       if judge.present?
         decision.all_judges.push(judge)
       end
@@ -141,7 +141,7 @@ class CSVImporter
   end
 
   def update_subcategory(row)
-    if c = @tribunal.categories.find_by_legacy_id(row['category_id'])
+    if c = @tribunal.categories.where(legacy_id: row['category_id']).first_or_create
       sc = c.subcategories.where(legacy_id: row['id']).first_or_initialize
       sc.name = row['description']
       print sc.new_record? ? '+' : '.'
