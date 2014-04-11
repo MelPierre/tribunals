@@ -13,13 +13,14 @@ require 'csv'
 # id,description
 
 # subcategories.csv
-# id,category_id,num,subcategory_name,category_name
+# id,category_id,num,description,category_name
 
 # judges_judgements_map.csv (judgement id is decision.legacy_id and commissioner_id is all_judge.legacy_id)
 # judgment_id,commissioner_id
 
 # judgment_jurisdictions.csv
 # eat_decision_id,eat_subcategory_id,eat_category_id,
+
 
 class CSVImporter
   def initialize(directory, code, logger=Rails.logger)
@@ -54,6 +55,12 @@ class CSVImporter
     puts "\nComplete!"
   end
 
+  def import_eat_subcategories
+    puts "Processing #{@tribunal.code} subcategories"
+    each_row('level2jury.csv') {|row| update_subcategory(row) }
+    puts "\nComplete!"
+  end
+
   def import_judges
     puts "Processing #{@tribunal.code} Judges"
     each_row('judges.csv') {|row| update_judge(row) }
@@ -62,7 +69,7 @@ class CSVImporter
 
   def map_categories_to_decisions
     puts "Processing #{@tribunal.code} sub-categories to decisions"
-    each_row('judgment_jurisdictions.csv') {|row| eat_categories_to_decisions(row) }
+    each_row('judgment_jurisdictions.csv') {|row| update_subcategory(row) }
     puts "\nComplete!"
   end
 
@@ -171,14 +178,22 @@ class CSVImporter
   end
 
   def update_subcategory(row)
-    if c = @tribunal.categories.where(legacy_id: row['category_id']).first_or_create
-      sc = c.subcategories.where(legacy_id: row['id']).first_or_initialize
-      sc.name = row['description']
-      print sc.new_record? ? '+' : '.'
-      puts "Failed to import #{row['id']} - #{row['description']}" unless sc.save
+    category, subcategory = nil
+
+    if row.has_key?('category_id') && row.fetch('category_id').present?
+      category = @tribunal.categories.where(legacy_id: row['category_id']).first_or_initialize
+    end
+
+    if row.has_key?('id') && row.fetch('id').present? && row.has_key?('description') && row.fetch('description').present?
+      subcategory = category.subcategories.where(legacy_id: row['id']).first_or_initialize
+      subcategory.name = row['description']
+      print subcategory.new_record? ? '+' : '.'
+      puts "Failed to import #{row['id']} - #{row['description']}" unless subcategory.save
     else
       puts "Could not find category with id #{row['id']}"
     end
+
+    subcategory
   end
 
   def update_judge(row)

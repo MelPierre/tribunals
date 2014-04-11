@@ -98,6 +98,7 @@ namespace :import do
     desc "Import eat subcategories data"
     task subcategories: :categories do
       CSVImporter.new('data/eat', 'eat').import_subcategories
+      CSVImporter.new('data/eat', 'eat').import_eat_subcategories
     end
 
     desc "map eat categories to decisions"
