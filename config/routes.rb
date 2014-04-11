@@ -8,7 +8,7 @@ Tribunals::Application.routes.draw do
   
   resources :decisions, path: 'utiac'
 
-  scope ':tribunal_code',tribunal_code: /utiac|utaac|ftt-tax|eat/  do
+  scope ':tribunal_code', tribunal_code: /utiac|utaac|ftt\-tax|eat/  do
     resources :all_decisions, path: ''
   end
 
@@ -19,7 +19,7 @@ Tribunals::Application.routes.draw do
 
     get '/', to: redirect('/admin/utiac'), as: :decisions
 
-    scope ':tribunal_code', tribunal_code: /utiac|utaac|ftt-tax|eat/ do
+    scope ':tribunal_code', tribunal_code: /utiac|utaac|ftt\-tax|eat/ do
       resources :categories do
         resources :subcategories
       end
