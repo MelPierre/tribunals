@@ -7,11 +7,7 @@ Tribunals::Application.routes.draw do
   get '/utiac/decisions', to:  redirect('/utiac')
   
   resources :decisions, path: 'utiac'
-  # resources :all_decisions, path: 'ftt-tax', tribunal_code: 'ftt-tax'
-  # resources :all_decisions, path: 'eat', tribunal_code: 'eat'
-  # resources :all_decisions, path: 'utaac', tribunal_code: 'utaac'
 
-  #TODO: Refactor separate resource routes above into scope 
   scope ':tribunal_code',tribunal_code: /utiac|utaac|ftt-tax|eat/  do
     resources :all_decisions, path: ''
   end
@@ -20,7 +16,7 @@ Tribunals::Application.routes.draw do
   # TODO: These redirect parts seem messy and maybe not the correct way to manage the requirement, need to review
   namespace :admin do
     devise_for :users, controllers: { invitations: 'users/invitations', sessions: 'devise/sessions', passwords: 'devise/passwords', registrations: 'devise/registrations'}
-    #TODO: Temporarily redirecting to UTIAC, but later on admins should be redirected to their respective tribunal's admin panel.
+
     get '/', to: redirect('/admin/utiac'), as: :decisions
 
     scope ':tribunal_code', tribunal_code: /utiac|utaac|ftt-tax|eat/ do
