@@ -76,9 +76,9 @@ class CSVImporter
     # map meta information
     meta = {
       legacy_id: row['judgment_id'],
-      file_no_1: row['file_no_1'],
-      file_no_2: row['file_no_2'],
-      file_no_3: row['file_no_3'],
+      file_no_1: sanitize(row['file_no_1']),
+      file_no_2: sanitize(row['file_no_2']),
+      file_no_3: sanitize(row['file_no_3']),
       ncn_citation: row['ncn_citation'],
       ncn_code1: row['ncn_code1'],
       ncn_code2: row['ncn_code2'],
@@ -172,4 +172,7 @@ class CSVImporter
     format.nil? ? Date.parse(value.split(' ').first) : Date.strptime(value, format)
   end
 
+  def sanitize(file_number)
+    file_number.gsub(/\//, '').strip if file_number.present?
+  end
 end
