@@ -18,6 +18,9 @@ require 'csv'
 # judges_judgements_map.csv (judgement id is decision.legacy_id and commissioner_id is all_judge.legacy_id)
 # judgment_id,commissioner_id
 
+# judgment_jurisdictions.csv
+# eat_decision_id,eat_subcategory_id,eat_category_id,
+
 class CSVImporter
   def initialize(directory, code, logger=Rails.logger)
     @directory = directory
@@ -57,6 +60,12 @@ class CSVImporter
     puts "\nComplete!"
   end
 
+  def map_categories_to_decisions
+    puts "Processing #{@tribunal.code} sub-categories to decisions"
+    each_row('judgment_jurisdictions.csv') {|row| eat_categories_to_decisions(row) }
+    puts "\nComplete!"
+  end
+
   def update_decisions_judges
     each_row('judges_judgements_map.csv') { |row| update_decision_judge(row) }
   end
@@ -65,8 +74,24 @@ class CSVImporter
     "[#{row['ncn_year']}] #{row['ncn_code1']} #{row['ncn_citation']}"
   end
 
-  def update_decision(row)
+  def eat_categories_to_decisions(row)
+    puts "\n\n\n\nRow: #{row}\n\n\n"
+    decision = @tribunal.all_decisions.legacy_id(row['eat_decision_id']).first_or_initialize
 
+    if row.has_key?('eat_category_id') &&  row.fetch('eat_category_id').present?
+      category = Category.where(legacy_id: row.fetch('eat_category_id')).first_or_initialize
+      decision.categories.push(category)
+    end
+
+    if row.has_key?('eat_subcategory_id') &&  row.fetch('eat_subcategory_id').present?
+      sub_category = Subcategory.where(legacy_id: row.fetch('eat_subcategory_id')).first_or_initialize
+      decision.subcategories.push(sub_category)
+    end
+    decision.save!
+    decision
+  end
+
+  def update_decision(row)
     decision = @tribunal.all_decisions.legacy_id(row['judgment_id']).first_or_initialize
 
     keywords = row.inject([]) do |acc, (k, v)|
