@@ -83,7 +83,7 @@ namespace :import do
   namespace :eat do
 
     desc "Import all eat data [:categories, :subcategories, :decisions_judges]"
-    task all: [:categories, :subcategories, :decisions_judges]
+    task all: [:categories, :subcategories, :decisions_judges, :map_categories_to_decisions]
 
     desc "Import eat decisions data (this also Adds the judges to the judges table)"
     task decisions_judges: :environment do
