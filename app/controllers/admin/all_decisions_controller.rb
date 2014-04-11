@@ -64,6 +64,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
     def current_tribunal
       @tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
+      # I18n.locale = "en-#{@tribunal.code}"
+      @tribunal
     end
 
     def tribunal_view_path
@@ -89,7 +91,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   private
     def decision_params
-      params.require(:all_decision).permit( 
+      params.require(:all_decision).permit(
         :doc_file,
         :tribunal_id,
         :file_number,

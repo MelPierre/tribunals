@@ -16,7 +16,7 @@ feature 'First Tier Tribunal Tax Chamber' do
     end
 
     scenario 'can create a new ftt decision' do
-      add_decision
+      add_ftt_decision
 
       visit '/admin/ftt-tax/987789'
 
@@ -42,7 +42,7 @@ feature 'First Tier Tribunal Tax Chamber' do
     end
 
     scenario 'add category to decision' do
-      add_decision
+      add_ftt_decision
 
       visit '/admin/ftt-tax/987789/edit'
 
@@ -62,7 +62,7 @@ feature 'First Tier Tribunal Tax Chamber' do
     end
 
     scenario 'can delete ftt decision' do
-      add_decision
+      add_ftt_decision
       visit "/admin/ftt-tax/987789"
       click_link('Delete decision')
       visit "/admin/ftt-tax/987789"
@@ -71,7 +71,7 @@ feature 'First Tier Tribunal Tax Chamber' do
     end
 
     scenario 'can edit ftt decision' do
-      add_decision
+      add_ftt_decision
       visit "/admin/ftt-tax/987789/edit"
 
       fill_in('Decision No', with: 'EDIT987789')

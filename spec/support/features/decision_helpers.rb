@@ -1,7 +1,7 @@
 module Features
   module DecisionHelpers
 
-    def add_decision
+    def add_ftt_decision
       create_seed
       visit '/admin/ftt-tax/new'
       attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
@@ -30,12 +30,28 @@ module Features
       fill_in('Date of hearing', with: '21/01/1980')
       fill_in('Date of upload', with: '31/01/1978')
       select('VAT - Taxes', from: 'Add topic')
-      #select('VAT - Taxes - Monthly', from: 'Sub-Category')
       fill_in('Notes', with: 'filling the notes for testing')
 
       click_button('Add decision')
     end
 
+    def add_utaac_decision
+      create_seed
+      visit '/admin/utaac/new'
+      attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
+      fill_in('Decision No', with: '987789')
+      fill_in('Appellant Name', with: 'Jonh Smith')
+      fill_in('Respondent Name', with: 'Matt Black')
+      select('Rafael Nadal', from: 'New judge')
+      fill_in('Decision date', with: '21/01/1980')
+      fill_in('Date of Upload', with: '31/01/1978')
+      fill_in('Date published', with: '14/02/1967')
+      select('VAT - Taxes', from: 'Add category')
+      #select('VAT - Taxes - Monthly', from: 'Sub-Category')
+      fill_in('Notes', with: 'filling the notes for testing')
+
+      click_button('Add decision')
+    end
 
     def create_seed
       create(:all_judge, name: 'Iker Casillas', tribunal_id: tribunal.id)
