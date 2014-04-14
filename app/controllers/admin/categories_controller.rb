@@ -9,7 +9,7 @@ class Admin::CategoriesController < Admin::RestrictedController
   def show; end
 
   def new
-    @category = current_tribunal.category.new 
+    @category = current_tribunal.categories.new 
   end
 
   def create
