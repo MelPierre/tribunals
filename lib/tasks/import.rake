@@ -96,8 +96,12 @@ namespace :import do
     end
 
     desc "Import eat subcategories data"
-    task subcategories: :categories do
+    task subcategories: :environment do
       CSVImporter.new('data/eat', 'eat').import_subcategories
+    end
+
+    desc "Import eat subcategories level2jury data"
+    task subcategories_level2jury: :environment do
       CSVImporter.new('data/eat', 'eat').import_eat_subcategories
     end
 
