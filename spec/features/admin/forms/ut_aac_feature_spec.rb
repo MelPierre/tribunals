@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal' do
-  let(:tribunal){ create(:tribunal, code: 'utaac', title: 'Administrative Appeals Chamber')}
+  let(:tribunal){ create(:tribunal, code: 'utaac', name: 'Administrative Appeals Chamber')}
   let(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'as standard user' do
