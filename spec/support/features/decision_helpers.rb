@@ -35,33 +35,25 @@ module Features
       click_button('Add decision')
     end
 
-    def add_utaac_decision
+    def add_utaac_decision(file_number)
       create_seed
       visit '/admin/utaac/new'
       attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
-      check('Published')
-      select('2013', from: 'ncn-year')
-      fill_in('ncn-box-1', with: 'UKUT')
-      fill_in('ncn-box-2', with: '000')
-      fill_in('ncn-box-3', with: 'AAC')
-      uncheck('I have not got an NCN number')
+      choose('Yes')
+      fill_in('NCN', with: '2013UKUT000AAC')
 
-      fill_in('file_number-1', with: '0001')
-      fill_in('file_number-2', with: '0002')
-      fill_in('file-number-3', with: '0003')
+      fill_in('File no', with: file_number)
 
-      fill_in('Appellant Name', with: 'Jonh Smith')
-      fill_in('Respondent Name', with: 'Matt Black')
-      select('Rafael Nadal', from: 'Judge name')
+      fill_in('Appellant name', with: 'Jonh Smith')
+      fill_in('Respondent name', with: 'Matt Black')
+      select('Rafael Nadal', from: 'New judge')
 
       fill_in('Date of decision', with: '21/01/1980')
       fill_in('Date added', with: '31/01/1978')
 
-      select('VAT - Taxes', from: 'Category')
-      select('VAT - Taxes - Monthly', from: 'Sub-category')
+      select('VAT - Taxes', from: 'Add category')
+      #select('VAT - Taxes - Monthly', from: 'Sub-category')
       fill_in('Notes', with: 'Filling the notes for testing')
-
-      fill_in('Related decisions', with: "http://google.com")
 
       click_button('Add decision')
     end
