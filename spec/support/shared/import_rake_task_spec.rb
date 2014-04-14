@@ -1,4 +1,4 @@
- shared_examples_for "import rake task" do |task_name, code|
+ shared_examples_for "import rake task" do |task_name, directory, code, depends='environment'|
   include_context "rake"
   let(:task) do
     {
@@ -7,15 +7,17 @@
       decisions_judges: double('importing to database'),
       judges: double('importing to database'),
       import_decisions: double('importing to database'),
+      import_judges: double('importing to database'),
       import_eat_subcategories: double('importing to database'),
       process_docs: double('importing to database'),
+      update_decisions_judges: double('importing to database'),
       map_categories_to_decisions: double('importing to database')
     }
   end
 
   let(:init) {double('intializing CSVImporter', task)}
 
-  its(:prerequisites) { should include("environment")}
+  its(:prerequisites) { should include("#{depends}")}
   context 'rake task' do
 
     before do
@@ -25,7 +27,7 @@
     end
 
     it "creates CSVImporter with correct #{code} csv directory and code" do
-      CSVImporter.should have_received(:new).with("data/#{code}", "#{code}")
+      CSVImporter.should have_received(:new).with("#{directory}", "#{code}")
     end
 
     it "can use #{task_name} on CSVImporter" do
