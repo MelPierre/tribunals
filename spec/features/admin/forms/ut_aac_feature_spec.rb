@@ -42,5 +42,53 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
       # expect(page).to have_content('Sub-Category: VAT - Taxes - Monthly')
     end
 
+    scenario 'can delete utaac decision' do
+      file_number = "DC1234567"
+      add_utaac_decision(file_number)
+
+      visit "/admin/utaac/#{file_number}"
+      click_link('Delete decision')
+      visit "/admin/utaac/#{file_number}"
+
+      expect(page).to have_content("Decision not found #{file_number}")
+    end
+
+    scenario 'can edit utaac decision' do
+      file_number = "DC1234567"
+      add_utaac_decision(file_number)
+
+      visit "/admin/utaac/#{file_number}/edit"
+
+      # attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
+      choose('No')
+      fill_in('NCN', with: '2013UKUT000AACEDIT')
+
+      # fill_in('File no', with: file_number)
+
+      fill_in('Appellant name', with: 'Edit Smith')
+      fill_in('Respondent name', with: 'Edit Black')
+      select('Jose Mourinho', from: 'New judge')
+
+      fill_in('Date of decision', with: '01/01/1980')
+      fill_in('Date added', with: '01/01/1978')
+
+      # select('VAT - Taxes', from: 'Add category')
+      #select('VAT - Taxes - Monthly', from: 'Sub-category')
+      fill_in('Notes', with: 'Edit notes')
+
+      click_button('Update All decision')
+
+      visit "/admin/utaac/#{file_number}"
+
+      expect(page).to have_content("Decision Number: #{file_number}")
+      expect(page).to have_content('Appellant name: Edit Smith')
+      expect(page).to have_content('Respondent name: Edit Black')
+      expect(page).to have_content('Judges: Jose Mourinho')
+      expect(page).to have_content('Date of decision: 1 Jan 1980')
+      expect(page).to have_content('Date added: 1 Jan 1978')
+      # expect(page).to have_content('Categories: Value Added Tax - Taxes')
+      expect(page).to have_content('Notes: Edit notes')
+    end
+
   end
 end
