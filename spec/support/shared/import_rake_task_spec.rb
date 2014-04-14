@@ -27,7 +27,11 @@
     end
 
     it "creates CSVImporter with correct #{code} csv directory and code" do
-      CSVImporter.should have_received(:new).with("#{directory}", "#{code}")
+      if depends == 'environment'
+        CSVImporter.should have_received(:new).with("#{directory}", "#{code}").once
+      else
+        CSVImporter.should have_received(:new).with("#{directory}", "#{code}").twice
+      end
     end
 
     it "can use #{task_name} on CSVImporter" do
