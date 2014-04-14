@@ -28,6 +28,16 @@ feature 'Manage FTT categories' do
     end
 
     scenario 'view paginated list of categories' do
+      categories = create_list(:category, 20, tribunal: ftt)
+      visit '/admin/ftt-tax/categories'
+
+      categories[0..9].each do |cat|
+        expect(page).to have_content(cat.name)
+      end
+
+      categories[10..19].each do |cat|
+        expect(page).not_to have_content(cat.name)
+      end
 
     end
 

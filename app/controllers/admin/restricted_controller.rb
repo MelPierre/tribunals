@@ -4,6 +4,11 @@ class Admin::RestrictedController < ApplicationController
 
   helper_method :current_tribunal
 
+  def default_url_options(options = {})
+    options[:tribunal_code] = current_tribunal.code if current_tribunal
+    options
+  end
+
   protected
     def current_tribunal
       @tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
