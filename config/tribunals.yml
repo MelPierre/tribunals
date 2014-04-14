@@ -106,6 +106,31 @@ utaac:
     label: 'Reference number'
   - name: 'decision_date' 
     label: 'Date of decision'
+  form_fields:
+    file_number: 'File no'
+    published: 'Published'
+    neutral_citation_number: 'NCN'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    all_judges: 'Judge Name'
+    hearing_date: 'Date of decision'
+    upload_date: 'Date added'
+    category: 'Category'
+    categories: 'Category'
+    subcategories: 'Subcategory'
+    subcategory: 'Subcategory'
+  display_fields:
+    file_number: 'File no'
+    published: 'Published'
+    neutral_citation_number: 'NCN'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    judge_names: 'Judges'
+    hearing_date: 'Date of decision'
+    upload_date: 'Date added'
+    category_names: 'Categories'
+    subcategory_names: 'Sub-Categories'
+    notes: 'Notes'
 
 eat:
   filters:

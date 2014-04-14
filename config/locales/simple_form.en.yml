@@ -1,4 +1,4 @@
-en:
+en: &EN
   simple_form:
     "yes": 'Yes'
     "no": 'No'
@@ -39,6 +39,8 @@ en:
       decision:
         <<: *ALL_DECISION
 
+en-ftt-tax: 
+  <<: *EN
     # Labels and hints examples
     # labels:
     #   defaults:
