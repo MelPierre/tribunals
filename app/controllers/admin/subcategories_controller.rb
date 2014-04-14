@@ -1,5 +1,6 @@
 class Admin::SubcategoriesController < Admin::RestrictedController
   before_filter -> { require_tribunal(params.fetch(:tribunal_code)) }
+  before_filter :category
   before_filter :load_subcategory, only: [:show,:edit,:update,:destroy]
 
   def index
@@ -34,8 +35,12 @@ class Admin::SubcategoriesController < Admin::RestrictedController
   end
 
   def destroy
-    @subcategory.destroy
-    flash[:notice] = "Successfully deleted subcategory"
+    if @subcategory.deletable?
+      @subcategory.destroy
+      flash[:notice] = "Successfully deleted subcategory"
+    else
+      flash[:alert] = "Subcategory cannot be deleted as there are tagged decisions"
+    end
     redirect_to after_action_path
   end
 
@@ -50,7 +55,7 @@ class Admin::SubcategoriesController < Admin::RestrictedController
     end
 
     def category
-      current_tribunal.categories.find(params.fetch(:category_id))
+      @category ||= current_tribunal.categories.find(params.fetch(:category_id))
     end 
 
     def load_subcategory

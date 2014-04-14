@@ -6,8 +6,6 @@ class Admin::CategoriesController < Admin::RestrictedController
     @categories = current_tribunal.categories.paginate(page: params[:page], per_page: 10)
   end
 
-  def show; end
-
   def new
     @category = current_tribunal.categories.new 
   end
@@ -34,8 +32,12 @@ class Admin::CategoriesController < Admin::RestrictedController
   end
 
   def destroy
-    @category.destroy
-    flash[:notice] = "Successfully deleted category"
+    if @category.deletable?
+      @category.destroy
+      flash[:notice] = "Successfully deleted category"
+    else
+      flash[:alert] = "Category cannot be deleted as there are tagged decisions or subcategories"
+    end
     redirect_to after_action_path
   end
 

@@ -3,6 +3,13 @@
   margin: 20px 0;
 }
 
+// data-disabled links
+a[data-disabled]:not([data-disabled="false"]) {
+  text-decoration: none;
+  color: #666;
+}
+
+
 .login {
   fieldset {
     margin: 20px 0;
