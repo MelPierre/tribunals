@@ -29,17 +29,31 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
       expect(page).to have_content('Date of decision: 21 Jan 1980')
       expect(page).to have_content('Date added: 31 Jan 1978')
       expect(page).to have_content('Categories: VAT - Taxes')
-      #expect(page).to have_content('Sub-Categories: VAT - Taxes - Monthly')
       expect(page).to have_content('Notes: Filling the notes for testing')
 
-      # visit '/admin/ftt-tax/987789/edit'
+    end
 
-      # select 'VAT - Taxes - Monthly', from: 'Subcategory'
-      # click_button 'Update All decision'
 
-      # visit '/admin/ftt-tax/987789'
+    scenario 'add category to decision' do
+      file_number = "DC1234567"
+      add_utaac_decision(file_number)
 
-      # expect(page).to have_content('Sub-Category: VAT - Taxes - Monthly')
+      visit "/admin/utaac/#{file_number}/edit"
+
+      select('Value Added Tax - Taxes', from: 'Add category')
+
+      click_button 'Update All decision'
+
+      category = Category.find_by_name('Value Added Tax - Taxes')
+
+      within ".category-#{category.id}" do
+        select('VAT - Taxes - Yearly', from: 'Subcategory')
+      end
+      click_button 'Update All decision'
+
+      visit "/admin/utaac/#{file_number}"
+
+      expect(page).to have_content('Sub-Categories: VAT - Taxes - Yearly')
     end
 
     scenario 'can delete utaac decision' do
@@ -59,21 +73,14 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
 
       visit "/admin/utaac/#{file_number}/edit"
 
-      # attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
       choose('No')
       fill_in('NCN', with: '2013UKUT000AACEDIT')
-
-      # fill_in('File no', with: file_number)
-
       fill_in('Appellant name', with: 'Edit Smith')
       fill_in('Respondent name', with: 'Edit Black')
       select('Jose Mourinho', from: 'New judge')
 
       fill_in('Date of decision', with: '01/01/1980')
       fill_in('Date added', with: '01/01/1978')
-
-      # select('VAT - Taxes', from: 'Add category')
-      #select('VAT - Taxes - Monthly', from: 'Sub-category')
       fill_in('Notes', with: 'Edit notes')
 
       click_button('Update All decision')
@@ -86,8 +93,17 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
       expect(page).to have_content('Judges: Jose Mourinho')
       expect(page).to have_content('Date of decision: 1 Jan 1980')
       expect(page).to have_content('Date added: 1 Jan 1978')
-      # expect(page).to have_content('Categories: Value Added Tax - Taxes')
       expect(page).to have_content('Notes: Edit notes')
+
+      visit "/admin/utaac/#{file_number}/edit"
+
+      select 'VAT - Taxes - Monthly', from: 'Subcategory'
+      click_button 'Update All decision'
+
+      visit "/admin/utaac/#{file_number}"
+
+      expect(page).to have_content('Sub-Categories: VAT - Taxes - Monthly')
+
     end
 
   end
