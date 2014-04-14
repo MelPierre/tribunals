@@ -40,7 +40,6 @@ ftt-tax:
     type: 'text'
     predictive: true
     placeholder: 'More detail about the case'
-
   sort_by:
   - name: 'decision_date'
     label: 'Date of decision'
@@ -51,7 +50,30 @@ ftt-tax:
     label: 'Reference number'
   - name: 'decision_date'
     label: 'Date of decision'
-
+  form_fields:    
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    all_judges: 'Judge Name'
+    file_number: 'Decision No'
+    decision_date: 'Date of decision'
+    upload_date: 'Date of Upload'
+    publication_date: 'Date published'
+    category: 'Category'
+    categories: 'Category'
+    subcategories: 'Subcategory'
+    subcategory: 'Subcategory'
+    notes: 'Notes'
+  display_fields:    
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    judge_names: 'Judges'
+    file_number: 'Decision No'
+    decision_date: 'Date of decision'
+    upload_date: 'Date of Upload'
+    publication_date: 'Date published'
+    category_names: 'Categories'
+    subcategory_names: 'Sub-Categories'
+    notes: 'Notes'
 utaac:
   filters:
   - name: 'judge'
@@ -84,6 +106,31 @@ utaac:
     label: 'Reference number'
   - name: 'decision_date' 
     label: 'Date of decision'
+  form_fields:
+    file_number: 'File no'
+    published: 'Published'
+    neutral_citation_number: 'NCN'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    all_judges: 'Judge Name'
+    hearing_date: 'Date of decision'
+    upload_date: 'Date added'
+    category: 'Category'
+    categories: 'Category'
+    subcategories: 'Subcategory'
+    subcategory: 'Subcategory'
+  display_fields:
+    file_number: 'File no'
+    published: 'Published'
+    neutral_citation_number: 'NCN'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    judge_names: 'Judges'
+    hearing_date: 'Date of decision'
+    upload_date: 'Date added'
+    category_names: 'Categories'
+    subcategory_names: 'Sub-Categories'
+    notes: 'Notes'
 
 eat:
   filters:
@@ -108,4 +155,24 @@ eat:
     predictive: true
     placeholder: 'More detail about the case'
   sort_by:
-  results_columns:
+  form_fields:
+    file_number: 'EAT number'
+    starred: 'Starred judgement'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    all_judges: 'Judge Name'
+    hearing_date: 'Date of hearing'
+    upload_date: 'Date of upload'
+    category: 'Topic'
+    subcategory: 'Sub-topic'
+  display_fields:
+    file_number: 'EAT number'
+    starred: 'Starred judgement'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    judge_names: 'Judges'
+    hearing_date: 'Date of hearing'
+    upload_date: 'Date of upload'
+    category_names: 'Topics'
+    subcategory_names: 'Sub-topics'
+    notes: 'Notes'

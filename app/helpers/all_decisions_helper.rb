@@ -73,4 +73,10 @@ module AllDecisionsHelper
     s << '</div>'
     raw s
   end
+
+
+  def format_field (name, value)
+    name =~ /_date$/ ? schema_time_element(value) : value
+  end
+
 end

@@ -62,6 +62,10 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   protected
 
+    def current_tribunal
+      @tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
+    end
+
     def tribunal_view_path
       "/admin/all_decisions/"
     end
@@ -85,16 +89,20 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   private
     def decision_params
-      params.require(:all_decision).permit( 
+      params.require(:all_decision).permit(
         :doc_file,
         :tribunal_id,
         :file_number,
+        :starred,
+        :published,
+        :neutral_citation_number,
         :claimant,
         :respondent,
         :all_judge_ids,
         :decision_date,
         :upload_date,
         :publication_date,
+        :hearing_date,
         :category_ids,
         :subcategory_ids,
         :notes,
