@@ -10,25 +10,21 @@ describe "import:eat:all" do
 end
 
 describe "import:eat:categories" do
-  include_context "rake"
-  let(:import_categories) {double('importing categories to database')}
-  let(:init) {double('intializing CSVImporter', import_categories: import_categories)}
+ it_should_behave_like "import rake task", :import_categories, :eat
+end
 
-  its(:prerequisites) { should include("environment")}
-  context 'rake task' do
+describe "import:eat:subcategories" do
+ it_should_behave_like "import rake task", :import_subcategories, :eat
+end
 
-    before do
-      CSVImporter.stub(:new => init)
-      Object.stub(:eat)
-      subject.invoke
-    end
+describe "import:eat:subcategories_level2jury" do
+ it_should_behave_like "import rake task", :import_eat_subcategories, :eat
+end
 
-    it "creates CSVImporter with correct eat csv directory and code" do
-      CSVImporter.should have_received(:new).with('data/eat', 'eat')
-    end
+describe "import:eat:decisions_judges" do
+ it_should_behave_like "import rake task", :import_decisions, :eat
+end
 
-    it "can use import_categories on CSVImporter" do
-      CSVImporter.new.should have_received(:import_categories)
-    end
-  end
+describe "import:eat:map_categories_to_decisions" do
+ it_should_behave_like "import rake task", :map_categories_to_decisions, :eat
 end
