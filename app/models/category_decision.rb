@@ -10,6 +10,7 @@ class CategoryDecision < ActiveRecord::Base
     self.category ||= subcategory.category if self.subcategory && self.subcategory.category
     self.subcategory = nil unless category.subcategories.include?(subcategory)
   end
+  
 end
 
 
