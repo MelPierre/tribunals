@@ -20,6 +20,11 @@ describe "import:aac:judges" do
  it_should_behave_like "import rake task", :import_judges, 'data/aac', :utaac
 end
 
+describe "import:aac:subcategories" do
+ it_should_behave_like "import rake task", :import_subcategories, 'data/aac', :utaac, 'categories'
+end
+
+
 describe "import:ftt:all" do
   include_context "rake"
   its(:prerequisites) { should include("subcategories")}
@@ -29,6 +34,10 @@ end
 
 describe "import:ftt:categories" do
  it_should_behave_like "import rake task", :import_categories, 'data/ftt', :ftt_tax
+end
+
+describe "import:ftt:subcategories" do
+ it_should_behave_like "import rake task", :import_subcategories, 'data/ftt', :ftt_tax, 'categories'
 end
 
 describe "import:ftt:decisions" do
