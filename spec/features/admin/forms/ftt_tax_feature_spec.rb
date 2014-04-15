@@ -78,7 +78,7 @@ feature 'First Tier Tribunal Tax Chamber' do
       fill_in('Appellant name', with: 'John Smith')
       fill_in('Respondent name', with: 'Matthew Black')
       select('Jose Mourinho', from: 'New judge')
-      fill_in('Decision date', with: '22/05/1981')
+      fill_in('Date of decision', with: '22/05/1981')
       fill_in('Date of Upload', with: '04/02/1979')
       fill_in('Date published', with: '17/03/1968')
       select('Value Added Tax - Taxes', from: 'Category')
@@ -104,7 +104,6 @@ feature 'First Tier Tribunal Tax Chamber' do
       click_button 'Update All decision'
 
       visit "/admin/ftt-tax/EDIT987789"
-
       expect(page).to have_content('Sub-Categories: VAT - Taxes - Yearly')
     end
   end

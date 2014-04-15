@@ -9,7 +9,7 @@ feature 'User invitiations' do
     user = create(:user, tribunals: [utiac] )
     visit '/admin'
     sign_in user
-  
+
     visit '/admin/users/invitation/new'
     expect(page).to have_content('No Access')
   end
