@@ -2,6 +2,8 @@ class AllDecisionsController < ApplicationController
   before_filter :enable_varnish
   before_filter :load_decision, only: [:show]
 
+  helper_method :current_tribunal
+
 
    def index
     set_cache_control(decisions_relation.maximum(:updated_at))
