@@ -7,7 +7,7 @@
     %p
       = link_to 'Admin home', admin_decisions_path
       |
-      = link_to 'Categories', admin_categories_path(tribunal_code: current_tribunal.code) if current_tribunal
+      = link_to 'Categories', admin_categories_path(tribunal_code: current_tribunal.code) if defined?(current_tribunal)
       |
       - if is_admin?
         = link_to 'Users', admin_users_path
