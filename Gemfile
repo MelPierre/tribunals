@@ -64,9 +64,9 @@ gem 'friendly_id', github: 'FriendlyId/friendly_id', branch: 'master'
 gem 'appsignal'
 
 # frontend gems
-gem 'govuk_frontend_toolkit', github: 'alphagov/govuk_frontend_toolkit_gem', submodules: true
-gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.2.1'
+# gem 'govuk_frontend_toolkit', github: 'alphagov/govuk_frontend_toolkit_gem', submodules: true
+# gem 'moj_frontend_toolkit_gem', github: 'ministryofjustice/moj_frontend_toolkit_gem', tag: 'v0.2.1'
 
-gem 'govuk_template'
-gem 'moj_template'
+gem 'govuk_frontend_toolkit', '0.48.0'
+gem 'moj_template', '0.11.1'
 

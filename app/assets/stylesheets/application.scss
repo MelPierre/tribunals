@@ -5,13 +5,10 @@
 @import "css3";
 @import "design-patterns/buttons";
 
-// MOJ Toolkit
-@import "moj-base";
-
-// Core
+// // Core
 @import "core/grid";
 
-// Components
+// // Components
 @import "cpt/button";
 @import "cpt/table";
 @import "cpt/panel";
@@ -19,12 +16,12 @@
 @import "cpt/download-links";
 @import "cpt/moj.autocomplete";
 
-// Modules
+// // Modules
 @import "mod/search-form";
 @import "mod/decision";
 @import "mod/feedbacks";
 
-// Application
+// // Application
 @import "main";
 @import "admin/admin";
 @import "admin/forms";

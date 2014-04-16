@@ -35,7 +35,7 @@ module Tribunals
     config.govbranding = true
 
     # Proposition Title (Populates proposition header)
-    config.proposition_title = ''
+    config.proposition_title = 'Tribunal decisions'
     # Feedback URL (URL for feedback link in phase banner)
     config.feedback_url = ''
     # Google Analytics ID (Tracking ID for the service)
