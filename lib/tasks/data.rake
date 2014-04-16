@@ -1,5 +1,6 @@
 namespace :data do
 
+desc "Create seed data for each Tribunal"
 task seed_tribunals: :environment do
     Tribunal.delete_all
     Tribunal.create([

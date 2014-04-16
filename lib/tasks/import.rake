@@ -80,4 +80,34 @@ namespace :import do
     end
   end
 
+  namespace :eat do
+
+    desc "Import all eat data [:categories, :subcategories, :decisions_judges]"
+    task all: [:categories, :subcategories, :decisions_judges, :map_categories_to_decisions]
+
+    desc "Import eat decisions data (this also Adds the judges to the judges table)"
+    task decisions_judges: :environment do
+      CSVImporter.new('data/eat', 'eat').import_decisions
+    end
+
+    desc "Import eat categories data"
+    task categories: :environment do
+      CSVImporter.new('data/eat', 'eat').import_categories
+    end
+
+    desc "Import eat subcategories data"
+    task subcategories: :environment do
+      CSVImporter.new('data/eat', 'eat').import_subcategories
+    end
+
+    desc "Import eat subcategories level2jury data"
+    task subcategories_level2jury: :environment do
+      CSVImporter.new('data/eat', 'eat').import_eat_subcategories
+    end
+
+    desc "map eat categories to decisions"
+    task map_categories_to_decisions: :environment do
+      CSVImporter.new('data/eat', 'eat').map_categories_to_decisions
+    end
+  end
 end
