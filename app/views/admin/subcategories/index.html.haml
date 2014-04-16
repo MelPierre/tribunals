@@ -20,7 +20,7 @@
         %tr
           %td 
             = subcat.name
-            = "(#{subcat.decisions.count} decisions tagged)"
+            = "(#{pluralize(subcat.decisions.count, 'decision')} tagged)"
 
           %td
             = link_to 'Edit', edit_admin_category_subcategory_path(@category, subcat)
