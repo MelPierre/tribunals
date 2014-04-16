@@ -48,13 +48,14 @@ describe Tribunals::Application.routes do
     end
   end
 
-  # describe 'FTT categories' do
-  #   it 'should render FTT categories index' do
-  #     expect(get: '/admin/ftt-tax/categories').to route_to(controller: 'admin/categories', action: 'index', tribunal_code: 'ftt-tax')
-  #   end
+  describe 'FTT categories' do
+    it 'should render FTT categories index' do
+      expect(get: '/admin/ftt-tax/categories').to route_to(controller: 'admin/categories', action: 'index', tribunal_code: 'ftt-tax')
+    end
 
-  #   it 'should render FTT subcategories index' do
-  #     expect(get: '/admin/ftt-tax/categories/1/subcategories').to route_to(controller: 'admin/subcategories', action: 'index', tribunal_code: 'ftt-tax', category_id: '1')
-  #   end
-  # end
+    it 'should render FTT subcategories index' do
+      expect(get: '/admin/ftt-tax/categories/1/subcategories').to route_to(controller: 'admin/subcategories', action: 'index', tribunal_code: 'ftt-tax', category_id: '1')
+    end
+  end
+
 end

@@ -2,7 +2,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   before_filter -> { require_tribunal(params[:tribunal_code]) }
   before_filter :load_decision, only: [:show, :edit, :destroy]
 
-  helper_method :current_tribunal, :tribunal_form_view_path, :tribunal_common_view_path
+  helper_method :tribunal_form_view_path, :tribunal_common_view_path
 
   def index
     set_cache_control(decisions_relation.maximum(:updated_at))
@@ -64,8 +64,6 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
     def current_tribunal
       @tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
-      # I18n.locale = "en-#{@tribunal.code}"
-      @tribunal
     end
 
     def tribunal_view_path

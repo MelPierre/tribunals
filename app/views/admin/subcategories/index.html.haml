@@ -1,0 +1,33 @@
+%header.page-header.group
+  %h1
+    = @category.name
+    %span Sub-categories
+
+.form-actions
+  = link_to 'New subcategory', new_admin_category_subcategory_path(@category), class: 'button'
+
+= link_to 'Back to catagories', admin_categories_path
+
+.pagination-row.top
+  .page-entries
+    = page_entries_info @subcategories
+  = will_paginate @subcategories
+
+.main
+  %table.categories-table
+    %tbody
+      - @subcategories.each do |subcat|
+        %tr
+          %td 
+            = subcat.name
+            = "(#{subcat.decisions.count} decisions tagged)"
+
+          %td
+            = link_to 'Edit', edit_admin_category_subcategory_path(@category, subcat)
+
+            = link_to 'Delete', admin_category_subcategory_path(@category, subcat,tribunal_code: params[:tribunal_code]), method: 'delete', confirm: 'Are you sure you want to delete this subcategory', data: { disabled: !subcat.deletable? }
+
+.pagination-row.bottom
+  .page-entries
+    = page_entries_info @subcategories
+  = will_paginate @subcategories

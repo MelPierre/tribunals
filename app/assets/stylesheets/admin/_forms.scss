@@ -1,22 +1,21 @@
 @import "colours";
 @import "moj-base";
 
-form.simple_form {
+.form-actions {
+  @extend .clearfix;
+  margin-top: 1em;
+  padding: 10px 30px;
+  background: #eee;
 
-  .form-actions {
-    @extend .clearfix;
-    margin-top: 1em;
-    padding: 10px 30px;
-    background: #eee;
-
-    &.form-actions--right{
-      .button {
-        float: right;
-        margin-left:0.5em;
-      }
+  &.form-actions--right{
+    .button {
+      float: right;
+      margin-left:0.5em;
     }
-
   }
+}
+
+form.simple_form {
   .error {
     display: block;
     font-size: 1.4rem;
