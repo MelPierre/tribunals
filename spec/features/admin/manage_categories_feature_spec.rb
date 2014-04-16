@@ -26,7 +26,7 @@ codes.each do |code|
         sign_in admin
       end
 
-      scenario 'view the eat categories index page' do
+      scenario "view the #{tribunal} categories index page" do
         visit "/admin/#{code}/categories"
 
         expect(page).to have_content('Categories')
@@ -39,7 +39,7 @@ codes.each do |code|
       end
 
       scenario 'view paginated list of categories' do
-        categories = create_list(:category, 25, tribunal: tribunal)
+        categories = create_list(:category, 50, tribunal: tribunal)
         visit "/admin/#{code}/categories"
 
         tribunal.categories.all[0..24].each do |cat|
@@ -52,7 +52,7 @@ codes.each do |code|
 
       end
 
-      scenario 'only see eat categories' do
+      scenario "only see #{code} categories" do
         category = create(:category,tribunal: tribunal)
         other_cat = create(:category, tribunal: other_trib)
 
@@ -72,7 +72,7 @@ codes.each do |code|
       end
 
       scenario 'page through list of categories' do
-        categories = create_list(:category, 20, tribunal: eat)
+        categories = create_list(:category, 50, tribunal: tribunal)
         visit "/admin/#{code}/categories"
 
         within '.pagination-row.top' do
