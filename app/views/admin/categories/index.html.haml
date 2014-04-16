@@ -16,7 +16,8 @@
         %tr
           %td 
             = link_to cat.name, admin_category_subcategories_path(cat)
-            = "(#{cat.subcategories.count} sub-categories)"
+            = "(#{cat.subcategories.count} sub-categories /"
+            = "#{cat.decisions.count} decisions)"
 
           %td
             = link_to 'Edit', edit_admin_category_path(cat)
