@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-feature 'Admin user can see the links for edit and show in the listing all decision page' do
+feature 'Links and buttons' do
   let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'First Tier Tribunal', title: 'Tax: First-tier Tribunal judgments')}
   let(:user) { create(:user, tribunals: [tribunal]) }
 
-  context 'as standard admin user' do
+  context 'as standard user' do
     before do
       visit '/admin'
       sign_in user
@@ -22,6 +22,9 @@ feature 'Admin user can see the links for edit and show in the listing all decis
 
     scenario 'can not see the edit and delete buttons on the public page' do
       add_ftt_decision
+
+      # Sing out to not have admin session
+      sign_out
 
       visit '/ftt-tax/987789'
 
@@ -41,6 +44,9 @@ feature 'Admin user can see the links for edit and show in the listing all decis
 
     scenario 'the link to a decision points to a public page if you visit a public page' do
       add_ftt_decision
+
+      # Sing out to not have admin session
+      sign_out
 
       visit '/ftt-tax'
 
