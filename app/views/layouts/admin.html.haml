@@ -1,27 +1,56 @@
-!!!
-%html
-  %head
-    = render "shared/head", title: Rails.configuration.app_title
-    = csrf_meta_tags
+- content_for :page_title, "#{Rails.configuration.app_title}"
+- content_for :head do
+  = csrf_meta_tag
+  = render 'shared/ga'
 
-  %body{ class: body_class }
+- content_for :stylesheets do
+  = stylesheet_link_tag "application", media: "all"
 
-    = render 'shared/header'
+- content_for :javascripts do
+  = javascript_include_tag 'application'
+  = yield :javascript
 
-    #wrapper.group{class: signed_in? ? 'admin' : 'beta'}
-      - if signed_in?
-        = render 'shared/admin_nav'
-      - else
-        = render 'shared/phase_indicator'
+- content_for :content_override do
+  #wrapper.group{class: signed_in? ? 'admin' : 'beta'}
+    - if signed_in?
+      = render 'shared/admin_nav'
+    / - else
+    /   = render 'shared/phase_indicator'
 
-      %section#content.group{role: 'main'}
-        %header.page-header.group
-          %h1= yield :title 
+    %section#content.group{role: 'main'}
+      %header.page-header.group
+        %h1= yield :title 
 
-        .browse-container.full-width.group
-          = moj_flash
-          = yield
+      .browse-container.full-width.group
+        = moj_flash
+        = yield
 
-    = render 'shared/footer'
+= render template: "layouts/moj_template"
 
-    = render 'shared/script'
+/ !!!
+/ %html
+/   %head
+/     = render "shared/head", title: Rails.configuration.app_title
+/     = csrf_meta_tags
+
+/   %body{ class: body_class }
+
+/     = render 'shared/header'
+
+/     #wrapper.group{class: signed_in? ? 'admin' : 'beta'}
+/       - if signed_in?
+/         = render 'shared/admin_nav'
+/       - else
+/         = render 'shared/phase_indicator'
+
+/       %section#content.group{role: 'main'}
+/         %header.page-header.group
+/           %h1= yield :title 
+
+/         .browse-container.full-width.group
+/           = moj_flash
+/           = yield
+
+/     = render 'shared/footer'
+
+/     = render 'shared/script'
