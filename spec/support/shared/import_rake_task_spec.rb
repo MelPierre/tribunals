@@ -1,17 +1,18 @@
  shared_examples_for "import rake task" do |task_name, directory, code, depends='environment'|
   include_context "rake"
+  let(:mock) { double('importing to database') }
   let(:task) do
     {
-      import_categories: double('importing to database'),
-      import_subcategories: double('importing to database'),
-      decisions_judges: double('importing to database'),
-      judges: double('importing to database'),
-      import_decisions: double('importing to database'),
-      import_judges: double('importing to database'),
-      import_eat_subcategories: double('importing to database'),
-      process_docs: double('importing to database'),
-      update_decisions_judges: double('importing to database'),
-      map_categories_to_decisions: double('importing to database')
+      import_categories: mock,
+      import_subcategories: mock,
+      decisions_judges: mock,
+      judges: mock,
+      import_decisions: mock,
+      import_judges: mock,
+      import_eat_subcategories: mock,
+      process_docs: mock,
+      update_decisions_judges: mock,
+      map_categories_to_decisions: mock
     }
   end
 
