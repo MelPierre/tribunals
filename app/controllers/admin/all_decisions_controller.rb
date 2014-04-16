@@ -47,7 +47,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def update
-    @decision = decisions_relation.find(params[:id])
+    @decision = decisions_relation.find_by("slug = ?", params[:id])
     if @decision.update_attributes(decision_params)
       redirect_to edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
     else
