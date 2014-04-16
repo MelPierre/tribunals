@@ -26,10 +26,12 @@
       subject.invoke
     end
 
-    it "creates CSVImporter with correct #{code} csv directory and code" do
-      if depends == 'environment'
+    if depends == 'environment'
+      it "has intialized CSVImporter once, with correct #{code} csv directory and code" do
         CSVImporter.should have_received(:new).with("#{directory}", "#{code}").once
-      else
+      end
+    else
+      it "has intialized CSVImporter twice, with correct #{code} csv directory and code" do
         CSVImporter.should have_received(:new).with("#{directory}", "#{code}").twice
       end
     end
