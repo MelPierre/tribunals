@@ -10,9 +10,9 @@
           = link_to(hilighted_metadata_result(params[:search][:query], all_link_label(decision), true), decision)
         - else
           - if request.path.include? '/admin'
-            = link_to(all_link_label(decision), admin_all_decision_path(id: decision.slug, tribunal_code: params[:tribunal_code]))
+            = link_to(all_link_label(decision), admin_all_decision_path(id: decision.slug, tribunal_code: params.fetch(:tribunal_code)))
           - else
-            = link_to(all_link_label(decision), all_decision_path(id: decision.slug, tribunal_code: params[:tribunal_code]))
+            = link_to(all_link_label(decision), all_decision_path(id: decision.slug, tribunal_code: params.fetch(:tribunal_code)))
 
       %td.date= time_element(decision.send(@order_by))
     - if all_display_parties(decision)
