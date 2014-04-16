@@ -34,6 +34,14 @@ module Tribunals
     # govbranding switches on or off the crown logo, full footer and NTA font
     config.govbranding = true
 
+    # Proposition Title (Populates proposition header)
+    config.proposition_title = ''
+    # Feedback URL (URL for feedback link in phase banner)
+    config.feedback_url = ''
+    # Google Analytics ID (Tracking ID for the service)
+    config.ga_id = ''
+
+
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/scrapers)
 
