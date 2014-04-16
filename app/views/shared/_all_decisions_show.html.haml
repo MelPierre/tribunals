@@ -1,0 +1,26 @@
+#global-breadcrumb.header-context
+  %nav{:role => "navigation"}
+    %ol.group
+      %li
+        %a{:href => "/"} Home
+
+  / = link_to('Edit this decision', edit_admin_all_decision_path(@decision), :class => 'button')
+  / = link_to('Delete this decision', admin_all_decision_path(@decision), method: :delete, data: { confirm: "Are you sure you'd like to remove this decision from the system?" } , class: 'button button-warning')
+
+%div{:vocab => "http://schema.org", :typeof => "CreativeWork"}
+  %header.page-header.group
+    %h1= "Decision Number: #{display_file_number(@decision)}"
+    - if request.path.include? '/admin'
+      = link_to('Edit this decision', edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug), :class => 'button primary left')
+      = link_to('Add new UT decision', '', :class => 'button primary left')
+      = link_to('Delete decision', admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug), method: :delete, data: { confirm: "Are you sure want to delete this decision from the system?" } , class: 'button button-warning right')
+  = render "admin/all_decisions/common/decision_metadata"
+  = render "shared/doc_downloads", {:decision => @decision}
+
+  - if @decision.html.blank?
+    %h2 An HTML version of this decision is not currently available.
+  - else
+    .decision
+      %h2 The decision
+      .decision-inner
+        = @decision.html.html_safe

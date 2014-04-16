@@ -4,7 +4,7 @@ require 'uri'
 require 'nokogiri'
 require 'open-uri'
 
-namespace :import do
+namespace :import_old do
   namespace :eat do
 
     desc "run all the tasks for the import:eat namespace"
