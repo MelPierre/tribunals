@@ -84,13 +84,12 @@ the change to take effect:
 
     source ~/.bash_profile
 
-Installing libreoffice on CentOS
+
+Installing libreoffice on Ubuntu
 --------------------------------
 
-Should be as simple as:
-
-    sudo yum install libreoffice
-    sudo yum install openoffice.org-headless
+    sudo apt-get update
+    sudo apt-get install libreoffice
 
 Importing from legacy system
 ----------------------------
