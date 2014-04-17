@@ -40,5 +40,7 @@ class AllDecisionsController < ApplicationController
     def load_decision
       slug = params.fetch(:id).downcase
       @decision = decisions_relation.friendly_id.find(slug)
+    rescue ActiveRecord::RecordNotFound => e
+      @decision = nil
     end
 end
