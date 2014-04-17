@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe Judge do
+
+  describe ".list" do
+    let!(:judges) { create_list(:all_judge, 2) }
+
+    it "should the judge names sorted by surname ascending" do
+      expect(AllJudge.list).to eq AllJudge.order('surname ASC').map(&:name)
+    end
+
+  end
+
   describe "#name" do
     let(:judge) { create(:all_judge) }
 
