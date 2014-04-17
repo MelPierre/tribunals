@@ -7,7 +7,9 @@ FactoryGirl.define do
   end
 
   factory :all_judge do
-    sequence(:name) {|i| "Justice Judge #{i}"}
+    prefix { Faker::Name.prefix }
+    suffix { Faker::Name.suffix }
+    surname { Faker::Name.last_name }
   end
 
   factory :category do

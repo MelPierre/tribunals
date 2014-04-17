@@ -42,6 +42,7 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'timecop'
   gem 'letter_opener'
+  gem 'faker'
 end
 
 group :test do

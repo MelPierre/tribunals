@@ -5,10 +5,14 @@ class AllJudge < ActiveRecord::Base
 
   #validations
   validates :name, presence: true
-  
-  default_scope -> { order('name ASC') }
+
+  default_scope -> { order('surname ASC') }
 
   def self.list
-    order('name ASC').pluck("name AS judge")
+    order('surname ASC').map(&:name)
+  end
+
+  def name
+    [prefix, surname, suffix].compact.reject(&:blank?).join(' ')
   end
 end
