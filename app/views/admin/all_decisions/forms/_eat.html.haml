@@ -3,7 +3,7 @@
 = render common_view_path + 'people', form: form
 = render common_view_path + 'judge', form: form
 .form-inputs.decision_date
-  = form.input :hearing_date, as: 'string', input_html: { maxlength: 10 }, label: current_tribunal.label_for(:hearing_date)
-  = form.input :upload_date, as: 'string', input_html: { maxlength: 10 }, label: current_tribunal.label_for(:upload_date)
+  = form.input :hearing_date, as: 'string', input_html: { maxlength: 10 }, label: t('simple_form.labels.decision.hearing_date')
+  = form.input :upload_date, as: 'string', input_html: { maxlength: 10 }, label: t('simple_form.labels.decision.upload_date')
 = render common_view_path + 'category', form: form
 = render common_view_path + 'notes', form: form
