@@ -1,17 +1,11 @@
 require 'spec_helper'
 
-def set_default_locale
-  # Previous tests may change the I18n which breaks these tests
-  I18n.locale = :en
-end
-
 feature 'User invitiations' do
   let!(:utiac) { create(:tribunal, name: 'utiac', code: 'utiac') }
   let!(:utaac) { create(:tribunal, name: 'utaac', code: 'utaac') }
   let!(:admin) { create(:user, admin: true) }
 
   scenario 'as a standard user' do
-    set_default_locale
     user = create(:user, tribunals: [utiac] )
     visit '/admin'
     sign_in user
@@ -23,7 +17,6 @@ feature 'User invitiations' do
   context 'as admin' do
 
     background do
-      set_default_locale
       clear_emails
       visit '/admin'
       sign_in admin
@@ -79,7 +72,6 @@ feature 'User invitiations' do
     let!(:pending) { attributes_for(:user) }
 
     background do
-      set_default_locale
       clear_emails
       visit '/admin'
       sign_in admin
@@ -104,14 +96,12 @@ feature 'User invitiations' do
       user = User.last
       open_email(user.email)
       current_email.click_link 'Accept invitation'
-# save_and_open_page
 
       expect(current_path).to eq("/admin/users/invitation/accept")
       fill_in 'Password', with: 'password123'
       fill_in 'Password confirmation', with: 'password123'
       click_button 'Set my password'
 
-# save_and_open_page
       expect(page).to have_content('Your password was set successfully. You are now signed in')
 
       sign_out
