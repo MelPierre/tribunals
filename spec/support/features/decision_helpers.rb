@@ -1,6 +1,5 @@
 module Features
   module DecisionHelpers
-
     def add_ftt_decision
       create_seed
       visit '/admin/ftt-tax/new'
@@ -9,7 +8,7 @@ module Features
       fill_in('Appellant name', with: 'Jonh Smith')
       fill_in('Respondent name', with: 'Matt Black')
       select('Rafael Nadal', from: 'New judge')
-      fill_in('Decision date', with: '21/01/1980')
+      fill_in('Date of decision', with: '21/01/1980')
       fill_in('Date of Upload', with: '31/01/1978')
       fill_in('Date published', with: '14/02/1967')
       select('VAT - Taxes', from: 'Add category')

@@ -12,6 +12,7 @@ feature 'Links and buttons' do
 
     scenario 'can see the edit and delete buttons on the admin page' do
       add_ftt_decision
+      set_default_locale
 
       visit '/admin/ftt-tax/987789'
 
@@ -22,6 +23,7 @@ feature 'Links and buttons' do
 
     scenario 'can not see the edit and delete buttons on the public page' do
       add_ftt_decision
+      set_default_locale
 
       # Sing out to not have admin session
       sign_out
@@ -35,6 +37,7 @@ feature 'Links and buttons' do
 
     scenario 'the link to a decision points to a admin page if you visit admin' do
       add_ftt_decision
+      set_default_locale
 
       visit '/admin/ftt-tax'
 
@@ -44,6 +47,7 @@ feature 'Links and buttons' do
 
     scenario 'the link to a decision points to a public page if you visit a public page' do
       add_ftt_decision
+      set_default_locale
 
       # Sing out to not have admin session
       sign_out

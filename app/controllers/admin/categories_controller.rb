@@ -11,7 +11,7 @@ class Admin::CategoriesController < Admin::RestrictedController
   end
 
   def create
-    @category = current_tribunal.category.new(category_params)
+    @category = current_tribunal.categories.new(category_params)
     if @category.save
       flash[:notice] = 'Successfully created category'
       redirect_to after_action_path

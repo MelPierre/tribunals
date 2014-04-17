@@ -3,9 +3,9 @@
 = simple_form_for @decision, url: :admin_all_decisions, html: {multipart: true} do |form|
   .form-inputs
     /= form.association :tribunal
-    = form.input :tribunal, input_html: { value: @tribunal.name, disabled: true}
+    = form.input :tribunal, input_html: { value: @tribunal.name, disabled: true}, label: t('simple_form.labels.decision.tribunal')
     / = form.association :jurisdiction
-    = form.input :doc_file, as: 'file'
+    = form.input :doc_file, as: 'file', label: t('simple_form.labels.decision.doc_file')
 
   = render tribunal_form_view_path, form: form, common_view_path: tribunal_common_view_path
 
