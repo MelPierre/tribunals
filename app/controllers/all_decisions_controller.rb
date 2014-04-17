@@ -38,7 +38,7 @@ class AllDecisionsController < ApplicationController
     end
 
     def load_decision
-      slug = params.fetch(:id).upcase
-      @decision = decisions_relation.find_by('upper(slug) = ?', slug)
-    end 
+      slug = params.fetch(:id).downcase
+      @decision = decisions_relation.friendly_id.find(slug)
+    end
 end
