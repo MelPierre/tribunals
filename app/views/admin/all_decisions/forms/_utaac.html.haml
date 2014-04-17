@@ -1,7 +1,7 @@
 = render common_view_path + 'decision', form: form
 = render common_view_path + 'published', form: form
 .form-inputs
-  = form.input :neutral_citation_number, as: 'string', label: t('simple_form.labels.decision.neutral_citation_number')
+  = form.input :neutral_citation_number, as: :ncn, label: t('simple_form.labels.decision.neutral_citation_number')
   = form.input :reported_number, as: 'string', label: t('simple_form.labels.decision.reported_number')
 
 = render common_view_path + 'people', form: form
