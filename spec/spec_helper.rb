@@ -14,6 +14,11 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Capybara.javascript_driver = :webkit
 Capybara.current_driver = :rack_test
 
+def set_default_locale
+  # Creating a specific type of decision uses I18n.locale to manage its labels
+  I18n.locale = :en
+end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -53,6 +58,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-     I18n.locale = :en
+    set_default_locale
   end
 end

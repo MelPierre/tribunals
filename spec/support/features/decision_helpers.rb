@@ -1,11 +1,5 @@
 module Features
   module DecisionHelpers
-    def set_default_locale
-      # Creating a specific type of decision uses I18n.locale to manage its labels
-      I18n.locale = :en
-    end
-
-
     def add_ftt_decision
       create_seed
       visit '/admin/ftt-tax/new'
@@ -22,7 +16,6 @@ module Features
       fill_in('Notes', with: 'filling the notes for testing')
 
       click_button('Add decision')
-      set_default_locale
     end
 
     def add_eat_decision(file_number)
