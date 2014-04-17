@@ -1,31 +1,14 @@
-- content_for :page_title, "#{Rails.configuration.app_title}"
-- content_for :head do
-  = csrf_meta_tag
-  = render 'shared/ga'
+- content_for :body_classes, "#{config_item(:phase).to_s.downcase} #{config_item(:product_type).to_s.downcase} admin"
 
-- content_for :stylesheets do
-  = stylesheet_link_tag "application", media: "all"
+- content_for :after_header do
+  - if signed_in?
+    = render 'shared/admin_nav'
 
-- content_for :javascripts do
-  = javascript_include_tag 'application'
-  = yield :javascript
+- content_for :header do
+  %header.page-header.group
+    %h1= yield :title
 
-- content_for :content_override do
-  #wrapper.group{class: signed_in? ? 'admin' : 'beta'}
-    - if signed_in?
-      = render 'shared/admin_nav'
-    / - else
-    /   = render 'shared/phase_indicator'
-
-    %section#content.group{role: 'main'}
-      %header.page-header.group
-        %h1= yield :title 
-
-      .browse-container.full-width.group
-        = moj_flash
-        = yield
-
-= render template: "layouts/moj_template"
+= render template: "layouts/application"
 
 / !!!
 / %html

@@ -10,9 +10,10 @@
   = javascript_include_tag 'application'
   = yield :javascript
 
-- content_for :content_override do
+- content_for :content_override  do
   #wrapper.group.information
-    %section#content.group{ role: 'main'}
+    %section#content.group{role: 'main'}
+      = yield(:header)
       .browse-container.full-width.group
         = moj_flash
         = yield

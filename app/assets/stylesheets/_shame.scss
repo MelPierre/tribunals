@@ -1,0 +1,23 @@
+.admin-indicator {
+	background-color: #dc5b5b !important;
+
+	p, a {
+		color: $white !important;
+	}
+}
+
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+
+.admin {
+	.indicator {
+		display: none;
+	}
+	.admin-indicator {
+		display: block;
+	}
+}

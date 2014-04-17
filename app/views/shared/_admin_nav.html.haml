@@ -1,17 +1,11 @@
-.indicator.cf
-  .left
-    %p
+.indicator.cf.admin-indicator
+  %p
+    %span.left
       %strong Administrator view:
       select a case to edit its details
-  .right
-    %p
+    %span.right
       = link_to 'Admin home', admin_decisions_path
-      |
-      = link_to 'Categories', admin_categories_path(tribunal_code: current_tribunal.code) if defined?(current_tribunal)
-      |
-      - if is_admin?
-        = link_to 'Users', admin_users_path
-        |
-      = link_to 'Upload decision', new_admin_all_decision_path(tribunal_code: current_tribunal.code) if defined?(current_tribunal)
-      |
-      =link_to 'Log out', destroy_admin_user_session_path, method: 'delete'
+      = " | #{link_to 'Categories', admin_categories_path(tribunal_code: current_tribunal.code)}".html_safe if defined?(current_tribunal)
+      = " | #{link_to 'Users', admin_users_path}".html_safe if is_admin?
+      = " | #{link_to 'Upload decision', new_admin_all_decision_path(tribunal_code: current_tribunal.code)}".html_safe if defined?(current_tribunal)
+      = " | #{link_to 'Log out', destroy_admin_user_session_path, method: 'delete'}".html_safe
