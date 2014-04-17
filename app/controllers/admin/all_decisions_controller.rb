@@ -93,12 +93,10 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
     def configure_labels_for_show_action
       I18n.locale = "en-#{@tribunal.code}-show"
-      puts "using: #{I18n.locale}"
     end
 
     def configure_labels_for_new_or_edit_actions
       I18n.locale = "en-#{@tribunal.code}-edit"
-      puts "using: #{I18n.locale}"
     end
 
   private

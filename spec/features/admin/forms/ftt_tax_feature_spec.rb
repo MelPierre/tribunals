@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'active_support'
 
 feature 'First Tier Tribunal Tax Chamber' do
   let(:tribunal){ create(:tribunal, code: 'ftt-tax', name: 'First Tier Tribunal', title: 'Tax: First-tier Tribunal judgments')}
