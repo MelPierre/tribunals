@@ -106,7 +106,7 @@ class CSVImporter
       acc
     end
 
-    if @tribunal.code == 'eat'
+    if @tribunal.code == 'eat' && row.has_key?('file_no_1') && row['file_no_1'].present?
       row['file_no_1'],row['file_no_2'],row['file_no_3'] =
       split_file_no(row['file_no_1'])
     end
