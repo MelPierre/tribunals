@@ -4,7 +4,7 @@ class AllDecision < ActiveRecord::Base
 
   extend FriendlyId
 
-  friendly_id :slug_candidates, use: :slugged
+  friendly_id :slug_candidates, use: [:slugged, :history, :finders]
 
   attr_accessor :new_judge_id
 
@@ -168,23 +168,18 @@ class AllDecision < ActiveRecord::Base
 
   end
 
+  def should_generate_new_friendly_id?
+    true
+  end
+
   def slug_candidates
-    if file_number.present?
       [
           :file_number,
-          [:file_number, :claimant],
-          [:file_number, :respondent],
-          [:file_number, :claimant, :respondent]
+          [:decision_date, :file_number],
+          [:publication_date, :file_number],
+          [:hearing_date, :file_number],
+          [:upload_date, :file_number]
       ]
-    else
-      [
-          :id,
-          [:id, :claimant],
-          [:id, :respondent],
-          [:id, :claimant, :respondent]
-      ]
-
-    end
   end
 
 end

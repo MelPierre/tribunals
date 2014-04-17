@@ -47,7 +47,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def update
-    @decision = decisions_relation.find_by("slug = ?", params[:id])
+    @decision = decisions_relation.friendly_id.find(params[:id])
     if @decision.update_attributes(decision_params)
       redirect_to edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
     else
@@ -83,8 +83,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     end
 
     def load_decision
-      slug = params.fetch(:id).upcase
-      @decision = decisions_relation.find_by('upper(slug) = ?', slug)
+      slug = params.fetch(:id).downcase
+      @decision = decisions_relation.friendly_id.find(slug)
     end 
 
   private
