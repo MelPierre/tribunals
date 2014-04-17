@@ -26,7 +26,7 @@ codes.each do |code|
         sign_in admin
       end
 
-      scenario "view the #{tribunal} categories index page" do
+      scenario "view the #{code} categories index page" do
         visit "/admin/#{code}/categories"
 
         expect(page).to have_content('Categories')
@@ -68,7 +68,7 @@ codes.each do |code|
 
         visit "/admin/#{code}/categories"
 
-        expect(page).to have_content('1 sub-category')
+        expect(page).to have_content('1 subcategory')
       end
 
       scenario 'page through list of categories' do
