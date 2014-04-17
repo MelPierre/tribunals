@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Employment Appeals Tribunal' do
-  let(:tribunal){ create(:tribunal, code: 'eat', name: 'Employment Appeals Tribunal')}
+  let(:tribunal){ create(:tribunal, code: 'eat', title: 'Employment Appeals Tribunal')}
   let(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'as standard user' do
@@ -74,7 +74,7 @@ feature 'Employment Appeals Tribunal' do
       visit "/admin/eat/EAT99901/edit"
 
       fill_in('EAT number', with: 'EDIT987789')
-      select('Rafael Nadal', from: 'New judge')
+      select('Rafael Nadal', from: 'Judge name')
       fill_in('Date of hearing', with: '22/05/1981')
       fill_in('Date of upload', with: '04/02/1979')
       fill_in('Notes', with: 'Decision already reached')

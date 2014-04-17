@@ -10,7 +10,7 @@ task seed_tribunals: :environment do
         title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal'
       },
       {
-        name:'First Tier Tribunal',
+        name:'First-tier tribunal (Tax chamber)',
         code:'ftt-tax',
         title: 'Tax: First-tier Tribunal judgments'
       },

@@ -72,4 +72,7 @@ namespace :maintenance do
     AllDecision.all.map(&:save)
   end
 
+  task :update_tribunal_names => :environment do
+    Tribunal.ftt_tax.update_attributes!(name: 'First-tier tribunal (Tax chamber)')
+  end
 end

@@ -21,7 +21,7 @@ en: &EN
         all_judges: Judge Name
         file_number: Decision No
         decision: Date of decision
-        upload_date: Date of Upload
+        upload_date: Date uploaded
         publication_date: Date published
         category: Category
         categories: Category

@@ -21,7 +21,7 @@ en-utaac-edit:
         neutral_citation_number: 'NCN'
         claimant: 'Appellant name'
         respondent: 'Respondent name'
-        all_judges: 'Judge Name'
+        all_judges: 'Judge name'
         hearing_date: 'Date of decision'
         upload_date: 'Date added'
         category: 'Category'

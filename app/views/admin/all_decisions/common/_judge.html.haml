@@ -4,4 +4,4 @@
     = jform.input :name, input_html: { disabled: true }, required: false, label: '&nbsp'.html_safe
     = jform.input :_destroy, as: :boolean, label: 'Remove'
 
-  = form.input :new_judge_id, as: :select, collection: current_tribunal.all_judges
+  = form.input :new_judge_id, as: :select, collection: current_tribunal.all_judges, label: t('simple_form.labels.decision.all_judges')

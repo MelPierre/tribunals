@@ -56,7 +56,7 @@ ftt-tax:
     judge_names: 'Judges'
     file_number: 'Decision No'
     decision_date: 'Date of decision'
-    upload_date: 'Date of Upload'
+    upload_date: 'Date uploaded'
     publication_date: 'Date published'
     category_names: 'Categories'
     subcategory_names: 'Sub-Categories'
