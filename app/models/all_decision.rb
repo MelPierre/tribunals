@@ -4,6 +4,8 @@ class AllDecision < ActiveRecord::Base
 
   attr_accessor :new_judge_id, :jurisdiction
 
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :history, :finders]
 
   has_many :category_decisions
   has_many :subcategories, through: :category_decisions
@@ -17,7 +19,6 @@ class AllDecision < ActiveRecord::Base
   accepts_nested_attributes_for :category_decisions, allow_destroy: true, reject_if: :reject_categories
 
   before_save :update_search_text
-  before_save :set_slug
   before_save :set_neutral_citation_number
   before_save :set_file_number
   before_save :add_new_judge
@@ -164,19 +165,18 @@ class AllDecision < ActiveRecord::Base
 
   end
 
-  def set_slug
-    if self.file_number.blank?     
-      self.slug = self.id.to_s
-      return 
-    end
+  def should_generate_new_friendly_id?
+    true
+  end
 
-    file_number_slug = self.file_number.gsub("/","-").upcase
-    decision_by_slug = AllDecision.find_by_slug(file_number_slug)
-    if decision_by_slug && (decision_by_slug.id != self.id)
-      self.slug = "#{file_number_slug}_#{self.id}"
-    else      
-      self.slug = file_number_slug
-    end
+  def slug_candidates
+      [
+          :file_number,
+          [:decision_date, :file_number],
+          [:publication_date, :file_number],
+          [:hearing_date, :file_number],
+          [:upload_date, :file_number]
+      ]
   end
 
 end
