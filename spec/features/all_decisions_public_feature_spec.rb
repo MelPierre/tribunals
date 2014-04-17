@@ -1,8 +1,8 @@
 require 'spec_helper'
 
   feature 'Visit public pages of a tribunal' do
-    let!(:ftt){ create(:tribunal, code: 'ftt-tax', name: 'My Holy Tribunal of Very Fine Tax Justice For All')}
-    let!(:eat){ create(:tribunal, code: 'eat', name: 'My Holy Tribunal of Very Fine EAT Justice For All')}
+    let!(:ftt){ create(:tribunal, code: 'ftt-tax', title: 'My Holy Tribunal of Very Fine Tax Justice For All')}
+    let!(:eat){ create(:tribunal, code: 'eat', title: 'My Holy Tribunal of Very Fine EAT Justice For All')}
 
     context 'FTT' do
       scenario "can view the index page of FTT tribunal" do

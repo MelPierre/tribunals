@@ -2,12 +2,10 @@ class AllDecision < ActiveRecord::Base
   include Concerns::Decision::Search
   include Concerns::Decision::DocProcessors
 
+  attr_accessor :new_judge_id, :jurisdiction
+
   extend FriendlyId
-
   friendly_id :slug_candidates, use: [:slugged, :history, :finders]
-
-  attr_accessor :new_judge_id
-
 
   has_many :category_decisions
   has_many :subcategories, through: :category_decisions
