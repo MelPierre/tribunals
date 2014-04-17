@@ -25,9 +25,9 @@ class AllDecision < ActiveRecord::Base
   mount_uploader :doc_file, DocFileUploader
   mount_uploader :pdf_file, PdfFileUploader
 
-  scope :ftt, ->{ where(tribunal_id: Tribunal.ftt_tax.id) } 
-  scope :utaac, ->{ where(tribunal_id: Tribunal.utaac.id) } 
-  scope :eat, ->{ where(tribunal_id: Tribunal.eat.id) } 
+  scope :ftt, ->{ where(tribunal_id: Tribunal.ftt_tax.id) }
+  scope :utaac, ->{ where(tribunal_id: Tribunal.utaac.id) }
+  scope :eat, ->{ where(tribunal_id: Tribunal.eat.id) }
 
   scope :viewable, ->{ t = self.arel_table; where(t[:reported].eq(true).or(t[:promulgation_date].gteq(Date.new(2013, 6, 1)))) }
   scope :reported, ->{ where(reported: true) }
@@ -84,7 +84,7 @@ class AllDecision < ActiveRecord::Base
   end
 
   def self.by_country_guideline(country_guideline)
-    if country_guideline.present?       
+    if country_guideline.present?
       where("country_guideline = ?", country_guideline)
     else
       where("")
@@ -92,7 +92,7 @@ class AllDecision < ActiveRecord::Base
   end
 
   def self.by_reported(reported)
-    if reported.present? 
+    if reported.present?
       if reported == "all"
         where("reported IS NOT NULL")
       else
@@ -153,7 +153,7 @@ class AllDecision < ActiveRecord::Base
   end
 
   def judge_names
-    all_judges.pluck(:name).join(' ')
+    all_judges.list.join(' ')
   end
 
   def update_search_text
@@ -165,16 +165,16 @@ class AllDecision < ActiveRecord::Base
   end
 
   def set_slug
-    if self.file_number.blank?     
+    if self.file_number.blank?
       self.slug = self.id.to_s
-      return 
+      return
     end
 
     file_number_slug = self.file_number.gsub("/","-").upcase
     decision_by_slug = AllDecision.find_by_slug(file_number_slug)
     if decision_by_slug && (decision_by_slug.id != self.id)
       self.slug = "#{file_number_slug}_#{self.id}"
-    else      
+    else
       self.slug = file_number_slug
     end
   end

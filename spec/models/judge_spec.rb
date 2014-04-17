@@ -22,5 +22,15 @@ describe Judge do
       judge.surname = ''
       expect(judge.name).to eq "#{judge.prefix} #{judge.suffix}"
     end
+
+    it "should return original_name when prefix, surname & suffix are not present" do
+      judge.original_name = "Bob"
+      judge.prefix = ''
+      judge.surname = ''
+      judge.suffix = ''
+
+      expect(judge.name).to eq judge.original_name
+    end
+
   end
 end

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'csv'
 # Used for #{@tribunal.code}, uses some but not all of the CSV data, expects the following CSV headings
 
@@ -161,7 +162,7 @@ class CSVImporter
     end
 
     if row.has_key?('judges')
-      judge = AllJudge.where(name: row.fetch('judges')).first_or_create
+      judge = @tribunal.all_judges.where(original_name: row.fetch('judges')).first_or_create
       if judge.present?
         decision.all_judges.push(judge)
       end
@@ -197,10 +198,8 @@ class CSVImporter
   end
 
   def update_judge(row)
-    row['judge_name'] = [row['prefix'], row['surname'], row['suffix']].compact.join(' ')
-
     j = @tribunal.all_judges.where(legacy_id: row['id']).first_or_initialize
-    j.name = row['judge_name']
+    ['prefix', 'surname', 'suffix'].each { |key| j[key] = row[key].strip }
     print j.new_record? ? '+' : '.'
     puts "Failed to import #{row['id']} - #{row['judge_name']}" unless j.save
   end
@@ -222,7 +221,11 @@ class CSVImporter
   end
 
   def split_file_no(file_number)
-    file_number.split('/')
+    unless file_number.blank?
+      file_number.split('/')
+    else
+      ['', '', '']
+    end
   end
 
 

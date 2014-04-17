@@ -3,8 +3,8 @@ class AllJudge < ActiveRecord::Base
   has_and_belongs_to_many :all_decisions, join_table: :decisions_judges
   belongs_to :tribunal
 
-  #validations
-  validates :name, presence: true
+  # TODO: add a validation that checks for the presence of the
+  #       original_name or surname
 
   default_scope -> { order('surname ASC') }
 
@@ -13,6 +13,7 @@ class AllJudge < ActiveRecord::Base
   end
 
   def name
-    [prefix, surname, suffix].compact.reject(&:blank?).join(' ')
+    value = [prefix, surname, suffix].compact.reject(&:blank?).join(' ')
+    value.blank? ? original_name : value
   end
 end
