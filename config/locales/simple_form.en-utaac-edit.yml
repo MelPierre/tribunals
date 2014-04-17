@@ -1,7 +1,6 @@
 en-utaac-edit:
   simple_form:
     "yes": 'Yes'
-    "no": 'No'
     required:
       text: 'required'
       mark: '*'
@@ -14,7 +13,7 @@ en-utaac-edit:
 
     labels:
       decision:
-        tribunal: Tribunal
+        tribunal: 'Decision made by'
         doc_file: Doc File
         file_number: 'File no'
         published: 'Published'
