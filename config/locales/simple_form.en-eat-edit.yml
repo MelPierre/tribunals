@@ -20,7 +20,7 @@ en-eat-edit:
         starred: 'Starred judgement'
         claimant: 'Appellant name'
         respondent: 'Respondent name'
-        all_judges: 'Judge Name'
+        all_judges: 'Judge name'
         hearing_date: 'Date of hearing'
         upload_date: 'Date of upload'
         category: 'Topic'

@@ -13,7 +13,7 @@ feature 'First Tier Tribunal Tax Chamber' do
 
     scenario 'have access to ftt index page' do
       visit '/admin/ftt-tax'
-      expect(page).to have_content('First Tier Tribunal')
+      expect(page).to have_content('Tax: First-tier Tribunal judgments')
     end
 
     scenario 'can create a new ftt decision' do
@@ -26,7 +26,7 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Respondent name: Matt Black')
       expect(page).to have_content('Judges: Rafael Nadal')
       expect(page).to have_content('Date of decision: 21 Jan 1980')
-      expect(page).to have_content('Date of Upload: 31 Jan 1978')
+      expect(page).to have_content('Date uploaded: 31 Jan 1978')
       expect(page).to have_content('Date published: 14 Feb 1967')
       expect(page).to have_content('Categories: VAT - Taxes')
       expect(page).to have_content('Notes: filling the notes for testing')
@@ -78,9 +78,9 @@ feature 'First Tier Tribunal Tax Chamber' do
       fill_in('Decision No', with: 'EDIT987789')
       fill_in('Appellant name', with: 'John Smith')
       fill_in('Respondent name', with: 'Matthew Black')
-      select('Jose Mourinho', from: 'New judge')
+      select('Jose Mourinho', from: 'Judge name')
       fill_in('Date of decision', with: '22/05/1981')
-      fill_in('Date of Upload', with: '04/02/1979')
+      fill_in('Date uploaded', with: '04/02/1979')
       fill_in('Date published', with: '17/03/1968')
       select('Value Added Tax - Taxes', from: 'Category')
       fill_in('Notes', with: 'Decision already reached')
@@ -94,7 +94,7 @@ feature 'First Tier Tribunal Tax Chamber' do
       expect(page).to have_content('Respondent name: Matthew Black')
       expect(page).to have_content('Judges: Jose Mourinho')
       expect(page).to have_content('Date of decision: 22 May 1981')
-      expect(page).to have_content('Date of Upload: 4 Feb 1979')
+      expect(page).to have_content('Date uploaded: 4 Feb 1979')
       expect(page).to have_content('Date published: 17 Mar 1968')
       expect(page).to have_content('Categories: Value Added Tax - Taxes')
       expect(page).to have_content('Notes: Decision already reached')

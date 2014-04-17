@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal' do
-  let(:tribunal){ create(:tribunal, code: 'utaac', name: 'Administrative Appeals Chamber')}
+  let(:tribunal){ create(:tribunal, code: 'utaac', title: 'Administrative Appeals Chamber')}
   let(:user) { create(:user, tribunals: [tribunal]) }
 
   context 'as standard user' do
@@ -77,7 +77,7 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
       fill_in('NCN', with: '2013UKUT000AACEDIT')
       fill_in('Appellant name', with: 'Edit Smith')
       fill_in('Respondent name', with: 'Edit Black')
-      select('Jose Mourinho', from: 'New judge')
+      select('Jose Mourinho', from: 'Judge name')
 
       fill_in('Date of decision', with: '01/01/1980')
       fill_in('Date added', with: '01/01/1978')

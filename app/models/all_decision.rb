@@ -2,7 +2,7 @@ class AllDecision < ActiveRecord::Base
   include Concerns::Decision::Search
   include Concerns::Decision::DocProcessors
 
-  attr_accessor :new_judge_id
+  attr_accessor :new_judge_id, :jurisdiction
 
 
   has_many :category_decisions

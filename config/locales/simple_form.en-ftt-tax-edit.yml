@@ -14,14 +14,15 @@ en-ftt-tax-edit:
 
     labels:
       decision:
-        tribunal: Tribunal
-        doc_file: Doc File
+        tribunal: 'Decision made by'
+        jurisdiction: 'Jurisdiction'
+        doc_file: 'Doc File'
         claimant: 'Appellant name'
         respondent: 'Respondent name'
-        all_judges: 'Judge Name'
+        all_judges: 'Judge name'
         file_number: 'Decision No'
         decision_date: 'Date of decision'
-        upload_date: 'Date of Upload'
+        upload_date: 'Date uploaded'
         publication_date: 'Date published'
         category: 'Category'
         categories: 'Category'
