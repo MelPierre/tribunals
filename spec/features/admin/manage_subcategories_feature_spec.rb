@@ -1,132 +1,138 @@
 require 'spec_helper'
 
-feature 'Manage EAT sub categories' do
-  let!(:eat) { create(:tribunal, name: 'eat', code: 'eat') }
-  let!(:category) { create(:category, tribunal: eat)}
+codes = ['eat', 'utaac', 'utiac', 'ftt-tax']
+codes.each do |code|
+  other_code = codes.reject{|c| c == code}.first
 
-  context 'without authentication' do
+  feature "Manage #{code} categories" do
+    let!(:tribunal) { create(:tribunal, name: code, code: code) }
+    let!(:other_trib) { create(:tribunal, name: other_code , code: other_code) }
+    let!(:category) { create(:category, tribunal: tribunal)}
 
-    scenario 'cannot view eat sub categories index' do
-      visit "/admin/eat/categories/#{category.id}/subcategories"
+    context 'without authentication' do
 
-      expect(page).to have_content('You need to sign in or sign up before continuing')
-    end
-  
-  end
+      scenario 'cannot view eat sub categories index' do
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
 
-  context 'authenticated for eat' do
-    let!(:admin) { create(:user, tribunals: [eat]) }
-
-    background do
-      visit '/admin'
-      sign_in admin
+        expect(page).to have_content('You need to sign in or sign up before continuing')
+      end
+    
     end
 
-    scenario 'view the eat sub categories index page' do
-      visit "/admin/eat/categories/#{category.id}/subcategories"
+    context "authenticated for #{code}" do
+      let!(:admin) { create(:user, tribunals: [tribunal]) }
 
-      expect(page).to have_content("#{category.name} Sub-categories")
-    end
-
-
-    scenario 'view paginated list of sub categories' do
-      subcategories = create_list(:subcategory, 20, category: category)
-      visit "/admin/eat/categories/#{category.id}/subcategories"
-
-      category.subcategories.all[0..9].each do |subcat|
-        expect(page).to have_content(subcat.name)
+      background do
+        visit '/admin'
+        sign_in admin
       end
 
-      category.subcategories.all[10..19].each do |subcat|
-        expect(page).not_to have_content(subcat.name)
+      scenario "view the #{code} sub categories index page" do
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
+
+        expect(page).to have_content("#{category.name} Sub-categories")
       end
 
-    end
 
-    scenario 'view decision count' do
-      subcat = create(:subcategory, category: category)
-      decision = create(:all_decision, tribunal: eat)
-      decision.category_decisions.create!(category: category, subcategory: subcat)
+      scenario 'view paginated list of sub categories' do
+        subcategories = create_list(:subcategory, 20, category: category)
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
 
-      visit "/admin/eat/categories/#{category.id}/subcategories"
+        category.subcategories.all[0..9].each do |subcat|
+          expect(page).to have_content(subcat.name)
+        end
 
-      expect(page).to have_content('1 decision')
-    end
+        category.subcategories.all[10..19].each do |subcat|
+          expect(page).not_to have_content(subcat.name)
+        end
 
-    scenario 'page through list of categories' do
-      subcategories = create_list(:subcategory, 20, category: category)
-      visit "/admin/eat/categories/#{category.id}/subcategories"
-
-      within '.pagination-row.top' do
-        click_link('Next →')
-      end
-      
-      category.subcategories.all[10..19].each do |subcat|
-        expect(page).to have_content(subcat.name)
       end
 
-    end
+      scenario 'view decision count' do
+        subcat = create(:subcategory, category: category)
+        decision = create(:all_decision, tribunal: tribunal)
+        decision.category_decisions.create!(category: category, subcategory: subcat)
 
-    scenario 'edit subcategory from index page' do
-      category = create(:category,tribunal: eat)
-      subcategory = create(:subcategory, category: category)
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
 
-      visit "/admin/eat/categories/#{category.id}/subcategories"
+        expect(page).to have_content('1 decision')
+      end
 
-      click_link 'Edit'
+      scenario 'page through list of categories' do
+        subcategories = create_list(:subcategory, 20, category: category)
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
 
-      expect(current_path).to eq("/admin/eat/categories/#{category.id}/subcategories/#{subcategory.id}/edit")
-    end
+        within '.pagination-row.top' do
+          click_link('Next →')
+        end
+        
+        category.subcategories.all[10..19].each do |subcat|
+          expect(page).to have_content(subcat.name)
+        end
 
-    scenario 'delete subcategory from index page' do
-      category = create(:category,tribunal: eat)
-      subcategory = create(:subcategory, category: category)
+      end
 
-      visit "/admin/eat/categories/#{category.id}/subcategories"
-      click_link 'Delete'
+      scenario 'edit subcategory from index page' do
+        category = create(:category,tribunal: tribunal)
+        subcategory = create(:subcategory, category: category)
 
-      expect(current_path).to eq("/admin/eat/categories/#{category.id}/subcategories")
-      expect{ category.find(subcategory.id) }.to raise_exception
-    end
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
 
-    scenario 'cannot delete a category that is assigned' do
-      category = create(:category,tribunal: eat)
-      subcategory = create(:subcategory, category: category)
+        click_link 'Edit'
 
-      decision = create(:all_decision)
-      decision.category_decisions.create!(category: category, subcategory: subcategory)
+        expect(current_path).to eq("/admin/#{code}/categories/#{category.id}/subcategories/#{subcategory.id}/edit")
+      end
 
-      visit "/admin/eat/categories/#{category.id}/subcategories"
-      click_link 'Delete'
+      scenario 'delete subcategory from index page' do
+        category = create(:category,tribunal: tribunal)
+        subcategory = create(:subcategory, category: category)
 
-      expect(category.subcategories.find(subcategory.id)).to be_true
-    end
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
+        click_link 'Delete'
 
-    scenario 'create a category' do
-      category = create(:category,tribunal: eat)
+        expect(current_path).to eq("/admin/#{code}/categories/#{category.id}/subcategories")
+        expect{ category.find(subcategory.id) }.to raise_exception
+      end
 
-      visit "/admin/eat/categories/#{category.id}/subcategories/new"
-      fill_in 'Name', with: 'New subcategory'
+      scenario 'cannot delete a category that is assigned' do
+        category = create(:category,tribunal: tribunal)
+        subcategory = create(:subcategory, category: category)
 
-      click_button 'Create Subcategory'
+        decision = create(:all_decision)
+        decision.category_decisions.create!(category: category, subcategory: subcategory)
 
-      visit "/admin/eat/categories/#{category.id}/subcategories"
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
+        click_link 'Delete'
 
-      expect(page).to have_content('New subcategory')
-    end
+        expect(category.subcategories.find(subcategory.id)).to be_true
+      end
 
-    scenario 'edit a category' do
-      category = create(:category,tribunal: eat)
-      subcategory = create(:subcategory, category: category)
-      visit "/admin/eat/categories/#{category.id}/subcategories/#{subcategory.id}/edit"
+      scenario 'create a category' do
+        category = create(:category,tribunal: tribunal)
 
-      fill_in 'Name', with: 'Updated subcategory'
+        visit "/admin/#{code}/categories/#{category.id}/subcategories/new"
+        fill_in 'Name', with: 'New subcategory'
 
-      click_button 'Update Subcategory'
+        click_button 'Create Subcategory'
 
-      visit "/admin/eat/categories/#{category.id}/subcategories"
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
 
-      expect(page).to have_content('Updated subcategory')
+        expect(page).to have_content('New subcategory')
+      end
+
+      scenario 'edit a category' do
+        category = create(:category,tribunal: tribunal)
+        subcategory = create(:subcategory, category: category)
+        visit "/admin/#{code}/categories/#{category.id}/subcategories/#{subcategory.id}/edit"
+
+        fill_in 'Name', with: 'Updated subcategory'
+
+        click_button 'Update Subcategory'
+
+        visit "/admin/#{code}/categories/#{category.id}/subcategories"
+
+        expect(page).to have_content('Updated subcategory')
+      end
     end
   end
 end
