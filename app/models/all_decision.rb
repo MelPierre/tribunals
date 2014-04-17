@@ -34,6 +34,21 @@ class AllDecision < ActiveRecord::Base
   scope :legacy_id, ->(legacy_id) { where("other_metadata::json->>'legacy_id' = ?", legacy_id) }
   scope :ordered, -> (tribunal) { order("#{tribunal.sort_by.first["name"]} DESC")  }
 
+
+  def subcategory_names
+    subcategories.pluck(:name).join(' ')
+  end
+
+  def category_names
+    categories.pluck(:name).join(' ')
+  end
+
+  def judge_names
+    all_judges.pluck(:name).join(' ')
+  end
+
+
+
   protected
 
     def reject_categories(attrs)
@@ -142,18 +157,6 @@ class AllDecision < ActiveRecord::Base
     else
       where("")
     end
-  end
-
-  def subcategory_names
-    subcategories.pluck(:name).join(' ')
-  end
-
-  def category_names
-    categories.pluck(:name).join(' ')
-  end
-
-  def judge_names
-    all_judges.pluck(:name).join(' ')
   end
 
   def update_search_text
