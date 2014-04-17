@@ -21,7 +21,6 @@ class AllDecision < ActiveRecord::Base
   accepts_nested_attributes_for :category_decisions, allow_destroy: true, reject_if: :reject_categories
 
   before_save :update_search_text
-  #before_save :set_slug
   before_save :set_neutral_citation_number
   before_save :set_file_number
   before_save :add_new_judge
