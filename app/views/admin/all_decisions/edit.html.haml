@@ -8,11 +8,11 @@
     .row
       = link_to('doc file', @decision.doc_file.url, class: 'doclink')
   .row
-    = form.input :tribunal, input_html: { value: current_tribunal.name, disabled: true }
+    = form.input :tribunal, input_html: { value: current_tribunal.name, disabled: true }, label: t('simple_form.labels.decision.tribunal')
 
   = render tribunal_form_view_path, form: form, common_view_path: tribunal_common_view_path
-  
+
   .form-actions
-    = form.submit class: 'button primary' 
+    = form.submit class: 'button primary'
 
     %a{ href: admin_all_decision_path(tribunal_code: current_tribunal.code, id: @decision.slug) } Cancel

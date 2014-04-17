@@ -9,7 +9,7 @@ feature 'User invitiations' do
     user = create(:user, tribunals: [utiac] )
     visit '/admin'
     sign_in user
-  
+
     visit '/admin/users/invitation/new'
     expect(page).to have_content('No Access')
   end
@@ -96,11 +96,12 @@ feature 'User invitiations' do
       user = User.last
       open_email(user.email)
       current_email.click_link 'Accept invitation'
-      expect(current_path).to eq("/admin/users/invitation/accept")
 
+      expect(current_path).to eq("/admin/users/invitation/accept")
       fill_in 'Password', with: 'password123'
       fill_in 'Password confirmation', with: 'password123'
       click_button 'Set my password'
+
       expect(page).to have_content('Your password was set successfully. You are now signed in')
 
       sign_out

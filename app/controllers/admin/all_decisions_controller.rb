@@ -19,6 +19,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def show
+    configure_labels_for_show_action
     if @decision.present?
       set_cache_control(@decision.updated_at)
     else
@@ -40,10 +41,12 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   def new
     @decision = decisions_relation.new
     @decision.category_decisions.build
+    configure_labels_for_new_or_edit_actions
   end
 
   def edit
     @decision.category_decisions.build
+    configure_labels_for_new_or_edit_actions
   end
 
   def update
@@ -64,6 +67,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
     def current_tribunal
       @tribunal ||= Tribunal.find_by_code(params[:tribunal_code])
+      @tribunal
     end
 
     def tribunal_view_path
@@ -85,7 +89,15 @@ class Admin::AllDecisionsController < Admin::RestrictedController
     def load_decision
       slug = params.fetch(:id).upcase
       @decision = decisions_relation.find_by('upper(slug) = ?', slug)
-    end 
+    end
+
+    def configure_labels_for_show_action
+      I18n.locale = "en-#{@tribunal.code}-show"
+    end
+
+    def configure_labels_for_new_or_edit_actions
+      I18n.locale = "en-#{@tribunal.code}-edit"
+    end
 
   private
     def decision_params
