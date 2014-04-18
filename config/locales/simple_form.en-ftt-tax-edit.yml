@@ -13,19 +13,23 @@ en-ftt-tax-edit:
       default_message: "Please review the problems below:"
 
     labels:
-      decision:
-        tribunal: 'Decision made by'
-        jurisdiction: 'Jurisdiction'
-        doc_file: 'Doc File'
-        claimant: 'Appellant name'
-        respondent: 'Respondent name'
-        all_judges: 'Judge name'
-        file_number: 'Decision No'
-        decision_date: 'Date of decision'
-        upload_date: 'Date uploaded'
-        publication_date: 'Date published'
-        category: 'Category'
-        categories: 'Category'
-        subcategories: 'Subcategory'
-        subcategory: 'Subcategory'
-        notes: 'Notes'
+      all_decision:
+        new: &NEW
+          tribunal: 'Decision made by'
+          jurisdiction: 'Jurisdiction'
+          doc_file: 'Doc File'
+          claimant: 'Appellant name'
+          respondent: 'Respondent name'
+          new_judge_id: 'Judge name'
+          file_number: 'Decision No'
+          decision_date: 'Date of decision'
+          upload_date: 'Date uploaded'
+          publication_date: 'Date published'
+          notes: 'Notes'
+        category_decisions:
+          category_id: Category
+          subcategory: 'Subcategory'
+          categories: 'Category'
+          subcategories: 'Subcategory'
+        edit:
+          <<: *NEW
