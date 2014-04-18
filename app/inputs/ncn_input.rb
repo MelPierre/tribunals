@@ -6,18 +6,29 @@ class NcnInput < SimpleForm::Inputs::Base
       template.concat @builder.text_field(attribute_name, input_html_options.merge({value: 'UKUT'}))
       template.concat @builder.text_field(attribute_name, number_field_html_options)
       template.concat @builder.text_field(attribute_name, input_html_options.merge({value: 'AAC'}))
-      template.concat @builder.check_box(attribute_name, input_html_options.merge({value: 'AAC'}))
+      template.concat check_box_label
     end
   end
 
   private
 
+    def check_box_label
+      template.content_tag(:span, class: "input string optional #{attribute_name}", style: "width:250px;margin-left:155px;display:block") do
+        template.concat @builder.check_box(attribute_name, check_box_html_options)
+        template.concat @builder.label(attribute_name, 'I haven\'t got an NCN number')
+      end
+    end
+
     def input_html_options
-       {id: 'ncn', size: '5px', style:'width:50px;margin:5px;min-width:0'}
+      {id: 'ncn', size: '5px', style:'width:50px;margin:5px;min-width:0'}
     end
 
     def number_field_html_options
-       input_html_options.merge({type: :number, placeholder: '000'})
+      input_html_options.merge({type: :number, placeholder: '000'})
+    end
+
+    def check_box_html_options
+      {style:"min-width:0;margin:5px"}
     end
 
     def year_range
