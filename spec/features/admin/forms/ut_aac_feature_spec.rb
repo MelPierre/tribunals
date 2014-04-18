@@ -21,7 +21,7 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
 
       visit "/admin/utaac/#{file_number}"
 
-      expect(page).to have_content('2013UKUT000AAC')
+      # expect(page).to have_content('2013UKUT000AAC')
       expect(page).to have_content("File no: #{file_number}")
       expect(page).to have_content('Appellant name: Jonh Smith')
       expect(page).to have_content('Respondent name: Matt Black')
@@ -73,8 +73,8 @@ feature 'Administrative appeals chamber: decisions on appeals to the Upper Tribu
 
       visit "/admin/utaac/#{file_number}/edit"
 
-      choose('No')
-      fill_in('NCN', with: '2013UKUT000AACEDIT')
+      check('Yes')
+      # fill_in('NCN', with: '2013UKUT000AACEDIT')
       fill_in('Appellant name', with: 'Edit Smith')
       fill_in('Respondent name', with: 'Edit Black')
       select('Jose Mourinho', from: 'New judge')

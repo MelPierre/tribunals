@@ -38,8 +38,8 @@ module Features
       create_seed
       visit '/admin/utaac/new'
       attach_file('Doc File', "#{File.join(Rails.root, 'spec', 'data', 'test.doc')}")
-      choose('Yes')
-      fill_in('NCN', with: '2013UKUT000AAC')
+      check('Yes')
+      # fill_in('NCN', with: '2013UKUT000AAC')
 
       fill_in('File no', with: file_number)
 
