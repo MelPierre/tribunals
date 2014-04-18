@@ -14,7 +14,7 @@ en-eat-edit:
 
     labels:
       all_decision:
-        new:
+        new: &NEW
           tribunal: Tribunal
           doc_file: Doc File
           file_number: 'EAT number'
@@ -29,16 +29,5 @@ en-eat-edit:
           category_id: Topic
           subcategory: 'Sub-topic'
         edit:
-          tribunal: Tribunal
-          doc_file: Doc File
-          file_number: 'EAT number'
-          starred: 'Starred judgement'
-          claimant: 'Appellant name'
-          respondent: 'Respondent name'
-          new_judge_id: 'Judge name'
-          hearing_date: 'Date of hearing'
-          upload_date: 'Date of upload'
-          notes: Notes
-
-
+          <<: *NEW
 
