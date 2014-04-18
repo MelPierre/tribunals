@@ -1,4 +1,4 @@
-en-ftt-tax-edit:
+en-utaac:
   simple_form:
     "yes": 'Yes'
     "no": 'No'
@@ -15,21 +15,20 @@ en-ftt-tax-edit:
     labels:
       all_decision:
         new: &NEW
-          tribunal: 'Decision made by'
-          jurisdiction: 'Jurisdiction'
-          doc_file: 'Doc File'
+          tribunal: Tribunal
+          doc_file: Doc File
+          file_number: 'File no'
+          published: 'Published'
+          neutral_citation_number: 'NCN'
           claimant: 'Appellant name'
           respondent: 'Respondent name'
           new_judge_id: 'Judge name'
-          file_number: 'Decision No'
-          decision_date: 'Date of decision'
-          upload_date: 'Date uploaded'
-          publication_date: 'Date published'
-          notes: 'Notes'
+          hearing_date: 'Date of decision'
+          upload_date: 'Date added'
+          category: 'Category'
+          categories: 'Category'
         category_decisions:
           category_id: Category
           subcategory: 'Subcategory'
-          categories: 'Category'
-          subcategories: 'Subcategory'
         edit:
           <<: *NEW
