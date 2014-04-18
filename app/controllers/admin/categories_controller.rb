@@ -3,7 +3,7 @@ class Admin::CategoriesController < Admin::RestrictedController
   before_filter :load_category, only: [:show,:edit,:update,:destroy]
 
   def index
-    @categories = current_tribunal.categories.paginate(page: params[:page], per_page: 10)
+    @categories = current_tribunal.categories.paginate(page: params[:page], per_page: 25)
   end
 
   def new
