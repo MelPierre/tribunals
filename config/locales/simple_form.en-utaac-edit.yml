@@ -13,18 +13,22 @@ en-utaac-edit:
       default_message: "Please review the problems below:"
 
     labels:
-      decision:
-        tribunal: Tribunal
-        doc_file: Doc File
-        file_number: 'File no'
-        published: 'Published'
-        neutral_citation_number: 'NCN'
-        claimant: 'Appellant name'
-        respondent: 'Respondent name'
-        all_judges: 'Judge name'
-        hearing_date: 'Date of decision'
-        upload_date: 'Date added'
-        category: 'Category'
-        categories: 'Category'
-        subcategories: 'Subcategory'
-        subcategory: 'Subcategory'
+      all_decision:
+        new: &NEW
+          tribunal: Tribunal
+          doc_file: Doc File
+          file_number: 'File no'
+          published: 'Published'
+          neutral_citation_number: 'NCN'
+          claimant: 'Appellant name'
+          respondent: 'Respondent name'
+          new_judge_id: 'Judge name'
+          hearing_date: 'Date of decision'
+          upload_date: 'Date added'
+          category: 'Category'
+          categories: 'Category'
+        category_decisions:
+          category_id: Category
+          subcategory: 'Subcategory'
+        edit:
+          <<: *NEW
