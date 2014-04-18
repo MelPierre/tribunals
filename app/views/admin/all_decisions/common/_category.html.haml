@@ -1,8 +1,8 @@
 = form.simple_fields_for :category_decisions do |cform|
   .form-inputs.panel{class: "category-#{cform.object.category_id}"}
-    = cform.input :category_id, collection: current_tribunal.categories, label: cform.object.new_record? ? "Add #{t('simple_form.labels.decision.category').downcase}" : t('simple_form.labels.decision.category')
+    = cform.input :category_id, collection: current_tribunal.categories, label: cform.object.new_record? ? "Add #{t('simple_form.labels.all_decision.category_decisions.category_id').downcase}" : t('simple_form.labels.all_decision.category_decisions.category_id')
     - if cform.object.category
-      = cform.association :subcategory, collection: cform.object.category.subcategories, label: t('simple_form.labels.decision.subcategory')
+      = cform.association :subcategory, collection: cform.object.category.subcategories
 
     = cform.input :_destroy, as: :boolean, label: 'Remove' unless cform.object.new_record?
 

@@ -13,15 +13,32 @@ en-eat-edit:
       default_message: "Please review the problems below:"
 
     labels:
-      decision:
-        tribunal: Tribunal
-        doc_file: Doc File
-        file_number: 'EAT number'
-        starred: 'Starred judgement'
-        claimant: 'Appellant name'
-        respondent: 'Respondent name'
-        all_judges: 'Judge name'
-        hearing_date: 'Date of hearing'
-        upload_date: 'Date of upload'
-        category: 'Topic'
-        subcategory: 'Sub-topic'
+      all_decision:
+        new:
+          tribunal: Tribunal
+          doc_file: Doc File
+          file_number: 'EAT number'
+          starred: 'Starred judgement'
+          claimant: 'Appellant name'
+          respondent: 'Respondent name'
+          new_judge_id: 'Judge name'
+          hearing_date: 'Date of hearing'
+          upload_date: 'Date of upload'
+          notes: Notes
+        category_decisions:
+          category_id: Topic
+          subcategory: 'Sub-topic'
+        edit:
+          tribunal: Tribunal
+          doc_file: Doc File
+          file_number: 'EAT number'
+          starred: 'Starred judgement'
+          claimant: 'Appellant name'
+          respondent: 'Respondent name'
+          new_judge_id: 'Judge name'
+          hearing_date: 'Date of hearing'
+          upload_date: 'Date of upload'
+          notes: Notes
+
+
+
