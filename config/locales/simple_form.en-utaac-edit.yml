@@ -27,3 +27,12 @@ en-utaac-edit:
         categories: 'Category'
         subcategories: 'Subcategory'
         subcategory: 'Subcategory'
+
+    placeholders:
+      all_decision:
+        hearing_date: 'DD/MM/YYYY'
+        decision_date: 'DD/MM/YYYY'
+        upload_date: 'DD/MM/YYYY'
+        publication_date: 'DD/MM/YYYY'
+
+
