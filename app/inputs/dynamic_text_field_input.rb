@@ -12,7 +12,7 @@ class DynamicTextFieldInput < SimpleForm::Inputs::Base
     def input_html_options(position)
       model = @builder.object_name
       name = "#{model}[#{attribute_name}][]"
-      {id: "#{model}_#{position}", name: "#{name}", style:'width:390px;margin:5px; display:inline-block;'}
+      {id: "#{model}_#{position}", name: "#{name}", class: "long-text-field" }
     end
 
     def link_text
