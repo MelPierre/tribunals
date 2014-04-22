@@ -2,7 +2,7 @@ class NcnInput < SimpleForm::Inputs::Base
 
   def input
     template.content_tag(:span, class: "input string optional #{attribute_name}", style: "margin-left:125px") do
-      template.concat @builder.select(attribute_name, year_range, input_html_options)
+      template.concat @builder.select(attribute_name, year_range, {include_blank: false}, {name: "#{attribute_name}[#{column.name}][]"})
       template.concat @builder.text_field(attribute_name, input_html_options.merge({value: 'UKUT'}))
       template.concat @builder.text_field(attribute_name, number_field_html_options)
       template.concat @builder.text_field(attribute_name, input_html_options.merge({value: 'AAC'}))
