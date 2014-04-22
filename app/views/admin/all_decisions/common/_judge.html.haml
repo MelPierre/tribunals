@@ -1,2 +1,7 @@
-.form-inputs
-  = form.association :all_judges, input_html: { multiple: false}, collection: @tribunal.all_judges
+.form-inputs.panel
+  %label Judges
+  = form.simple_fields_for :all_judges do |jform|
+    = jform.input :name, input_html: { disabled: true }, required: false, label: '&nbsp'.html_safe
+    = jform.input :_destroy, as: :boolean, label: 'Remove'
+
+  = form.input :new_judge_id, as: :select, collection: current_tribunal.all_judges

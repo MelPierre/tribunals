@@ -1,5 +1,18 @@
 0.3.0-dev
 ---------------------------------
+67612816 - Display categories for FTT-Tax
+67612824 - Edit categories for FTT-Tax
+67612830 - Create categories for FTT-Tax
+67612838 - Delete categories for FTT-Tax
+67613108 - Display categories for AAC
+67613116 - Edit categories for AAC
+67613122 - Create categories for AAC
+67613132 - Delete categories for AAC
+67613168 - Display categories for EAT
+67613170 - Edit categories for EAT
+67613182 - Create categories for EAT
+67613190 - Delete categories for EAT
+
 
 0.2.3
 ---------------------------------

@@ -62,7 +62,7 @@ gem 'whenever', require: false
 gem 'haml-rails'
 gem 'html2haml'
 gem 'jquery-rails'
-gem 'friendly_id', github: 'FriendlyId/friendly_id', branch: 'master'
+gem 'friendly_id' #, github: 'FriendlyId/friendly_id', branch: 'master'
 gem 'appsignal'
 
 # frontend gems

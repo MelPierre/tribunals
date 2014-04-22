@@ -1,155 +1,29 @@
 namespace :data do
-  desc 'Seed tribunals'
 
-  task seed_tribunals: :environment do
+desc "Create seed data for each Tribunal"
+task seed_tribunals: :environment do
     Tribunal.delete_all
     Tribunal.create([
       {
         name:'Immigration and Aslyum Chamber',
         code:'utiac',
-        title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal',
-        filters: [
-                    {
-                      name: "reported",
-                      label: "Case status",
-                      type: "radio",
-                      options: [
-                                  {
-                                    label: "All",
-                                    value: "all",
-                                    checked: true
-                                  },
-                                  {
-                                    label: "Reported",
-                                    value:"reported"
-                                  },
-                                  {
-                                    label: "Unreported",
-                                    value:"unreported"
-                                  }
-                                ]
-                    },
-                    {
-                      name: "country",
-                      label: "Country",
-                      type: "text",
-                      predictive: true
-                    }
-                  ],
-          sort_by: [],
-          results_columns: []
-        },
+        title: 'Immigration and asylum chamber: decisions on appeals to the Upper Tribunal'
+      },
       {
-        name:'First Tier Tribunal',
+        name:'First-tier tribunal (Tax chamber)',
         code:'ftt-tax',
-        title: 'Tax: First-tier Tribunal judgments',
-        filters: [
-                    {
-                      name: "judge",
-                      label: "Name of judge",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases this judge heard only"
-                    },
-                    {
-                      name: "party",
-                      label: "Name of party",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases brought by this party"
-                    },
-                    {
-                      name: "category",
-                      label: "Topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "What the case is about"
-                    },
-                    {
-                      name: "subcategory",
-                      label: "Sub-topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "More detail about the case"
-                    }
-                  ],
-          sort_by: [{name: "decision_date", label: "Date of decision"}, {name: "hearing_date", label: "Date of hearing"}],
-          results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
-        },
+        title: 'Tax: First-tier Tribunal judgments'
+      },
       {
         name:'Administrative Appeals Chamber',
         code:'utaac',
-        title: 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal',
-        filters: [
-                    {
-                      name: "judge",
-                      label: "Name of judge",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases this judge heard only"
-                    },
-                    {
-                      name: "party",
-                      label: "Name of party",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases brought by this party"
-                    },
-                    {
-                      name: "category",
-                      label: "Topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "What the case is about"
-                    },
-                    {
-                      name: "subcategory",
-                      label: "Sub-topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "More detail about the case"
-                    }
-                  ],
-                sort_by: [{name: "created_at", label: "Date added"}, {name: "decision_date", label: "Date of decision"}],
-                results_columns: [{name: "reference_id", label: "Reference number"}, {name: "decision_date", label: "Date of decision"}]
+        title: 'Administrative appeals chamber: decisions on appeals to the Upper Tribunal'
       },
       {
         name:'Employment Appeals Tribunal',
         code:'eat',
-        title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal',
-        filters: [
-                    {
-                      name: "judge",
-                      label: "Name of judge",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases this judge heard only"
-                    },
-                    {
-                      name: "party",
-                      label: "Name of party",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "Show cases brought by this party"
-                    },
-                    {
-                      name: "category",
-                      label: "Topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "What the case is about"
-                    },
-                    {
-                      name: "subcategory",
-                      label: "Sub-topic",
-                      type: "text",
-                      predictive: true,
-                      placeholder: "More detail about the case"
-                    }
-                  ],
-          sort_by: [],
-          results_columns: []
-        }
+        title: 'Employment appeals: judgments on appeals to the Employment Appeal Tribunal'
+      }
     ])
   end
 

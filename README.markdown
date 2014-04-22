@@ -84,13 +84,12 @@ the change to take effect:
 
     source ~/.bash_profile
 
-Installing libreoffice on CentOS
+
+Installing libreoffice on Ubuntu
 --------------------------------
 
-Should be as simple as:
-
-    sudo yum install libreoffice
-    sudo yum install openoffice.org-headless
+    sudo apt-get update
+    sudo apt-get install libreoffice
 
 Importing from legacy system
 ----------------------------
@@ -124,3 +123,15 @@ Tips
 ----
 
 * On OS X, having LibreOffice open whilst processing docs will fail the processing
+
+Deployment notes
+---------------
+
+### 1. db:migrate
+
+### 2. data:seed_tribunals
+Will create the current tribunals
+
+### 3. data:convert:all
+Will convert all old format data to new format data
+

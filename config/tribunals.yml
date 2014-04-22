@@ -1,0 +1,143 @@
+utiac:
+  filters:
+  - name: 'reported'
+    label: 'Case status'
+    type: 'radio'
+    options:
+    - label: 'All'
+      value: 'all'
+      checked: true
+    - label: 'Reported'
+      value: 'reported'
+    - label: 'Unreported'
+      value: 'unreported'
+  - name: 'country'
+    label: 'Country'
+    type: 'text'
+    predictive: true
+  sort_by:
+  results_columns:
+
+ftt-tax:
+  filters:
+  - name: 'judge'
+    label: 'Name of judge'
+    type: 'text'
+    predictive: true
+    placeholder: 'Show cases this judge heard only'
+  - name: 'party'
+    label: 'Name of party'
+    type: 'text'
+    predictive: true
+    placeholder: 'Show cases brought by this party'
+  - name: 'category'
+    label: 'Topic'
+    type: 'text'
+    predictive: true
+    placeholder: 'What the case is about'
+  - name: 'subcategory'
+    label: 'Sub-topic'
+    type: 'text'
+    predictive: true
+    placeholder: 'More detail about the case'
+  sort_by:
+  - name: 'decision_date'
+    label: 'Date of decision'
+  - name: 'hearing_date'
+    label: 'Date of hearing'
+  results_columns:
+  - name: 'reference_id'
+    label: 'Reference number'
+  - name: 'decision_date'
+    label: 'Date of decision'
+  display_fields:
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    judge_names: 'Judges'
+    file_number: 'Decision No'
+    decision_date: 'Date of decision'
+    upload_date: 'Date uploaded'
+    publication_date: 'Date published'
+    category_names: 'Categories'
+    subcategory_names: 'Sub-Categories'
+    notes: 'Notes'
+
+utaac:
+  filters:
+  - name: 'judge'
+    label: 'Name of judge'
+    type: 'text'
+    predictive: true
+    placeholder: 'Show cases this judge heard only'
+  - name: 'party'
+    label: 'Name of party'
+    type: 'text'
+    predictive: true
+    placeholder: 'Show cases brought by this party'
+  - name: 'category'
+    label: 'Topic'
+    type: 'text'
+    predictive: true
+    placeholder: 'What the case is about'
+  - name: 'subcategory'
+    label: 'Sub-topic'
+    type: 'text'
+    predictive: true
+    placeholder: 'More detail about the case'
+  sort_by:
+  - name: 'created_at'
+    label: 'Date added'
+  - name: 'decision_date'
+    label: 'Date of decision'
+  results_columns:
+  - name: 'reference_id'
+    label: 'Reference number'
+  - name: 'decision_date'
+    label: 'Date of decision'
+  display_fields:
+    file_number: 'File no'
+    published: 'Published'
+    neutral_citation_number: 'NCN'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    judge_names: 'Judges'
+    hearing_date: 'Date of decision'
+    upload_date: 'Date added'
+    category_names: 'Categories'
+    subcategory_names: 'Sub-Categories'
+    notes: 'Notes'
+
+eat:
+  filters:
+  - name: 'judge'
+    label: 'Name of judge'
+    type: 'text'
+    predictive: true
+    placeholder: 'Show cases this judge heard only'
+  - name: 'party'
+    label: 'Name of party'
+    type: 'text'
+    predictive: true
+    placeholder: 'Show cases brought by this party'
+  - name: 'category'
+    label: 'Topic'
+    type: 'text'
+    predictive: true
+    placeholder: 'What the case is about'
+  - name: 'subcategory'
+    label: 'Sub-topic'
+    type: 'text'
+    predictive: true
+    placeholder: 'More detail about the case'
+  sort_by:
+  display_fields:
+    file_number: 'EAT number'
+    starred: 'Starred judgement'
+    claimant: 'Appellant name'
+    respondent: 'Respondent name'
+    judge_names: 'Judges'
+    hearing_date: 'Date of hearing'
+    upload_date: 'Date of upload'
+    category_names: 'Topics'
+    subcategory_names: 'Sub-topics'
+    notes: 'Notes'

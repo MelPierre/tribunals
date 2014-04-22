@@ -1,0 +1,34 @@
+en-utaac:
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+
+    error_notification:
+      default_message: "Please review the problems below:"
+
+    labels:
+      all_decision:
+        new: &NEW
+          tribunal: Tribunal
+          doc_file: Doc File
+          file_number: 'File no'
+          published: 'Published'
+          neutral_citation_number: 'NCN'
+          claimant: 'Appellant name'
+          respondent: 'Respondent name'
+          new_judge_id: 'Judge name'
+          hearing_date: 'Date of decision'
+          upload_date: 'Date added'
+          category: 'Category'
+          categories: 'Category'
+        category_decisions:
+          category_id: Category
+          subcategory: 'Subcategory'
+        edit:
+          <<: *NEW

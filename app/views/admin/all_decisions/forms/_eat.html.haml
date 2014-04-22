@@ -1,0 +1,9 @@
+= render common_view_path + 'decision', form: form
+= render common_view_path + 'starred', form: form
+= render common_view_path + 'people', form: form
+= render common_view_path + 'judge', form: form
+.form-inputs.decision_date
+  = form.input :hearing_date, as: 'string', input_html: { maxlength: 10 }
+  = form.input :upload_date, as: 'string', input_html: { maxlength: 10 }
+= render common_view_path + 'category', form: form
+= render common_view_path + 'notes', form: form

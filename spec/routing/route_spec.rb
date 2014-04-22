@@ -20,31 +20,42 @@ describe Tribunals::Application.routes do
 
   describe "EAT routes" do
     it "should render EAT's index routes" do
-      expect(get: "/eat").to route_to(controller: 'eat_decisions', action: 'index')
+      expect(get: "/eat").to route_to(controller: 'all_decisions', action: 'index', tribunal_code: 'eat')
     end
 
     it "should render EAT's show routes" do
-      expect(get: "/eat/1").to route_to(controller: 'eat_decisions', action: 'show', id: '1')
+      expect(get: "/eat/1").to route_to(controller: 'all_decisions', action: 'show', tribunal_code: 'eat', id: '1')
     end
   end
 
   describe "FTT routes" do
     it "should render FTT's index routes" do
-      expect(get: "/ftt-tax").to route_to(controller: 'ftt_decisions', action: 'index')
+      expect(get: "/ftt-tax").to route_to(controller: 'all_decisions', action: 'index', tribunal_code: 'ftt-tax')
     end
 
     it "should render FTT's show routes" do
-      expect(get: "/ftt-tax/1").to route_to(controller: 'ftt_decisions', action: 'show', id: '1')
+      expect(get: "/ftt-tax/1").to route_to(controller: 'all_decisions', action: 'show', tribunal_code: 'ftt-tax', id: '1')
     end
   end
 
   describe "AAC routes" do
     it "should render AAC's index routes" do
-      expect(get: "/utaac").to route_to(controller: 'aac_decisions', action: 'index')
+      expect(get: "/utaac").to route_to(controller: 'all_decisions', action: 'index', tribunal_code: 'utaac')
     end
 
     it "should render AAC's show routes" do
-      expect(get: "/utaac/1").to route_to(controller: 'aac_decisions', action: 'show', id: '1')
+      expect(get: "/utaac/1").to route_to(controller: 'all_decisions', action: 'show', tribunal_code: 'utaac', id: '1')
     end
   end
+
+  describe 'FTT categories' do
+    it 'should render FTT categories index' do
+      expect(get: '/admin/ftt-tax/categories').to route_to(controller: 'admin/categories', action: 'index', tribunal_code: 'ftt-tax')
+    end
+
+    it 'should render FTT subcategories index' do
+      expect(get: '/admin/ftt-tax/categories/1/subcategories').to route_to(controller: 'admin/subcategories', action: 'index', tribunal_code: 'ftt-tax', category_id: '1')
+    end
+  end
+
 end

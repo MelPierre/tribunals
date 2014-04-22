@@ -1,0 +1,7 @@
+= simple_form_for [:admin, @category] do |f|
+  .form-inputs
+    = f.input :name
+
+  .form-actions
+    = f.button :submit
+    = link_to 'Back to list', admin_categories_path

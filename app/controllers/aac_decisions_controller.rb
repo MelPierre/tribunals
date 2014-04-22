@@ -8,12 +8,9 @@ class AacDecisionsController < ApplicationController
     @order_by = 'created_at'
     @sort_options = [["Date added", "created_at"], ["Date of decision", "decision_date"]]
     params[:search] ||= {}
-    if params[:search].present?  
-       @order_by = params[:search][:sort] || @order_by
-    end
     @date_column_title = (@order_by == 'created_at') ? 'Date added' : 'Date of decision'
     @categories_title = 'Categories: '
-    @decisions = decisions.ordered(@order_by).paginate(page: params[:page], per_page: 30)
+    @decisions = decisions.ordered(tribunal).paginate(page: params[:page], per_page: 30)
     @decisions = @decisions.filtered(params[:search]) if params[:search].present?    
   end
 

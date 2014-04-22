@@ -1,57 +1,34 @@
 require 'spec_helper'
 
 describe AllDecision do
-  describe "search" do
-    let!(:utaac) { create(:tribunal, code: "utaac", title: "Upper Tribunal Administrative Appeals Chamber") }
-    let!(:decision1) { create(:all_decision, all_decision_hash(tribunal_id: utaac.id, text: "Some searchable green text is here")) }
-    let!(:decision2) { create(:all_decision, all_decision_hash(tribunal_id: utaac.id, text: "beautiful searchable text is here gerald")) }
-    let!(:judge1) { create(:all_judge, {name: "Blake"}) }
-    let!(:decision3) { create(:all_decision, all_decision_hash(tribunal_id: utaac.id, claimant: "gerald", text:"Some beautiful decision made long ago",
-                                                                all_judge_ids: [judge1.id])) }
-    let!(:adc) { create(:category, name: "Benefits for children") }
-    let!(:adsc) { create(:subcategory, name: "Children's Income", category_id: adc.id) }
-    let!(:adsc2) { create(:subcategory, name: "Free Education", category_id: adc.id) }
+    let!(:tribunal) { create(:tribunal, code: "mytribunal", title: "My Upper Tribunal of Justice For All") }
+    let!(:decision) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, file_number: "EAT/23434/223")) }
+    let!(:decision2) { create(:all_decision, all_decision_hash(tribunal_id: tribunal.id, file_number: "eat/5162/223")) }
+    let!(:decisionDup) { create(:all_decision, all_decision_hash(id: 333, tribunal_id: tribunal.id, file_number: "EAT/23434/223")) }
 
-    let!(:decision4) { create(:all_decision, all_decision_hash(tribunal_id: utaac.id, claimant: 'Green', 
-                                          subcategory_ids: [adsc.id])) }
 
-    let!(:decision5) { create(:all_decision, all_decision_hash(tribunal_id: utaac.id, neutral_citation_number: '[2013] UKUT 456', text: 'little pete was a green boy', 
-                                          subcategory_ids: [adsc.id, adsc2.id])) }
-
-    it "should filter on body text" do
-      utaac.all_decisions.filtered(query: "beautiful").sort.should == [decision2, decision3]
-    end
-
-    it "should search metadata as well as body text" do
-      utaac.all_decisions.filtered(query: "gerald").sort.should == [decision2, decision3]
-    end
-
-    it "should filter on search text and judge" do
-      utaac.all_decisions.filtered(query: "gerald", judge: 'Blake').should == [decision3]
-    end
-
-    it "should have the right number of categories" do
-      decision5.categories.uniq.count.should == 1
-    end
-
-    it "should filter on category" do
-      results = utaac.all_decisions.filtered(:category => "Benefits for children").sort
-      results.count.should == 2
-      results.should == [decision4, decision5]
-    end
-
-    it "should filter on subcategory" do
-      results = utaac.all_decisions.filtered(:subcategory => "Free Education").sort
-      results.count.should == 1
-      results.should == [decision5]
-    end
-
-    it "should filter on search text and category" do
-      utaac.all_decisions.filtered(:query => "green", :category => "Benefits for children").sort.should == [decision4, decision5]
-    end
-
-    it "should filter on search text and subcategory" do
-      utaac.all_decisions.filtered(:query => "green", :subcategory => "Free Education").should == [decision5]
-    end    
+  it "should set the slug to file number" do
+    decision.slug.should == "eat-23434-223"
+    decision2.slug.should == "eat-5162-223"
   end
+
+  it "should set the slug for an existing decision to file number if the slug is not in use" do
+    decision.update_attributes!(claimant: "Mr Clark")
+    decision.slug.should == "eat-23434-223"
+  end
+
+  it "should check for uniqueness of slug" do
+    decisionSlugUnique = AllDecision.new(all_decision_hash(tribunal_id: tribunal.id, claimant: 'test', decision_date: "2014-04-21" ,file_number: "EAT/5162/223"))
+    decisionSlugUnique.save
+    decisionSlugUnique.slug.should ==  '2014-04-21-eat-5162-223'
+  end
+
+  it "should set the slug to the id if the file number is empty" do
+    decisionNoFileNumber = AllDecision.new(all_decision_hash(tribunal_id: tribunal.id))
+    decisionNoFileNumber.save
+    decisionNoFileNumber.slug.should_not be_nil
+
+
+  end
+
 end

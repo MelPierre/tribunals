@@ -14,6 +14,11 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 Capybara.javascript_driver = :webkit
 Capybara.current_driver = :rack_test
 
+def set_default_locale
+  # Creating a specific type of decision uses I18n.locale to manage its labels
+  I18n.locale = :en
+end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -26,6 +31,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
 
   config.include Features::SessionHelpers, type: :feature
+  config.include Features::DecisionHelpers, type: :feature
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -51,4 +57,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
+  config.after(:each) do
+    set_default_locale
+  end
 end

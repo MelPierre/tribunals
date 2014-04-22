@@ -1,4 +1,4 @@
-en:
+en: &EN
   simple_form:
     "yes": 'Yes'
     "no": 'No'
@@ -16,12 +16,12 @@ en:
       all_decision: &ALL_DECISION
         tribunal: Tribunal
         doc_file: Doc File
-        claimant: Appellant Name
-        respondent: Respondent Name
+        claimant: Appellant name
+        respondent: Respondent name
         all_judges: Judge Name
         file_number: Decision No
-        decision: Date of Decision
-        upload_date: Date of Upload
+        decision: Date of decision
+        upload_date: Date uploaded
         publication_date: Date published
         category: Category
         categories: Category
@@ -38,18 +38,3 @@ en:
         publication_date: 'DD/MM/YYYY'
       decision:
         <<: *ALL_DECISION
-
-    # Labels and hints examples
-    # labels:
-    #   defaults:
-    #     password: 'Password'
-    #   user:
-    #     new:
-    #       email: 'E-mail to sign in.'
-    #     edit:
-    #       email: 'E-mail.'
-    # hints:
-    #   defaults:
-    #     username: 'User name to sign in.'
-    #     password: 'No special characters, please.'
-
