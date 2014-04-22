@@ -27,6 +27,13 @@ task seed_tribunals: :environment do
     ])
   end
 
+  desc "Generate friendly_slugs for previous data in the system"
+  task generate_friendly_slugs: :environment do
+    puts "Generating friendly_slugs history..."
+    AllDecision.find_each(&:save)
+    puts "Generated successfully."
+  end
+
   namespace :convert do
     desc "Convert All"
     task all: [:categories, :judges, :ftt, :utaac, :eat] do

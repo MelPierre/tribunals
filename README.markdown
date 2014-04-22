@@ -119,6 +119,13 @@ command to get the listing:
 
     rake -T import:eat
 
+### Generating friendly_slugs for migrated decisions
+
+To support the history of the permanent links for the decisions, we use history feature of friendly_id gem. To make it work with data that has been migrated, it needs to re-save all the decisions, to create the history entry in the table "friendly_id_slugs". You can run the task:
+
+    rake data:generate_friendly_slugs
+
+
 Tips
 ----
 
