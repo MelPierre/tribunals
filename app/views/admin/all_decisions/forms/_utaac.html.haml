@@ -1,13 +1,13 @@
 = render common_view_path + 'decision', form: form
 = render common_view_path + 'published', form: form
 .form-inputs
-  = form.input :neutral_citation_number, as: 'string', label: t('simple_form.labels.decision.neutral_citation_number')
+  = form.input :neutral_citation_number, as: 'string'
   = form.input :reported_number, as: 'string', label: t('simple_form.labels.decision.reported_number')
 
 = render common_view_path + 'people', form: form
 = render common_view_path + 'judge', form: form
 .form-inputs.decision_date
-  = form.input :hearing_date, as: 'string', input_html: { maxlength: 10 }, label: t('simple_form.labels.decision.hearing_date')
-  = form.input :upload_date, as: 'string', input_html: { maxlength: 10 }, label: t('simple_form.labels.decision.upload_date')
+  = form.input :hearing_date, as: 'string', input_html: { maxlength: 10 }
+  = form.input :upload_date, as: 'string', input_html: { maxlength: 10 }
 = render common_view_path + 'category', form: form
 = render common_view_path + 'notes', form: form
