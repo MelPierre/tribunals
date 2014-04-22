@@ -19,7 +19,6 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   end
 
   def show
-    configure_labels_for_show_action
     if @decision.present?
       set_cache_control(@decision.updated_at)
     else
@@ -41,12 +40,12 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   def new
     @decision = decisions_relation.new
     @decision.category_decisions.build
-    configure_labels_for_new_or_edit_actions
+    configure_view_labels_based_on_tribunal_type
   end
 
   def edit
     @decision.category_decisions.build
-    configure_labels_for_new_or_edit_actions
+    configure_view_labels_based_on_tribunal_type
   end
 
   def update
@@ -91,15 +90,8 @@ class Admin::AllDecisionsController < Admin::RestrictedController
       @decision = decisions_relation.friendly_id.find(slug)
     rescue ActiveRecord::RecordNotFound => e
       @decision = nil
-    end 
-
-    def configure_labels_for_show_action
-      I18n.locale = "en-#{@tribunal.code}-show"
     end
 
-    def configure_labels_for_new_or_edit_actions
-      I18n.locale = "en-#{@tribunal.code}-edit"
-    end
 
   private
     def decision_params
@@ -124,5 +116,9 @@ class Admin::AllDecisionsController < Admin::RestrictedController
         all_judges_attributes: [:id, :_destroy],
         category_decisions_attributes: [:id, :category_id, :subcategory_id, :_destroy]
       )
+    end
+
+    def configure_view_labels_based_on_tribunal_type
+      I18n.locale = "en-#{@tribunal.code}"
     end
 end

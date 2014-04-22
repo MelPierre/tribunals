@@ -1,0 +1,35 @@
+en-ftt-tax:
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+
+    error_notification:
+      default_message: "Please review the problems below:"
+
+    labels:
+      all_decision:
+        new: &NEW
+          tribunal: 'Decision made by'
+          jurisdiction: 'Jurisdiction'
+          doc_file: 'Doc File'
+          claimant: 'Appellant name'
+          respondent: 'Respondent name'
+          new_judge_id: 'Judge name'
+          file_number: 'Decision No'
+          decision_date: 'Date of decision'
+          upload_date: 'Date uploaded'
+          publication_date: 'Date published'
+          notes: 'Notes'
+        category_decisions:
+          category_id: Category
+          subcategory: 'Subcategory'
+          categories: 'Category'
+          subcategories: 'Subcategory'
+        edit:
+          <<: *NEW

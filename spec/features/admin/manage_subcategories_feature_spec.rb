@@ -16,7 +16,7 @@ codes.each do |code|
 
         expect(page).to have_content('You need to sign in or sign up before continuing')
       end
-    
+
     end
 
     context "authenticated for #{code}" do
@@ -65,7 +65,7 @@ codes.each do |code|
         within '.pagination-row.top' do
           click_link('Next →')
         end
-        
+
         category.subcategories.all[10..19].each do |subcat|
           expect(page).to have_content(subcat.name)
         end
