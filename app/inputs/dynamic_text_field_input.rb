@@ -11,11 +11,11 @@ class DynamicTextFieldInput < SimpleForm::Inputs::Base
 
     def input_html_options(position)
       model = @builder.object_name
-      name = "#{model}[#{column.name}][]"
+      name = "#{model}[#{attribute_name}][]"
       {id: "#{model}_#{position}", name: "#{name}", style:'width:390px;margin:5px; display:inline-block;'}
     end
 
     def link_text
-      "<a href='#{}' id=add_#{column.name} class=add_text_field> Add another #{column.name}</a>".html_safe
+      "<a href='#{}' id=add_#{attribute_name} class=add_text_field> Add another #{attribute_name}</a>".html_safe
     end
 end

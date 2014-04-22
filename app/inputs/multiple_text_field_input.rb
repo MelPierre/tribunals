@@ -12,7 +12,7 @@ class MultipleTextFieldInput < SimpleForm::Inputs::Base
 
     def input_html_options(position)
       model = @builder.object_name
-      name = "#{model}[#{column.name}][]"
+      name = "#{model}[#{attribute_name}][]"
       {id: "#{model}_#{position}", name: "#{name}", size: '10px', style:'width:113px;margin:5px;min-width:0'}
     end
 end
