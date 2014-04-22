@@ -19,26 +19,15 @@ Tribunals::Application.routes.draw do
 
     get '/', to: redirect('/admin/utiac'), as: :decisions
 
-<<<<<<< HEAD
-    scope ':tribunal_code' do
-      resources :users
-      resources :judges, only: [:index]
-      resources :categories, only: [:index]
-      resources :all_decisions, path: ''
-    end
-    # resources :decisions, path: 'utiac'
-    # resources :aac_decisions, path: 'utaac'
-    # resources :eat_decisions, path: 'eat'
-    # resources :ftt_decisions, path: 'ftt-tax'
-=======
     scope ':tribunal_code', tribunal_code: /utiac|utaac|ftt\-tax|eat/ do
-      resources :categories, except: [:show] do
+      resources :judges, only: [:index]
+      resources :categories, only: [:index] do
         resources :subcategories
       end
       resources :all_decisions, path: ''
     end
+
     resources :users
->>>>>>> develop
   end
 
   resource :feedback

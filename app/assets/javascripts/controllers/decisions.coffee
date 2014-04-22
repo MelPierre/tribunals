@@ -2,12 +2,12 @@ angular.module('Tribunals')
   .controller 'DecisionsController', ['$scope', 'Api', ($scope, Api) ->
     $scope.judges = Api.Judge.query()
     $scope.categories = Api.Category.query()
-    
+    $scope.decision = new Api.Decision()
+
     if gon.decision_id
-       Api.Decision.get id: gon.decision_id, (data) ->
+      $scope.decision = Api.Decision.get id: gon.decision_id, (data) ->
+        console.log(data)
         $scope.decision = data 
-    else
-      $scope.decision = new Api.Decision()
 
     $scope.addJudge = ->
       if $scope.new_judge
@@ -25,19 +25,20 @@ angular.module('Tribunals')
 
     $scope.save = ->
       if $scope.decision.id
-        Api.Decision.update $scope.decision, $saveSuccess, $saveError
+        Api.Decision.update { id: $scope.decision.id, all_decision: $scope.decision }, $saveSuccess, $saveError
       else
-        Api.Decision.save $scope.decision, $saveSuccess, $saveError
+        Api.Decision.save { id: $scope.decision.id, all_decision: $scope.decision }, $saveSuccess, $saveError
 
     $saveSuccess = (data) ->
-      $scope.decision = data
+      $scope.decision = data.all_decision
       if $scope.decision.errors
         # This probably makes sense to use a directive to render forms to ensure we display validation errors
         console.log('display errors')
       else
-        window.location = '/' + gon.tribunal_id + '/' + $scope.decision.file_number
+        console.log(data)
+        #window.location = '/admin/' + gon.tribunal_code + '/' + $scope.decision.file_number
 
     $saveError = (data) ->
-
+      alert('Poop')
 
   ]

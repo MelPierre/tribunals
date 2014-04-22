@@ -17,7 +17,7 @@
 
 
 %div{ ng: { controller: 'DecisionsController'} }
-  %form#edit_all_decision_7410.simple_form.edit_all_decision
+  %form
     #case_title.row
       %label Case title
       %span
@@ -31,7 +31,7 @@
         %input.string{ type: 'text', ng: { model: 'decision.file_number' } }
 
       .input.string
-        %label.control-label Appellant Name
+        %label.control-label{ng: { bind: 'tribunal.label.appellant || Appellant'}} Appellant Name
         %input.string{ type: 'text', ng: { model: 'decision.appellant' } }
       
       .input.string
@@ -83,7 +83,7 @@
         %label Notes
         %textarea.text{ ng: { model: 'notes' } }
     .form-actions
-      %input.button.primary{name: 'commit', type: 'submit',value: 'Update All decision'}
+      %button.button.primary{ng: {click: 'save()' } } Update All decision
       %a{href: "/admin/ftt-tax/decision123"} Cancel
 
 

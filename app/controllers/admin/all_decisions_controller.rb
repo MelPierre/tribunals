@@ -25,11 +25,10 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   def show
 
     if @decision.present?
-      set_cache_control(@decision.updated_at)
       respond_with do |format|
         format.html do
           gon.decision_id = params[:id]
-          gon.tribunal_id = current_tribunal.code
+          gon.tribunal_code = current_tribunal.code
         end
         format.json do
           @tribunal = current_tribunal
@@ -58,17 +57,15 @@ class Admin::AllDecisionsController < Admin::RestrictedController
   def new
     @decision = decisions_relation.new
     @decision.category_decisions.build
-    configure_view_labels_based_on_tribunal_type
+    # configure_view_labels_based_on_tribunal_type
   end
 
   def edit
-    @decision.category_decisions.build
-    configure_view_labels_based_on_tribunal_type
-
+    # configure_view_labels_based_on_tribunal_type
     respond_with do |format|
       format.html do
         gon.decision_id = params[:id]
-        gon.tribunal_id = current_tribunal.code
+        gon.tribunal_code = current_tribunal.code
       end
       format.json do
         @tribunal = current_tribunal
@@ -80,10 +77,19 @@ class Admin::AllDecisionsController < Admin::RestrictedController
 
   def update
     @decision = decisions_relation.friendly_id.find(params[:id])
-    if @decision.update_attributes(decision_params)
-      redirect_to edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
-    else
-      render 'edit'
+    updated = @decision.update_attributes(decision_params)
+
+    respond_with do |format|
+      format.html do
+        if updated
+          redirect_to edit_admin_all_decision_path(tribunal_code: @tribunal.code, id: @decision.slug)
+        else
+          render 'edit'
+        end
+      end
+      format.json do
+        respond_with @decision
+      end
     end
   end
 
@@ -148,7 +154,7 @@ class Admin::AllDecisionsController < Admin::RestrictedController
       )
     end
 
-    def configure_view_labels_based_on_tribunal_type
-      I18n.locale = "en-#{@tribunal.code}"
-    end
+    # def configure_view_labels_based_on_tribunal_type
+    #   I18n.locale = "en-#{@tribunal.code}"
+    # end
 end
