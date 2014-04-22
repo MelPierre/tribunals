@@ -2,7 +2,7 @@ class NcnInput < SimpleForm::Inputs::Base
 
   def input
     template.content_tag(:span, class: "input string optional #{attribute_name}", style: "margin-left:125px") do
-      template.concat @builder.select(attribute_name, year_range, {include_blank: false}, {name: "#{@builder.object_name}[#{attribute_name}][]"})
+      template.concat @builder.select(attribute_name, year_range, {include_blank: false}, check_box_html_options)
       template.concat @builder.text_field(attribute_name, input_html_options.merge({value: 'UKUT'}))
       template.concat @builder.text_field(attribute_name, number_field_html_options)
       template.concat @builder.text_field(attribute_name, input_html_options.merge({value: 'AAC'}))
@@ -30,7 +30,7 @@ class NcnInput < SimpleForm::Inputs::Base
     end
 
     def check_box_html_options
-      {style:"min-width:0;margin:5px"}
+      {name: "#{@builder.object_name}[#{attribute_name}][]",  style:"min-width:0;"}
     end
 
     def year_range
