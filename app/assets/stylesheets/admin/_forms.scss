@@ -30,7 +30,8 @@ form.simple_form {
   div.input.email,
   div.input.password,
   // div.input.check_boxes,
-  div.input.integer {
+  div.input.integer,
+  div.input.dynamic_text_field {
     margin-top: 10px;
 
     label {

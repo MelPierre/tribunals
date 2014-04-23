@@ -1,17 +1,11 @@
-.admin form {
-	.long-text-field {
-		width: 390px;
-		margin: 5px;
-		display: inline-block;
+.admin form .dynamic_text_field {
+	span.claimant, span.respondent {
+		margin-left: 0!important;
 	}
 
-	.additional-input {
-		display: block!important;
-		margin-left: 158px!important;
-	}
-
-	.respondent {
-		margin-left: 28px!important;
+	.dynamically-added-input-field {
+		display: block;
+		margin: 10px 0 0 158px!important;
 	}
 }
 

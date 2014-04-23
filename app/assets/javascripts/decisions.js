@@ -55,6 +55,7 @@ moj.Modules.decisions = (function() {
     var memoInput = parent.find('input:last').clone();
     var splitIdElements = memoInput.attr('id').split('_');
     var position = splitIdElements.length - 1;
+    memoInput.addClass('dynamically-added-input-field');
     splitIdElements[position] = (parseInt(splitIdElements[position]) + 1);
     memoInput = memoInput.attr('id', splitIdElements.join('_'));
     parent.append(memoInput)
