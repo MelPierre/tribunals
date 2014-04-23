@@ -25,7 +25,7 @@ moj.Modules.decisions = (function() {
     $('input:radio', $fs).on('change', searchToggle);
 
     $($form).on('change', '.js-submit-onChange', submitForm);
-
+    $('.add_text_field').on('click', addNewTextField);
     $('select', $fs).mojAutocomplete();
 
     $($resetBtns).on('click', function (e) {
@@ -47,6 +47,17 @@ moj.Modules.decisions = (function() {
       if(typeof ga != 'undefined')
         ga('send', 'event', 'Download', 'DOC', $(this).attr('href'));
     });
+  };
+
+  var addNewTextField = function(event){
+    event.preventDefault();
+    parent = $(event.target).parent();
+    memoInput = parent.find('input:last').clone();
+    splitIdElements = memoInput.attr('id').split('_');
+    position = splitIdElements.length - 1;
+    splitIdElements[position] = (parseInt(splitIdElements[position]) + 1);
+    memoInput = memoInput.attr('id', splitIdElements.join('_'));
+    parent.append(memoInput)
   };
 
   var resetFilters = function() {
