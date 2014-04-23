@@ -51,10 +51,10 @@ moj.Modules.decisions = (function() {
 
   var addNewTextField = function(event){
     event.preventDefault();
-    parent = $(event.target).parent();
-    memoInput = parent.find('input:last').clone();
-    splitIdElements = memoInput.attr('id').split('_');
-    position = splitIdElements.length - 1;
+    var parent = $(event.target).parent();
+    var memoInput = parent.find('input:last').clone();
+    var splitIdElements = memoInput.attr('id').split('_');
+    var position = splitIdElements.length - 1;
     splitIdElements[position] = (parseInt(splitIdElements[position]) + 1);
     memoInput = memoInput.attr('id', splitIdElements.join('_'));
     parent.append(memoInput)

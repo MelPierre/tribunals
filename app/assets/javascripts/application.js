@@ -15,7 +15,6 @@
 //= require moj.autocomplete
 //= require decisions
 //= require admin/decisions
-//= require admin/utilities
 //= require main
 //= require jquery_ujs
 //= require feedbacks
